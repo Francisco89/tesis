@@ -1,0 +1,158 @@
+La libreria CyAPI.lib esta hecha para Windows y Visual Studio. Para poder compilarlas en MinGW y no en MSVC hay que re-compilar la biblioteca "CyAPI.lib" en "libCyAPI.a", para lo cual creamos un nuevo proyecto "CyAPI", elegido como:
+
+New File or Proyect > Libraries > C++ Library > Choose... > Shared Library > Elegir nombre > Qt Core (solamente) > Elegir nombre de clase > Elegir control de version.
+
+En la carpeta del proyecto, donde se halla "CyAPI.pro" debemos incluir los siguientes archivos de cabecera:
+
+CyAPI.h
+CyAPI_global.h
+cyioctl.h
+CyUSB30_def.h
+devioctl.h
+usb100.h
+usb200.h
+UsbdStatus.h
+VersionNo.h
+
+
+En el archivo CyAPI.pro, debemos modificarlo para que se lea:
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+QT       -= gui
+
+TARGET = CyAPI
+TEMPLATE = lib
+
+DEFINES += CYAPI_LIBRARY
+CONFIG  += dll
+
+SOURCES += \
+    CyAPI.cpp
+
+HEADERS += \
+    CyAPI.h \
+    VersionNo.h \
+    UsbdStatus.h \
+    usb200.h \
+    usb100.h \
+    devioctl.h \
+    CyUSB30_def.h \
+    cyioctl.h \
+    CyAPI_global.h
+
+unix:!symbian {
+    maemo5 {
+        target.path = /opt/usr/lib
+    } else {
+        target.path = /usr/lib
+    }
+    INSTALLS += target
+}
+LIBS += -lSetupApi                      #setupapi.a  esta definida en la carpeta de mingw\include
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Ahora deberiamos poder ver en la pestaña "Headers" la siguientes cabeceras:
+
+CyAPI.h
+CyAPI_global.h
+cyioctl.h
+CyUSB30_def.h
+devioctl.
+usb100.h
+usb200.h
+UsbdStatus.h
+VersionNo.h
+
+Ahora debemos modificar el archivo CyAPI.cpp.
+
+Debemos incluir al principio, los siguientes comandos:
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#include <windows.h>
+#include <setupapi.h>
+#include <stdio.h>
+#include "cyioctl.h"
+#include "CyAPI.h"
+#include "UsbdStatus.h"
+#include "dbt.h"
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Luego debemos copiar el codigo del archivo original provisto por el SDK de Cypress y debe verse asi:
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+const char API_VERSION[8] = "1.2.1.0";
+
+UINT SPI_FLASH_PAGE_SIZE_IN_BYTE = 256;
+UINT SPI_FLASH_SECTOR_SIZE_IN_BYTE = (64 * 1024);
+UINT CYWB_BL_MAX_BUFFER_SIZE_WHEN_USING_EP0_TRANSPORT = BUFSIZE_UPORT; //(8 * 512); // 4KB
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// The USB Device Class
+//
+////////////////////////////////////////////////////////////////////////////////
+
+// Constructor
+CCyUSBDevice::CCyUSBDevice(HANDLE hnd, GUID guid, BOOL bOpen)..........CONTINUA
+......
+.....
+....
+...
+..
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Finalmente compilamos y deberiamos obtener los archivos "libCyAPI.a" y "CyAPI.dll" ademas del "*.o"
+
+Ya tenemos la libreria adecuada.
+
+Para ver como usarla, veamos el ejemplo del streamer
+
+El archivo "streamer.pro" debe rezar:
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+QT       += core gui
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+TARGET = streamer
+TEMPLATE = app
+
+
+SOURCES += main.cpp\
+        mainwindow.cpp
+
+HEADERS  += mainwindow.h
+
+
+FORMS    += mainwindow.ui
+
+win32:RC_FILE = mis_recursos.rc
+#RESOURCES += mis_recursos.rc
+
+INCLUDEPATH += C:\Users\x\tesis\WorkspaceQt\CyAPI\CyAPI
+LIBS += C:\Users\x\tesis\WorkspaceQt\CyAPI\CyAPI-build-Desktop-Release\release\libcyapi.a
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Lo inherente a la libreria son las ultimas dos lineas. En INCLUDEPATH definimos el lugar donde encontramos los archivos "*.h", por ejemplo CyAPI.h
+EN LIBS ponemos la ubicacion de "libCyAPI.a".
+
+Tambien podria reemplazarse la ultima linea por 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+LIBS += -lcyapi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Pero para que funcione esto se deberia copiar el archivo "libcyapi.a" a la carpeta \mingw\lib
+
+Finalmente, es preciso linkear con el archivo "CyAPI.dll", para lo cual hay dos formas.
+
+1) Copiar el archivo "CyAPI.dll" a la ubicacion donde se encuentra el ejecutable, i.e. "streamer.exe" (la aplicacion siempre va a buscar el .dll en la ubicacion en la que se encuentra).
+2) Copiar el archivo "CyAPI.dll" a la carpeta \windows\SysWOW64 (la aplicacion puede ejecutarse en cualquier lugar ya que la busca en el path de Windows).

@@ -1,0 +1,6 @@
+pwd : te muestra el directorio donde estas.
+cd /c/users/x/tesis : te manda a la carpeta repositorio, la que tiene una carpeta .git oculta.
+git push : carga las cosas al repositorio. como tengo por default la URL, no hacen falta mas parametros.
+git pull : carga las cosas del repositorio. como tengo por default la URL, no hacen falta mas parametros.
+git add : para agregar cambios
+git commit -a -m MENSAJE : para aceptar los cambios
