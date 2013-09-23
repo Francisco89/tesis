@@ -1012,7 +1012,7 @@ void CCyUSBDevice::GetCfgDescriptor(int descIndex)
 
 //______________________________________________________________________________
 
-bool CCyUSBDevice::Reset()
+CCyUSBDevice::Reset()
 {
     return IoControl(IOCTL_ADAPT_RESET_PARENT_PORT, NULL, 0);
 }

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "CyAPI.h"
+#include <iostream>
 
 namespace Ui {
 class MainWindow;
