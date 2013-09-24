@@ -3,11 +3,14 @@
 #include <iostream>
 #include <cstring>
 #include <stdlib.h>
-
+#include <conio.h>
 #include <sstream>
 
 #define SSTR( x ) dynamic_cast< std::ostringstream & >( \
         ( std::ostringstream() << std::dec << x ) ).str()
+
+using namespace std;
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -17,13 +20,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
    ui->setupUi(this);
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-   using namespace std;
+
    CCyUSBDevice *USBDevice = new CCyUSBDevice(NULL);
    CCyBulkEndPoint *BulkInEndPt = NULL;
    CCyBulkEndPoint *BulkOutEndPt = NULL;
 
    int eptCount = USBDevice->EndPointCount();
    cout << "Cantidad de endpoints activos (incluyendo el de control) : " << eptCount << endl;
+
    // Skip EndPoints[0], which we know is the control endpoint
    for (int i=1; i<eptCount; i++) {
    bool bIn = ((USBDevice->EndPoints[i]->Address & 0x80)==0x80);
@@ -31,11 +35,10 @@ MainWindow::MainWindow(QWidget *parent) :
    if (bBulk && bIn) BulkInEndPt = (CCyBulkEndPoint *) USBDevice->EndPoints[i];
    if (bBulk && !bIn) BulkOutEndPt = (CCyBulkEndPoint *) USBDevice->EndPoints[i];
    }
-
    for (int e=1; e<eptCount; e++)
    {
        CCyUSBEndPoint *ept = USBDevice->EndPoints[e];
-       char s[100]={""}, *t, u[10]={""}, *lista[eptCount-1];
+       char s[100]={""}, *t, u[10]={""};
 
        // INTR, BULK and ISO endpoints are supported.
       if ((ept->Attributes >= 1) && (ept->Attributes <= 3))
@@ -56,7 +59,7 @@ MainWindow::MainWindow(QWidget *parent) :
            strcat(s," Bytes,");
 
            t=itoa(ept->ssmaxburst,u,10);
-           if(USBDevice->BcdUSB = 0x0300)
+           if((USBDevice->BcdUSB = 0x0300))
            {
                strcat(s, t);
                strcat(s," MaxBurst, (");
@@ -71,10 +74,41 @@ MainWindow::MainWindow(QWidget *parent) :
                cout << s << endl;
                this->ui->Endpoint_comboBox->addItem(s);
        }
+      //cout << USBDevice->EndPoints[e] << endl;                           Mostrador de endpoints.
    }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+   //Recontador de endpoints, ya lo hicimos antes pero aca queda mas explicito.
+   for (int i=1; i<eptCount; i++)
+   {
+   bool bIn = ((USBDevice->EndPoints[i]->Address & 0x80)==0x80);
+   bool bBulk = (USBDevice->EndPoints[i]->Attributes == 2);
+   if (bBulk && bIn) BulkInEndPt = (CCyBulkEndPoint *) USBDevice->EndPoints[i];
+   if (bBulk && !bIn) BulkOutEndPt = (CCyBulkEndPoint *) USBDevice->EndPoints[i];
+   }
+
+   /*for (int i=1; i<eptCount; i++)
+   {
+       cout << USBDevice->EndPoints[i] << endl;
+   }*/
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+   unsigned long XferRate;
+   unsigned char buf[] = "hello world";
+   LONG length = 11;
+
+   if (USBDevice->BulkOutEndPt)
+   USBDevice->BulkOutEndPt->XferData(buf, length);
+
+   USBDevice->BulkInEndPt->XferData(buf, length);
+   cout << USBDevice->BulkInEndPt << endl;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
+
+   this->connect(this->ui->Start_pushButton, SIGNAL(clicked()), this, SLOT(Start_pushButton_click()));
+
 }
 
 MainWindow::~MainWindow()
@@ -83,3 +117,21 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::Start_pushButton_click()
+{
+  /*unsigned long XferRate;
+    unsigned char buf[] = "hello world";
+    LONG length = 11;
+    cout << "hola mama" << endl;
+    //
+
+    //if (USBDevice->BulkOutEndPt)
+    //USBDevice->BulkOutEndPt->XferData(buf, length);
+
+    //dummy = XferData();
+
+    //this->ui->progressBar->setValue(XferRate);unsigned long XferRate;
+    unsigned char buf[] = "hello world";
+    LONG length = 11;*/
+
+}
