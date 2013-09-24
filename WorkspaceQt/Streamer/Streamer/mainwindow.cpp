@@ -80,33 +80,35 @@ MainWindow::MainWindow(QWidget *parent) :
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-   //Recontador de endpoints, ya lo hicimos antes pero aca queda mas explicito.
-   for (int i=1; i<eptCount; i++)
-   {
-   bool bIn = ((USBDevice->EndPoints[i]->Address & 0x80)==0x80);
-   bool bBulk = (USBDevice->EndPoints[i]->Attributes == 2);
-   if (bBulk && bIn) BulkInEndPt = (CCyBulkEndPoint *) USBDevice->EndPoints[i];
-   if (bBulk && !bIn) BulkOutEndPt = (CCyBulkEndPoint *) USBDevice->EndPoints[i];
-   }
+    //Recontador de endpoints, ya lo hicimos antes pero aca queda mas explicito.
+    for (int i=1; i<eptCount; i++)
+    {
+    bool bIn = ((USBDevice->EndPoints[i]->Address & 0x80)==0x80);
+    bool bBulk = (USBDevice->EndPoints[i]->Attributes == 2);
+    if (bBulk && bIn) BulkInEndPt = (CCyBulkEndPoint *) USBDevice->EndPoints[i];
+    if (bBulk && !bIn) BulkOutEndPt = (CCyBulkEndPoint *) USBDevice->EndPoints[i];
+    }
 
-   /*for (int i=1; i<eptCount; i++)
-   {
-       cout << USBDevice->EndPoints[i] << endl;
-   }*/
+    /*for (int i=1; i<eptCount; i++)
+    {
+        cout << USBDevice->EndPoints[i] << endl;
+    }*/
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   unsigned long XferRate;
-   unsigned char buf[] = "hello world";
-   LONG length = 11;
+    unsigned long XferRate;
+    unsigned char buf[] = "hello world";
+    LONG length = 11;
+    LONG uno = 1;
 
-   if (USBDevice->BulkOutEndPt)
-   USBDevice->BulkOutEndPt->XferData(buf, length);
+    if (USBDevice->BulkOutEndPt)
+    USBDevice->BulkOutEndPt->XferData(buf, length);
 
-   USBDevice->BulkInEndPt->XferData(buf, length);
-   cout << USBDevice->BulkInEndPt << endl;
+    cout << USBDevice->BulkOutEndPt->XferData(buf, length) << endl; // 1 = transfirio, 0 = fallo;
+
+    cout << USBDevice->BulkInEndPt->XferData(buf, uno) << endl; // 1 = transfirio, 0 = fallo;
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-
    this->connect(this->ui->Start_pushButton, SIGNAL(clicked()), this, SLOT(Start_pushButton_click()));
 
 }
