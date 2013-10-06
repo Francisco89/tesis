@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Tue 17. Sep 19:29:22 2013
+** Created: Thu 19. Sep 22:27:33 2013
 **      by: Qt User Interface Compiler version 4.8.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -14,6 +14,7 @@
 #include <QtGui/QAction>
 #include <QtGui/QApplication>
 #include <QtGui/QButtonGroup>
+#include <QtGui/QCheckBox>
 #include <QtGui/QComboBox>
 #include <QtGui/QGroupBox>
 #include <QtGui/QHeaderView>
@@ -48,6 +49,7 @@ public:
     QLabel *Failures_label;
     QPlainTextEdit *Successes_plainTextEdit;
     QPlainTextEdit *Failures_plainTextEdit;
+    QCheckBox *checkBox;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
     QMenuBar *menuBar;
@@ -56,7 +58,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(390, 367);
+        MainWindow->resize(394, 403);
         QIcon icon;
         icon.addFile(QString::fromUtf8("CY.ico"), QSize(), QIcon::Normal, QIcon::Off);
         MainWindow->setWindowIcon(icon);
@@ -118,6 +120,9 @@ public:
         Failures_plainTextEdit = new QPlainTextEdit(centralWidget);
         Failures_plainTextEdit->setObjectName(QString::fromUtf8("Failures_plainTextEdit"));
         Failures_plainTextEdit->setGeometry(QRect(270, 100, 100, 25));
+        checkBox = new QCheckBox(centralWidget);
+        checkBox->setObjectName(QString::fromUtf8("checkBox"));
+        checkBox->setGeometry(QRect(190, 320, 51, 21));
         MainWindow->setCentralWidget(centralWidget);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
@@ -127,7 +132,7 @@ public:
         MainWindow->setStatusBar(statusBar);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 390, 21));
+        menuBar->setGeometry(QRect(0, 0, 394, 26));
         MainWindow->setMenuBar(menuBar);
 
         retranslateUi(MainWindow);
@@ -148,6 +153,7 @@ public:
         Xfer_to_Queue_Label->setText(QApplication::translate("MainWindow", "Xfers to Queue", 0, QApplication::UnicodeUTF8));
         Successes_label->setText(QApplication::translate("MainWindow", "Successes", 0, QApplication::UnicodeUTF8));
         Failures_label->setText(QApplication::translate("MainWindow", "Failures", 0, QApplication::UnicodeUTF8));
+        checkBox->setText(QApplication::translate("MainWindow", "LED", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

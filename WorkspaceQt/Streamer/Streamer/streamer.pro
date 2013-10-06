@@ -23,5 +23,5 @@ FORMS    += mainwindow.ui
 win32:RC_FILE = mis_recursos.rc
 #RESOURCES += mis_recursos.rc
 
-INCLUDEPATH += C:\Users\x\tesis\WorkspaceQt\CyAPI\CyAPI
-LIBS += C:\Users\x\tesis\WorkspaceQt\CyAPI\CyAPI-build-Desktop-Release\release\libcyapi.a
+INCLUDEPATH += C:\Users\usuario\Desktop\Tesis\Repositorio\WorkspaceQt\CyAPI\CyAPI
+LIBS += C:\Users\usuario\Desktop\Tesis\Repositorio\WorkspaceQt\CyAPI\CyAPI-build-Desktop-Release\release\libcyapi.a

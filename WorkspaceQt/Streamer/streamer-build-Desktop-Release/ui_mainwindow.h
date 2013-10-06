@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Wed 18. Sep 17:05:10 2013
+** Created: Thu 19. Sep 20:15:49 2013
 **      by: Qt User Interface Compiler version 4.8.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -56,7 +56,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(390, 367);
+        MainWindow->resize(394, 394);
         QIcon icon;
         icon.addFile(QString::fromUtf8("CY.ico"), QSize(), QIcon::Normal, QIcon::Off);
         MainWindow->setWindowIcon(icon);
@@ -127,7 +127,7 @@ public:
         MainWindow->setStatusBar(statusBar);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 390, 21));
+        menuBar->setGeometry(QRect(0, 0, 394, 26));
         MainWindow->setMenuBar(menuBar);
 
         retranslateUi(MainWindow);

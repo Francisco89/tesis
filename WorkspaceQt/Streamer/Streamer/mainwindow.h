@@ -18,6 +18,16 @@ public:
     
 private:
     Ui::MainWindow *ui;
+
+private slots:
+
+    void Start_pushButton_click();
+    void Led_checked();
+    void StartBtn_Click();
+
 };
+
+
+
 
 #endif // MAINWINDOW_H
