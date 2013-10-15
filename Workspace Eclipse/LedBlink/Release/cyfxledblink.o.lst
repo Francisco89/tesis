@@ -1,0 +1,446 @@
+   1              		.cpu arm926ej-s
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 18, 4
+  11              		.file	"cyfxledblink.c"
+  12              		.text
+  13              		.align	2
+  14              		.global	CyFxAppErrorHandler
+  16              	CyFxAppErrorHandler:
+  17              		@ args = 0, pretend = 0, frame = 0
+  18              		@ frame_needed = 0, uses_anonymous_args = 0
+  19 0000 08402DE9 		stmfd	sp!, {r3, lr}
+  20              	.L2:
+  21 0004 6400A0E3 		mov	r0, #100
+  22 0008 FEFFFFEB 		bl	_tx_thread_sleep
+  23 000c FCFFFFEA 		b	.L2
+  25              		.align	2
+  26              		.global	CyFxLedBlinkApplnDebugInit
+  28              	CyFxLedBlinkApplnDebugInit:
+  29              		@ args = 0, pretend = 0, frame = 24
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31 0010 7F402DE9 		stmfd	sp!, {r0, r1, r2, r3, r4, r5, r6, lr}
+  32 0014 FEFFFFEB 		bl	CyU3PUartInit
+  33 0018 000050E3 		cmp	r0, #0
+  34 001c 0000000A 		beq	.L4
+  35 0020 FEFFFFEB 		bl	CyFxAppErrorHandler
+  36              	.L4:
+  37 0024 0D00A0E1 		mov	r0, sp
+  38 0028 0010A0E3 		mov	r1, #0
+  39 002c 1820A0E3 		mov	r2, #24
+  40 0030 FEFFFFEB 		bl	CyU3PMemSet
+  41 0034 68309FE5 		ldr	r3, .L8
+  42 0038 0010A0E3 		mov	r1, #0
+  43 003c 10308DE5 		str	r3, [sp, #16]
+  44 0040 0D00A0E1 		mov	r0, sp
+  45 0044 0130A0E3 		mov	r3, #1
+  46 0048 1430CDE5 		strb	r3, [sp, #20]
+  47 004c 1510CDE5 		strb	r1, [sp, #21]
+  48 0050 00308DE5 		str	r3, [sp, #0]
+  49 0054 04108DE5 		str	r1, [sp, #4]
+  50 0058 08108DE5 		str	r1, [sp, #8]
+  51 005c 0C308DE5 		str	r3, [sp, #12]
+  52 0060 FEFFFFEB 		bl	CyU3PUartSetConfig
+  53 0064 000050E3 		cmp	r0, #0
+  54 0068 0000000A 		beq	.L5
+  55 006c FEFFFFEB 		bl	CyFxAppErrorHandler
+  56              	.L5:
+  57 0070 0000E0E3 		mvn	r0, #0
+  58 0074 FEFFFFEB 		bl	CyU3PUartTxSetBlockXfer
+  59 0078 000050E3 		cmp	r0, #0
+  60 007c 0000000A 		beq	.L6
+  61 0080 FEFFFFEB 		bl	CyFxAppErrorHandler
+  62              	.L6:
+  63 0084 0300A0E3 		mov	r0, #3
+  64 0088 0810A0E3 		mov	r1, #8
+  65 008c FEFFFFEB 		bl	CyU3PDebugInit
+  66 0090 000050E3 		cmp	r0, #0
+  67 0094 0000000A 		beq	.L3
+  68 0098 FEFFFFEB 		bl	CyFxAppErrorHandler
+  69              	.L3:
+  70 009c 1CD08DE2 		add	sp, sp, #28
+  71 00a0 04F09DE4 		ldmfd	sp!, {pc}
+  72              	.L9:
+  73              		.align	2
+  74              	.L8:
+  75 00a4 00C20100 		.word	115200
+  77              		.align	2
+  78              		.global	CyFxLedBlinkApplnInit
+  80              	CyFxLedBlinkApplnInit:
+  81              		@ args = 0, pretend = 0, frame = 16
+  82              		@ frame_needed = 0, uses_anonymous_args = 0
+  83 00a8 1F402DE9 		stmfd	sp!, {r0, r1, r2, r3, r4, lr}
+  84 00ac FA3FA0E3 		mov	r3, #1000	@ movhi
+  85 00b0 B030CDE1 		strh	r3, [sp, #0]	@ movhi
+  86 00b4 0100A0E3 		mov	r0, #1
+  87 00b8 0030A0E3 		mov	r3, #0
+  88 00bc 0D10A0E1 		mov	r1, sp
+  89 00c0 0C30CDE5 		strb	r3, [sp, #12]
+  90 00c4 04308DE5 		str	r3, [sp, #4]
+  91 00c8 08308DE5 		str	r3, [sp, #8]
+  92 00cc FEFFFFEB 		bl	CyU3PPibInit
+  93 00d0 004050E2 		subs	r4, r0, #0
+  94 00d4 0500000A 		beq	.L11
+  95 00d8 0400A0E3 		mov	r0, #4
+  96 00dc 64109FE5 		ldr	r1, .L14
+  97 00e0 0420A0E1 		mov	r2, r4
+  98 00e4 FEFFFFEB 		bl	CyU3PDebugPrint
+  99 00e8 0400A0E1 		mov	r0, r4
+ 100 00ec FEFFFFEB 		bl	CyFxAppErrorHandler
+ 101              	.L11:
+ 102 00f0 54009FE5 		ldr	r0, .L14+4
+ 103 00f4 FEFFFFEB 		bl	CyU3PGpifLoad
+ 104 00f8 004050E2 		subs	r4, r0, #0
+ 105 00fc 0500000A 		beq	.L12
+ 106 0100 0400A0E3 		mov	r0, #4
+ 107 0104 44109FE5 		ldr	r1, .L14+8
+ 108 0108 0420A0E1 		mov	r2, r4
+ 109 010c FEFFFFEB 		bl	CyU3PDebugPrint
+ 110 0110 0400A0E1 		mov	r0, r4
+ 111 0114 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 112              	.L12:
+ 113 0118 0000A0E3 		mov	r0, #0
+ 114 011c 0010A0E1 		mov	r1, r0
+ 115 0120 FEFFFFEB 		bl	CyU3PGpifSMStart
+ 116 0124 004050E2 		subs	r4, r0, #0
+ 117 0128 0500000A 		beq	.L10
+ 118 012c 0400A0E3 		mov	r0, #4
+ 119 0130 1C109FE5 		ldr	r1, .L14+12
+ 120 0134 0420A0E1 		mov	r2, r4
+ 121 0138 FEFFFFEB 		bl	CyU3PDebugPrint
+ 122 013c 0400A0E1 		mov	r0, r4
+ 123 0140 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 124              	.L10:
+ 125 0144 1F80BDE8 		ldmfd	sp!, {r0, r1, r2, r3, r4, pc}
+ 126              	.L15:
+ 127              		.align	2
+ 128              	.L14:
+ 129 0148 00000000 		.word	.LC0
+ 130 014c 00000000 		.word	.LANCHOR0
+ 131 0150 2F000000 		.word	.LC1
+ 132 0154 56000000 		.word	.LC2
+ 134              		.align	2
+ 135              		.global	ledBlinkAppThread_Entry
+ 137              	ledBlinkAppThread_Entry:
+ 138              		@ args = 0, pretend = 0, frame = 0
+ 139              		@ frame_needed = 0, uses_anonymous_args = 0
+ 140 0158 08402DE9 		stmfd	sp!, {r3, lr}
+ 141 015c FEFFFFEB 		bl	CyFxLedBlinkApplnDebugInit
+ 142 0160 FEFFFFEB 		bl	CyFxLedBlinkApplnInit
+ 143              	.L17:
+ 144 0164 FA0FA0E3 		mov	r0, #1000
+ 145 0168 FEFFFFEB 		bl	_tx_thread_sleep
+ 146 016c FCFFFFEA 		b	.L17
+ 148              		.align	2
+ 149              		.global	CyFxApplicationDefine
+ 151              	CyFxApplicationDefine:
+ 152              		@ args = 0, pretend = 0, frame = 0
+ 153              		@ frame_needed = 0, uses_anonymous_args = 0
+ 154 0170 04E02DE5 		str	lr, [sp, #-4]!
+ 155 0174 010BA0E3 		mov	r0, #1024
+ 156 0178 24D04DE2 		sub	sp, sp, #36
+ 157 017c FEFFFFEB 		bl	CyU3PMemAlloc
+ 158 0180 013BA0E3 		mov	r3, #1024
+ 159 0184 0120A0E3 		mov	r2, #1
+ 160 0188 04308DE5 		str	r3, [sp, #4]
+ 161 018c 14208DE5 		str	r2, [sp, #20]
+ 162 0190 FE3F43E2 		sub	r3, r3, #1016
+ 163 0194 A72082E2 		add	r2, r2, #167
+ 164 0198 08308DE5 		str	r3, [sp, #8]
+ 165 019c 0C308DE5 		str	r3, [sp, #12]
+ 166 01a0 18208DE5 		str	r2, [sp, #24]
+ 167 01a4 0030A0E3 		mov	r3, #0
+ 168 01a8 24109FE5 		ldr	r1, .L21
+ 169 01ac 24209FE5 		ldr	r2, .L21+4
+ 170 01b0 10308DE5 		str	r3, [sp, #16]
+ 171 01b4 00008DE5 		str	r0, [sp, #0]
+ 172 01b8 1C009FE5 		ldr	r0, .L21+8
+ 173 01bc FEFFFFEB 		bl	_txe_thread_create
+ 174 01c0 000050E3 		cmp	r0, #0
+ 175 01c4 0000000A 		beq	.L18
+ 176              	.L20:
+ 177 01c8 FEFFFFEA 		b	.L20
+ 178              	.L18:
+ 179 01cc 24D08DE2 		add	sp, sp, #36
+ 180 01d0 04F09DE4 		ldmfd	sp!, {pc}
+ 181              	.L22:
+ 182              		.align	2
+ 183              	.L21:
+ 184 01d4 80000000 		.word	.LC3
+ 185 01d8 00000000 		.word	ledBlinkAppThread_Entry
+ 186 01dc 00000000 		.word	ledBlinkAppThread
+ 188              		.align	2
+ 189              		.global	main
+ 191              	main:
+ 192              		@ args = 0, pretend = 0, frame = 56
+ 193              		@ frame_needed = 0, uses_anonymous_args = 0
+ 194 01e0 10402DE9 		stmfd	sp!, {r4, lr}
+ 195 01e4 0230A0E3 		mov	r3, #2
+ 196 01e8 38D04DE2 		sub	sp, sp, #56
+ 197 01ec 0020A0E3 		mov	r2, #0
+ 198 01f0 2C30CDE5 		strb	r3, [sp, #44]
+ 199 01f4 2D30CDE5 		strb	r3, [sp, #45]
+ 200 01f8 2E30CDE5 		strb	r3, [sp, #46]
+ 201 01fc 28008DE2 		add	r0, sp, #40
+ 202 0200 013083E2 		add	r3, r3, #1
+ 203 0204 28208DE5 		str	r2, [sp, #40]
+ 204 0208 30208DE5 		str	r2, [sp, #48]
+ 205 020c 3430CDE5 		strb	r3, [sp, #52]
+ 206 0210 FEFFFFEB 		bl	CyU3PDeviceInit
+ 207 0214 000050E3 		cmp	r0, #0
+ 208 0218 1800001A 		bne	.L24
+ 209 021c 010080E2 		add	r0, r0, #1
+ 210 0220 0010A0E1 		mov	r1, r0
+ 211 0224 0020A0E1 		mov	r2, r0
+ 212 0228 FEFFFFEB 		bl	CyU3PDeviceCacheControl
+ 213 022c 000050E3 		cmp	r0, #0
+ 214 0230 1200001A 		bne	.L24
+ 215 0234 0130A0E3 		mov	r3, #1
+ 216 0238 08008DE5 		str	r0, [sp, #8]
+ 217 023c 0C008DE5 		str	r0, [sp, #12]
+ 218 0240 10008DE5 		str	r0, [sp, #16]
+ 219 0244 00008DE5 		str	r0, [sp, #0]
+ 220 0248 18008DE5 		str	r0, [sp, #24]
+ 221 024c 1C008DE5 		str	r0, [sp, #28]
+ 222 0250 20008DE5 		str	r0, [sp, #32]
+ 223 0254 24008DE5 		str	r0, [sp, #36]
+ 224 0258 0D00A0E1 		mov	r0, sp
+ 225 025c 04308DE5 		str	r3, [sp, #4]
+ 226 0260 1630CDE5 		strb	r3, [sp, #22]
+ 227 0264 FEFFFFEB 		bl	CyU3PDeviceConfigureIOMatrix
+ 228 0268 004050E2 		subs	r4, r0, #0
+ 229 026c 0300001A 		bne	.L24
+ 230 0270 FEFFFFEB 		bl	_tx_initialize_kernel_enter
+ 231 0274 0400A0E1 		mov	r0, r4
+ 232 0278 38D08DE2 		add	sp, sp, #56
+ 233 027c 1080BDE8 		ldmfd	sp!, {r4, pc}
+ 234              	.L24:
+ 235 0280 FEFFFFEA 		b	.L24
+ 237              		.global	CyFxGpifTransition
+ 238              		.global	CyFxGpifWavedata
+ 239              		.global	CyFxGpifWavedataPosition
+ 240              		.global	CyFxGpifRegValue
+ 241              		.global	CyFxGpifConfig
+ 242              		.comm	ledBlinkAppThread,168,4
+ 243              		.section	.rodata
+ 244              		.align	2
+ 245              		.set	.LANCHOR0,. + 0
+ 248              	CyFxGpifConfig:
+ 249 0000 0700     		.short	7
+ 250 0002 0000     		.space	2
+ 251 0004 00000000 		.word	CyFxGpifWavedata
+ 252 0008 00000000 		.word	CyFxGpifWavedataPosition
+ 253 000c 0400     		.short	4
+ 254 000e 0000     		.space	2
+ 255 0010 00000000 		.word	CyFxGpifTransition
+ 256 0014 4C00     		.short	76
+ 257 0016 0000     		.space	2
+ 258 0018 00000000 		.word	CyFxGpifRegValue
+ 259              		.section	.rodata.str1.1,"aMS",%progbits,1
+ 260              	.LC0:
+ 261 0000 502D706F 		.ascii	"P-port Initialization failed, Error Code = %d\012\000"
+ 261      72742049 
+ 261      6E697469 
+ 261      616C697A 
+ 261      6174696F 
+ 262              	.LC1:
+ 263 002f 43795533 		.ascii	"CyU3PGpifLoad failed, Error Code = %d\012\000"
+ 263      50477069 
+ 263      664C6F61 
+ 263      64206661 
+ 263      696C6564 
+ 264              	.LC2:
+ 265 0056 43795533 		.ascii	"CyU3PGpifSMStart failed, Error Code = %d\012\000"
+ 265      50477069 
+ 265      66534D53 
+ 265      74617274 
+ 265      20666169 
+ 266              	.LC3:
+ 267 0080 32313A4C 		.ascii	"21:LED Blink\000"
+ 267      45442042 
+ 267      6C696E6B 
+ 267      00
+ 268              		.data
+ 269              		.align	2
+ 272              	CyFxGpifTransition:
+ 273 0000 0000     		.short	0
+ 274 0002 FFFF     		.short	-1
+ 275 0004 AAAA     		.short	-21846
+ 276 0006 5555     		.short	21845
+ 279              	CyFxGpifWavedata:
+ 280 0008 019C731E 		.word	510893057
+ 281 000c 00000000 		.word	0
+ 282 0010 080000C0 		.word	-1073741816
+ 283 0014 00000000 		.word	0
+ 284 0018 00000000 		.word	0
+ 285 001c 00000000 		.word	0
+ 286 0020 029C731E 		.word	510893058
+ 287 0024 00000000 		.word	0
+ 288 0028 00000080 		.word	-2147483648
+ 289 002c 00000000 		.word	0
+ 290 0030 00000000 		.word	0
+ 291 0034 00000000 		.word	0
+ 292 0038 0592732E 		.word	779325957
+ 293 003c 06000000 		.word	6
+ 294 0040 04000080 		.word	-2147483644
+ 295 0044 00000000 		.word	0
+ 296 0048 00000000 		.word	0
+ 297 004c 00000000 		.word	0
+ 298 0050 049C731E 		.word	510893060
+ 299 0054 00008000 		.word	8388608
+ 300 0058 00000080 		.word	-2147483648
+ 301 005c 00000000 		.word	0
+ 302 0060 00000000 		.word	0
+ 303 0064 00000000 		.word	0
+ 304 0068 0692732E 		.word	779325958
+ 305 006c 06008000 		.word	8388614
+ 306 0070 04000080 		.word	-2147483644
+ 307 0074 00000000 		.word	0
+ 308 0078 00000000 		.word	0
+ 309 007c 00000000 		.word	0
+ 310 0080 039C731E 		.word	510893059
+ 311 0084 00008000 		.word	8388608
+ 312 0088 08000080 		.word	-2147483640
+ 313 008c 029C731E 		.word	510893058
+ 314 0090 00000000 		.word	0
+ 315 0094 00000080 		.word	-2147483648
+ 316 0098 019C731E 		.word	510893057
+ 317 009c 00000000 		.word	0
+ 318 00a0 080000C0 		.word	-1073741816
+ 319 00a4 049C731E 		.word	510893060
+ 320 00a8 00008000 		.word	8388608
+ 321 00ac 00000080 		.word	-2147483648
+ 324              	CyFxGpifWavedataPosition:
+ 325 00b0 00       		.byte	0
+ 326 00b1 01       		.byte	1
+ 327 00b2 02       		.byte	2
+ 328 00b3 03       		.byte	3
+ 329 00b4 04       		.byte	4
+ 330 00b5 05       		.byte	5
+ 331 00b6 06       		.byte	6
+ 332 00b7 00       		.space	1
+ 335              	CyFxGpifRegValue:
+ 336 00b8 30830080 		.word	-2147450064
+ 337 00bc 03000000 		.word	3
+ 338 00c0 00000000 		.word	0
+ 339 00c4 52000000 		.word	82
+ 340 00c8 00000000 		.word	0
+ 341 00cc 00000000 		.word	0
+ 342 00d0 00000000 		.word	0
+ 343 00d4 82000000 		.word	130
+ 344 00d8 82070000 		.word	1922
+ 345 00dc 55550000 		.word	21845
+ 346 00e0 EFFF0000 		.word	65519
+ 347 00e4 00000000 		.word	0
+ 348 00e8 10000000 		.word	16
+ 349 00ec 01000000 		.word	1
+ 350 00f0 02000000 		.word	2
+ 351 00f4 03000000 		.word	3
+ 352 00f8 08000000 		.word	8
+ 353 00fc 00000000 		.word	0
+ 354 0100 09000000 		.word	9
+ 355 0104 0A000000 		.word	10
+ 356 0108 0B000000 		.word	11
+ 357 010c 00000000 		.word	0
+ 358 0110 00000000 		.word	0
+ 359 0114 00000000 		.word	0
+ 360 0118 00000000 		.word	0
+ 361 011c 00000000 		.word	0
+ 362 0120 00000000 		.word	0
+ 363 0124 00000000 		.word	0
+ 364 0128 00000000 		.word	0
+ 365 012c 03000000 		.word	3
+ 366 0130 00000000 		.word	0
+ 367 0134 50C30000 		.word	50000
+ 368 0138 0A010000 		.word	266
+ 369 013c 00000000 		.word	0
+ 370 0140 FFFF0000 		.word	65535
+ 371 0144 00000000 		.word	0
+ 372 0148 FFFF0000 		.word	65535
+ 373 014c 0A010000 		.word	266
+ 374 0150 00000000 		.word	0
+ 375 0154 FFFF0000 		.word	65535
+ 376 0158 00000000 		.word	0
+ 377 015c 00000000 		.word	0
+ 378 0160 00000000 		.word	0
+ 379 0164 00000000 		.word	0
+ 380 0168 00000000 		.word	0
+ 381 016c 00000000 		.word	0
+ 382 0170 00000000 		.word	0
+ 383 0174 00000000 		.word	0
+ 384 0178 00000000 		.word	0
+ 385 017c 00000000 		.word	0
+ 386 0180 00000000 		.word	0
+ 387 0184 00000000 		.word	0
+ 388 0188 00000000 		.word	0
+ 389 018c 00000000 		.word	0
+ 390 0190 00000000 		.word	0
+ 391 0194 00000000 		.word	0
+ 392 0198 00000000 		.word	0
+ 393 019c 00000000 		.word	0
+ 394 01a0 00000000 		.word	0
+ 395 01a4 00000000 		.word	0
+ 396 01a8 00000000 		.word	0
+ 397 01ac 00000000 		.word	0
+ 398 01b0 00000000 		.word	0
+ 399 01b4 00040180 		.word	-2147417088
+ 400 01b8 01040180 		.word	-2147417087
+ 401 01bc 02040180 		.word	-2147417086
+ 402 01c0 03040180 		.word	-2147417085
+ 403 01c4 00000000 		.word	0
+ 404 01c8 00000000 		.word	0
+ 405 01cc 00000000 		.word	0
+ 406 01d0 00000000 		.word	0
+ 407 01d4 00000000 		.word	0
+ 408 01d8 00000000 		.word	0
+ 409 01dc 00000000 		.word	0
+ 410 01e0 00000000 		.word	0
+ 411 01e4 C1FFFFFF 		.word	-63
+ 412              		.ident	"GCC: (Sourcery G++ Lite 2011.03-42) 4.5.2"
+DEFINED SYMBOLS
+                            *ABS*:00000000 cyfxledblink.c
+C:\Users\x\AppData\Local\Temp\cc0RoGpg.s:13     .text:00000000 $a
+C:\Users\x\AppData\Local\Temp\cc0RoGpg.s:16     .text:00000000 CyFxAppErrorHandler
+C:\Users\x\AppData\Local\Temp\cc0RoGpg.s:28     .text:00000010 CyFxLedBlinkApplnDebugInit
+C:\Users\x\AppData\Local\Temp\cc0RoGpg.s:75     .text:000000a4 $d
+C:\Users\x\AppData\Local\Temp\cc0RoGpg.s:77     .text:000000a8 $a
+C:\Users\x\AppData\Local\Temp\cc0RoGpg.s:80     .text:000000a8 CyFxLedBlinkApplnInit
+C:\Users\x\AppData\Local\Temp\cc0RoGpg.s:129    .text:00000148 $d
+C:\Users\x\AppData\Local\Temp\cc0RoGpg.s:134    .text:00000158 $a
+C:\Users\x\AppData\Local\Temp\cc0RoGpg.s:137    .text:00000158 ledBlinkAppThread_Entry
+C:\Users\x\AppData\Local\Temp\cc0RoGpg.s:151    .text:00000170 CyFxApplicationDefine
+C:\Users\x\AppData\Local\Temp\cc0RoGpg.s:184    .text:000001d4 $d
+                            *COM*:000000a8 ledBlinkAppThread
+C:\Users\x\AppData\Local\Temp\cc0RoGpg.s:188    .text:000001e0 $a
+C:\Users\x\AppData\Local\Temp\cc0RoGpg.s:191    .text:000001e0 main
+C:\Users\x\AppData\Local\Temp\cc0RoGpg.s:272    .data:00000000 CyFxGpifTransition
+C:\Users\x\AppData\Local\Temp\cc0RoGpg.s:279    .data:00000008 CyFxGpifWavedata
+C:\Users\x\AppData\Local\Temp\cc0RoGpg.s:324    .data:000000b0 CyFxGpifWavedataPosition
+C:\Users\x\AppData\Local\Temp\cc0RoGpg.s:335    .data:000000b8 CyFxGpifRegValue
+C:\Users\x\AppData\Local\Temp\cc0RoGpg.s:248    .rodata:00000000 CyFxGpifConfig
+C:\Users\x\AppData\Local\Temp\cc0RoGpg.s:244    .rodata:00000000 $d
+C:\Users\x\AppData\Local\Temp\cc0RoGpg.s:269    .data:00000000 $d
+
+UNDEFINED SYMBOLS
+_tx_thread_sleep
+CyU3PUartInit
+CyU3PMemSet
+CyU3PUartSetConfig
+CyU3PUartTxSetBlockXfer
+CyU3PDebugInit
+CyU3PPibInit
+CyU3PDebugPrint
+CyU3PGpifLoad
+CyU3PGpifSMStart
+CyU3PMemAlloc
+_txe_thread_create
+CyU3PDeviceInit
+CyU3PDeviceCacheControl
+CyU3PDeviceConfigureIOMatrix
+_tx_initialize_kernel_enter

@@ -1,0 +1,20 @@
+Punto de partida: Ejemplo GPIF_Async_my.
+
+Investigar como esta hecho, como funciona y una vez dominado, taggearlo al repositorio.
+
+09/10/13: Encontre el ejemplo y lo monte a la placa; Satisfactoriamente muestra un pico de 3.3V por osciloscopio por el pin de algun puerto, no me acuerdo cual, de duraciòn despreciable en comparación con el período de la señal; Hay problemas con el código del ejemplo ya que fue escrito en una versón diferente del SDK y no compila en la 1.3.
+
+15/10/13: Busco como hacer taggings en el GIT.
+
+Se hacen con 
+
+$ git tag -a "NOMBRE DEL TAG" -m "MENSAJE DEL TAG"
+
+
+Escribir en el puerto P no es tan dificil. 
+
+En la maquina de estados: La acción DR_DATA escribe perfectamente lo que tenga en el, en este caso REGISTRO (Register) usando el THREAD_0. En el cambiar Register por SOCKET hace que no ande, lo pone en estado alto todo el tiempo. Por ahora esto no me importa, mientras prenda el LED, despues resolveremos la diferencia. Una máquina sencilla que hace andar las cosas es un estado inicial que va a un estado (por una flecha LOGIC_ONE) UNO con la acción DR_DATA. De este estado va al estado DOS, por una LOGIC_ONE. El estado DOS tambien tiene DR_DATA y vuelve a UNO por otra LOGIC_ONE.
+
+En el firmware: La clave es el API "CyU3PGpifWriteDataWords" que escriba en el Register la información que le pasas. El LED blinkea si vas intercalando 0xFFFF y 0x0000 (claramente la salida es de 16 bits). Para que blinkee mas rápido, conviene reducir el Sleeptime, no tan bajo como para que no se vea blinkear el LED, 100ms esta bien. Todo esto esta en la función SlFifoAppThread_Entry en cyfxslfifoasync.c.
+
+Fijarse en el repositorio, bajo el tag v2.0 los detalles. Maquina de estado prueba2, firmware SlaveFIFOAsync.

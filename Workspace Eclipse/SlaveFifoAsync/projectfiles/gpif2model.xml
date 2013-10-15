@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<GPIFIIModel version="3">
+  <InterfaceDefination>
+    <InterfaceSetting>
+      <I2SEnabled>True</I2SEnabled>
+      <I2CEnabled>True</I2CEnabled>
+      <SPIEnabled>True</SPIEnabled>
+      <I2SEnabled>False</I2SEnabled>
+      <ADMuxedEnabled>False</ADMuxedEnabled>
+      <InterfaceType>Master</InterfaceType>
+      <CommunicationType>Asynchronous</CommunicationType>
+      <ClockSource>Internal</ClockSource>
+      <ClockEdge>Positive</ClockEdge>
+      <Endianness>LittleEndian</Endianness>
+      <DataBusWidth>Bit16</DataBusWidth>
+      <AddressBuswidth>0</AddressBuswidth>
+    </InterfaceSetting>
+  </InterfaceDefination>
+  <Signals>
+    <Signal ElementId="INPUT0" SignalType="Input" SpecialFunction="None">
+      <DisplayName>Writeflag</DisplayName>
+      <GPIOPinNumber>GPIO_20</GPIOPinNumber>
+      <Polarity>ActiveLow</Polarity>
+    </Signal>
+    <Signal ElementId="OUTPUT2" SignalType="Output" SpecialFunction="None">
+      <DisplayName>CEn</DisplayName>
+      <GPIOPinNumber>GPIO_17</GPIOPinNumber>
+      <IntialValue>High</IntialValue>
+      <Polarity>ActiveLow</Polarity>
+      <Delay>Alpha</Delay>
+      <AssetionType>Assert</AssetionType>
+    </Signal>
+    <Signal ElementId="INPUT2" SignalType="Input" SpecialFunction="None">
+      <DisplayName>ReadFlag</DisplayName>
+      <GPIOPinNumber>GPIO_21</GPIOPinNumber>
+      <Polarity>ActiveLow</Polarity>
+    </Signal>
+    <Signal ElementId="OUTPUT0" SignalType="Output" SpecialFunction="None">
+      <DisplayName>WEn</DisplayName>
+      <GPIOPinNumber>GPIO_18</GPIOPinNumber>
+      <IntialValue>High</IntialValue>
+      <Polarity>ActiveLow</Polarity>
+      <Delay>Alpha</Delay>
+      <AssetionType>Assert</AssetionType>
+    </Signal>
+    <Signal ElementId="OUTPUT1" SignalType="Output" SpecialFunction="None">
+      <DisplayName>REn</DisplayName>
+      <GPIOPinNumber>GPIO_19</GPIOPinNumber>
+      <IntialValue>High</IntialValue>
+      <Polarity>ActiveLow</Polarity>
+      <Delay>Alpha</Delay>
+      <AssetionType>Assert</AssetionType>
+    </Signal>
+  </Signals>
+  <StateMachine>
+    <AddressCounter />
+    <DataCounter />
+    <ControlCounter />
+    <AddressComparator />
+    <DataComparator />
+    <ControlComparator />
+    <DRQ />
+    <AddrData />
+    <State ElementId="STARTSTATE1" StateType="StartState">
+      <DisplayName>RESET</DisplayName>
+      <RepeatUntillNextTransition>True</RepeatUntillNextTransition>
+      <RepeatCount>0</RepeatCount>
+    </State>
+    <State ElementId="STATE1" StateType="NormalState">
+      <DisplayName>IDLE</DisplayName>
+      <RepeatUntillNextTransition>True</RepeatUntillNextTransition>
+      <RepeatCount>0</RepeatCount>
+    </State>
+    <State ElementId="STATE3" StateType="NormalState">
+      <DisplayName>WRITE_START</DisplayName>
+      <RepeatUntillNextTransition>True</RepeatUntillNextTransition>
+      <RepeatCount>0</RepeatCount>
+      <Action ElementId="DR_DATA0" ActionType="DR_DATA">
+        <IsDataCounterConnected>False</IsDataCounterConnected>
+        <DataSourceSink>Register</DataSourceSink>
+        <ThreadNumber>Thread0</ThreadNumber>
+        <SyncBurstMode>Enable</SyncBurstMode>
+        <DriveNewData>DriveNewData</DriveNewData>
+        <UpdateSource>True</UpdateSource>
+      </Action>
+    </State>
+    <State ElementId="STATE6" StateType="NormalState">
+      <DisplayName>WRITE_WAIT</DisplayName>
+      <RepeatUntillNextTransition>True</RepeatUntillNextTransition>
+      <RepeatCount>4</RepeatCount>
+      <Action ElementId="DR_DATA0" ActionType="DR_DATA">
+        <IsDataCounterConnected>False</IsDataCounterConnected>
+        <DataSourceSink>Register</DataSourceSink>
+        <ThreadNumber>Thread0</ThreadNumber>
+        <SyncBurstMode>Enable</SyncBurstMode>
+        <DriveNewData>DrivePreviousSetData</DriveNewData>
+        <UpdateSource>False</UpdateSource>
+      </Action>
+    </State>
+    <Transition ElementId="TRANSITION4" SourceState="STATE6" DestinationState="STATE3" Equation="LOGIC_ONE" />
+    <Transition ElementId="TRANSITION1" SourceState="STARTSTATE1" DestinationState="STATE1" Equation="LOGIC_ONE" />
+    <Transition ElementId="TRANSITION3" SourceState="STATE1" DestinationState="STATE3" Equation="LOGIC_ONE" />
+    <Transition ElementId="TRANSITION8" SourceState="STATE3" DestinationState="STATE6" Equation="LOGIC_ONE" />
+  </StateMachine>
+</GPIFIIModel>
