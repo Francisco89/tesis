@@ -97,31 +97,24 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //unsigned long XferRate;
     //unsigned char buf[] = "hello world";
-    const int packetSize = 16;                      //Multiplo de 16 conviene siempre, sino rellena hasta llegar a uno
+    const int packetSize = 1024;
     LONG len = packetSize;                          //Si o si tienen q ser LONG
     unsigned char outBuffer[packetSize];            //Si o si tienen q ser unsigned char
     unsigned char inBuffer[packetSize];
-    unsigned char hola[]="hola man :)";             //16, 15 + end of string
     bool staOut, staIn;
 
-    if (USBDevice->BulkOutEndPt)
-    USBDevice->BulkOutEndPt->XferData(outBuffer, len);
+    //if (USBDevice->BulkOutEndPt)
+    //USBDevice->BulkOutEndPt->XferData(outBuffer, len);
 
+    for (int i=0; i<packetSize; i++)
+        outBuffer[i] = i;
 
+    for (int cont=1;cont < 100000; cont++)
     staOut = USBDevice->BulkOutEndPt->XferData(outBuffer, len);
+
     staIn = USBDevice->BulkInEndPt->XferData(inBuffer, len);
 
-    cout << "Transferencia: " << (staOut ? "Exitosa" : "Fallida")  << endl; // 1 = transfirio, 0 = fallo;
-    cout << "Recepcion: " << (staIn ? "Exitosa" : "Fallida") << endl; // 1 = transfirio, 0 = fallo;
-    cout << "Salio: " << outBuffer << endl;
-    cout << "Llego: " << inBuffer << endl;
-
-    //cout << staIn << endl; // 1 = transfirio, 0 = fallo;
-
     USBDevice->Close(); // (9)*/
-
-
-
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
