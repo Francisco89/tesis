@@ -5,12 +5,34 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <sstream>
+#include <stdio.h>
+#include <windows.h>
+#include <tgmath.h>
 
 #define SSTR( x ) dynamic_cast< std::ostringstream & >( \
         ( std::ostringstream() << std::dec << x ) ).str()
 
 using namespace std;
+double PCFreq = 0.0;
+__int64 CounterStart = 0;
 
+void StartCounter()
+{
+    LARGE_INTEGER li;
+    if(!QueryPerformanceFrequency(&li))
+    printf("QueryPerformanceFrequency failed!\n");
+
+    PCFreq = (li.QuadPart)/1000000.0;
+
+    QueryPerformanceCounter(&li);
+    CounterStart = li.QuadPart;
+}
+double GetCounter()
+{
+    LARGE_INTEGER li;
+    QueryPerformanceCounter(&li);
+    return (li.QuadPart-CounterStart)/PCFreq;
+}
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -24,6 +46,8 @@ MainWindow::MainWindow(QWidget *parent) :
    CCyUSBDevice *USBDevice = new CCyUSBDevice(NULL);
    CCyBulkEndPoint *BulkInEndPt = NULL;
    CCyBulkEndPoint *BulkOutEndPt = NULL;
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 
    int eptCount = USBDevice->EndPointCount();
    cout << "Cantidad de endpoints activos (incluyendo el de control) : " << eptCount << endl;
@@ -77,36 +101,55 @@ MainWindow::MainWindow(QWidget *parent) :
       //cout << USBDevice->EndPoints[e] << endl;                           Mostrador de endpoints.
    }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Unidad de tiempo estandar, microsegundo.
+//
+// Genera un PWM de 16 bits (todos 1s o 0s) cada 100ms, tiene alguna varianza pero no va acumulando error.
+// Arranca el contador del PC y setea el periodo del PWM. Va muestreando el tiempo 0 < t < T_pwm (1 segundo).
+// Si t < T_on, escribe el 1, en otro caso, en 0.
+// Luego entra en un loop que duerme 1ms y muestrea t. Sale del loop si t es mayor al tiempo de muestreo (100ms)
+// Vuelve a muestrear t y lo compara con T_on y escribe 1 o 0 correspondientemente y vuelve al loop de delay.
+// Si o si tiene que dormir o la compu se cuelga MAL (anda, pero se traba todo el qtcreator).
 
-
-    //Recontador de endpoints, ya lo hicimos antes pero aca queda mas explicito.
-    for (int i=1; i<eptCount; i++)
-    {
-    bool bIn = ((USBDevice->EndPoints[i]->Address & 0x80)==0x80);
-    bool bBulk = (USBDevice->EndPoints[i]->Attributes == 2);
-    if (bBulk && bIn) BulkInEndPt = (CCyBulkEndPoint *) USBDevice->EndPoints[i];
-    if (bBulk && !bIn) BulkOutEndPt = (CCyBulkEndPoint *) USBDevice->EndPoints[i];
-    }
-
-    /*for (int i=1; i<eptCount; i++)
-    {
-        cout << USBDevice->EndPoints[i] << endl;
-    }*/
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    //unsigned long XferRate;
-    //unsigned char buf[] = "hello world";
-    const int packetSize = 1024;
+    const int packetSize = 16;
     LONG len = packetSize;                          //Si o si tienen q ser LONG
     unsigned char outBuffer[packetSize];            //Si o si tienen q ser unsigned char
     unsigned char inBuffer[packetSize];
+    unsigned char uno = 255;
+    unsigned char cero = 0;
+    unsigned char buf;
     bool staOut, staIn;
+    double T_pwm = 1000000;                         //1 segundo
+    double D = 0.1;                                //Duty Cycle
+    double T_on = D*T_pwm;                          //Tiempo en estado alto
+    double t = 0;                                   //Variable auxiliar
+    double muestreo = 10000;                        //Variable de muestreo de la señal (10ms)
+    double u = 0;
+    int i=0;
 
-    //if (USBDevice->BulkOutEndPt)
-    //USBDevice->BulkOutEndPt->XferData(outBuffer, len);
+    StartCounter();
 
-    for (int i=0; i<packetSize; i++)
+    while( 1 )
+    {
+        t = fmod(GetCounter(),T_pwm);
+        //cout << ((t < T_on) ? 0x0001 : 0x0000) << endl;
+        u=0;
+        buf = ((t < T_on) ? uno : cero);
+        for ( i = 0; i < 16 ; i++ )
+        outBuffer[i] = buf ;
+        staOut = USBDevice->BulkOutEndPt->XferData(outBuffer, len);
+        cout << outBuffer << "   " << staOut << endl;
+
+        while( u < muestreo )
+        {
+            Sleep(10);
+            u=fmod(GetCounter(),T_pwm);
+        }
+        staIn = USBDevice->BulkInEndPt->XferData(inBuffer, len);
+        //cout << staIn << endl;
+    }
+
+  /*for (int i=0; i<packetSize; i++)
         outBuffer[i] = i;
 
     for (int cont=1;cont < 100000; cont++)
@@ -115,7 +158,6 @@ MainWindow::MainWindow(QWidget *parent) :
     staIn = USBDevice->BulkInEndPt->XferData(inBuffer, len);
 
     USBDevice->Close(); // (9)*/
-
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
    this->connect(this->ui->Start_pushButton, SIGNAL(clicked()), this, SLOT(Start_pushButton_click()));
@@ -146,5 +188,3 @@ void MainWindow::Start_pushButton_click()
     LONG length = 11;
 */
 }
-
-

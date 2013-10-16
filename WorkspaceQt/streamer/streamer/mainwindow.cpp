@@ -153,5 +153,3 @@ void MainWindow::Start_pushButton_click()
     LONG length = 11;
 */
 }
-
-
