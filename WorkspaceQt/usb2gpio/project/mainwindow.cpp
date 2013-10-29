@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <windows.h>
 #include <tgmath.h>
+#include <unistd.h>     // Para dormir por microsegundos (usleep)
 
 #define SSTR( x ) dynamic_cast< std::ostringstream & >( \
         ( std::ostringstream() << std::dec << x ) ).str()
@@ -23,6 +24,7 @@ void StartCounter()
     printf("QueryPerformanceFrequency failed!\n");
 
     PCFreq = (li.QuadPart)/1000000.0;
+    cout << PCFreq << endl;
 
     QueryPerformanceCounter(&li);
     CounterStart = li.QuadPart;
@@ -111,12 +113,12 @@ MainWindow::MainWindow(QWidget *parent) :
 // Vuelve a muestrear t y lo compara con T_on y escribe 1 o 0 correspondientemente y vuelve al loop de delay.
 // Si o si tiene que dormir o la compu se cuelga MAL (anda, pero se traba todo el qtcreator).
 
-    const int packetSize = 16;
+    const int packetSize = 4;
     LONG len = packetSize;                          //Si o si tienen q ser LONG
     unsigned char outBuffer[packetSize];            //Si o si tienen q ser unsigned char
     unsigned char inBuffer[packetSize];
-    unsigned char uno = 255;
-    unsigned char cero = 0;
+    unsigned char uno = 0xFFFF;
+    unsigned char cero = 0x00;
     unsigned char buf;
     bool staOut, staIn;
     double T_pwm = 1000000;                         //1 segundo
@@ -126,28 +128,63 @@ MainWindow::MainWindow(QWidget *parent) :
     double muestreo = 10000;                        //Variable de muestreo de la señal (10ms)
     double u = 0;
     int i=0;
+    int cont=0;
 
     StartCounter();
+    t=CounterStart;
 
-    while( 1 )
+
+    /*while( 1 )
     {
         t = fmod(GetCounter(),T_pwm);
         //cout << ((t < T_on) ? 0x0001 : 0x0000) << endl;
         u=0;
         buf = ((t < T_on) ? uno : cero);
-        for ( i = 0; i < 16 ; i++ )
+        for ( i = 0; i < len ; i++ )
         outBuffer[i] = buf ;
-        staOut = USBDevice->BulkOutEndPt->XferData(outBuffer, len);
-        cout << outBuffer << "   " << staOut << endl;
+        //staOut = USBDevice->BulkOutEndPt->XferData(outBuffer, len);
+        //cout << outBuffer << "   " << staOut << endl;
 
         while( u < muestreo )
         {
-            Sleep(10);
+            //Sleep(1);
+            staOut = USBDevice->BulkOutEndPt->XferData(outBuffer, len);
             u=fmod(GetCounter(),T_pwm);
         }
-        staIn = USBDevice->BulkInEndPt->XferData(inBuffer, len);
+
+        //staIn = USBDevice->BulkInEndPt->XferData(inBuffer, len); // Hay que recorger el paquete si o si o el buffer se llena.
         //cout << staIn << endl;
+        //cont++;
+        if(cont == 1)
+        {
+            cout <<  "Salio: " << outBuffer << endl; //" ; Entro: " << inBuffer << endl;
+            cont=0;
+        }
+        //staIn = USBDevice->BulkInEndPt->XferData(inBuffer, len);
+        //cout <<  "Salio: " << outBuffer << endl; //" ; Entro: " << inBuffer << endl;
+        staIn = USBDevice->BulkOutEndPt->Reset();
+    }*/
+
+    while(1)
+    {
+        /*//for (i=0;i<1000;i++){
+        staOut = USBDevice->BulkOutEndPt->XferData(&uno, len);
+        usleep(1000);
+        //t = fmod(GetCounter(),T_pwm);
+        //cout << t << endl;
+        //}
+        //for (i=0;i<1000;i++){
+        staIn = USBDevice->BulkOutEndPt->XferData(&cero, len);
+        usleep(1000);
+        //}*/
+        t = GetCounter();
+        if((t-u)/PCFreq > 500)
+        {
+            u=t;
+            staOut = USBDevice->BulkOutEndPt->XferData(&uno, len);
+        }
     }
+
 
   /*for (int i=0; i<packetSize; i++)
         outBuffer[i] = i;
