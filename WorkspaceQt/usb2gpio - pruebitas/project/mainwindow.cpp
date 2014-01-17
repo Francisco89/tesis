@@ -61,6 +61,7 @@ MainWindow::MainWindow(QWidget *parent) :
    ui->setupUi(this);
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
+   cout << "hola" << endl;
    CCyUSBDevice *USBDevice = new CCyUSBDevice(NULL);
    CCyBulkEndPoint *BulkInEndPt = NULL;
    CCyBulkEndPoint *BulkOutEndPt = NULL;
@@ -129,7 +130,7 @@ MainWindow::MainWindow(QWidget *parent) :
 // Vuelve a muestrear t y lo compara con T_on y escribe 1 o 0 correspondientemente y vuelve al loop de delay.
 // Si o si tiene que dormir o la compu se cuelga MAL (anda, pero se traba todo el qtcreator).
 */
-    const int packetSize =1024;                     //Maximo 1024 por buffer, usando 16 buffers.
+    const int packetSize =1024;                       //Maximo 1024 por buffer, usando 16 buffers.
     LONG len = packetSize;
     LONG numero = LONG_MAX;                         //Si o si tienen q ser LONG
     unsigned char outBuffer[packetSize];            //Si o si tienen q ser unsigned char
@@ -147,7 +148,7 @@ MainWindow::MainWindow(QWidget *parent) :
     int i=0;
     int j = 0;
     int cont=0;
-    int tiempin = 10;
+    int tiempin = 1000;
 
     for (i=0;i<packetSize;i++){
            outBuffer[i]=0;}
@@ -163,7 +164,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //i=0;
     //outBuffer[i]=0xFFFFFFFFFFFFFFFFFFFFFFFFF;
 
-    cout << int((outBuffer[10])) << endl;
+    //cout << int((outBuffer[10])) << endl;
 
     StartCounter();
     u=GetCounter();
@@ -179,7 +180,7 @@ MainWindow::MainWindow(QWidget *parent) :
             u=t;
             //cout << "Segundo = " << u/tiempin << " --- " << numero << endl;
 
-            staOut = USBDevice->BulkOutEndPt->XferData(outBuffer, len);
+            staOut = USBDevice->BulkOutEndPt->XferData(&uno, len);
 
             //staIn = USBDevice->BulkInEndPt->XferData(inBuffer, len);
 

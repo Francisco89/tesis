@@ -1,0 +1,37 @@
+Hacer un diagrama en Visio de como conetactar la placa al banco de mediciones, mediante un diagrama en bloques nomas. No olvidar las aislaciones.
+
+Leer del micro y del S.O., por ahora ThreadX, para saber como controlar el bus de datos y las señales de control para que el micro maneje la placa.
+
+Por ahora Ricardo se va a encargar de como conectar el PPort al puerto USB, o sea, se encarga de la placa FX3.
+
+Si pinta, comparar de a tres los componentes que se van a usar para la construccion de la placa.
+
+
+Analog Drivers - van
+Serie o Paralelo - el que sea mas rapido
+Como elegir el registro para leer - revisar.
+
+
+
+
+
+Mas tarea:
+
+-Comparar los siguientes ADC (texas, analog devices, linear tec, maxim) comparar precio, prestaciones, encapsulado (xQFP en preferencia o sino SOC) (no queremos DIP ni LFCSP).
+-Buscar tambien los DAC? Vienen casi todos series, buscar si existe uno con interfaz "SPI", ya que el micro tiene una salida "SPI" y con esto podriamos manejar todos los DAC.
+-Buscar tambien las aislaciones? analogicas y digitales. analogicas: iso124
+-Estudiar el micro, no queda otra
+-Estudiar el threadX, no queda otra
+
+
+
+
+
+Tarea general: "Hacer la placa"
+
+Quiere decir, elegir los componentes diseñar, 
+
+
+Consultas:
+
+1) Por que los DAC para otras cosas son mas rapidos que los DAC para adquisicion de datos? En que son distintos?

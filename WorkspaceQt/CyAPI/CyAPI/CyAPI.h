@@ -138,12 +138,14 @@ typedef enum { SUCCESS = 0, FAILED, INVALID_MEDIA_TYPE, INVALID_FWSIGNATURE, DEV
 class CCyUSBEndPoint
 {
 protected:
+
+public:
     bool WaitForIO(OVERLAPPED *ovLapStatus);
 
     virtual PUCHAR BeginDirectXfer(PUCHAR buf, LONG bufLen, OVERLAPPED *ov);
     virtual PUCHAR BeginBufferedXfer(PUCHAR buf, LONG bufLen, OVERLAPPED *ov);
 
-public:
+//public:
 
     CCyUSBEndPoint(void);
     CCyUSBEndPoint(CCyUSBEndPoint& ept);
