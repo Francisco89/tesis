@@ -1,0 +1,80 @@
+Cmp-Mod V01 Created by CvPcb (2013-07-07 BZR 4022)-stable date = 09/04/2014 16:00:54
+
+BeginCmp
+TimeStamp = /5341F87D;
+Reference = C1;
+ValeurCmp = 0.1u;
+IdModule  = C2;
+EndCmp
+
+BeginCmp
+TimeStamp = /5342E6F9;
+Reference = P2;
+ValeurCmp = CONN_1;
+IdModule  = 1pin;
+EndCmp
+
+BeginCmp
+TimeStamp = /5342E717;
+Reference = P3;
+ValeurCmp = CONN_1;
+IdModule  = 1pin;
+EndCmp
+
+BeginCmp
+TimeStamp = /5342E726;
+Reference = P4;
+ValeurCmp = CONN_1;
+IdModule  = 1pin;
+EndCmp
+
+BeginCmp
+TimeStamp = /5342E708;
+Reference = P5;
+ValeurCmp = CONN_1;
+IdModule  = 1pin;
+EndCmp
+
+BeginCmp
+TimeStamp = /534598C6;
+Reference = U1;
+ValeurCmp = TP_in_V;
+IdModule  = C2;
+EndCmp
+
+BeginCmp
+TimeStamp = /5341FB11;
+Reference = U2;
+ValeurCmp = R_Pull-up;
+IdModule  = C2;
+EndCmp
+
+BeginCmp
+TimeStamp = /5341E4CE;
+Reference = U3;
+ValeurCmp = 6N137;
+IdModule  = DIP-8__300;
+EndCmp
+
+BeginCmp
+TimeStamp = /5341F9FA;
+Reference = U4;
+ValeurCmp = 74HC04;
+IdModule  = DIP-14__300;
+EndCmp
+
+BeginCmp
+TimeStamp = /5342021B;
+Reference = U5;
+ValeurCmp = R_lim y TP_in_I;
+IdModule  = C2;
+EndCmp
+
+BeginCmp
+TimeStamp = /5341FC11;
+Reference = U6;
+ValeurCmp = TP_Salida;
+IdModule  = C2;
+EndCmp
+
+EndListe

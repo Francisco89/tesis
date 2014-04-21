@@ -1,0 +1,8 @@
+Crack for USBTrace v2.7.0, 32-bit & 64-bit, Build 77
+
+Instructions:
+1) Run and install program using official installer (choose 64 bit installer if you're on a 64 bit System, else choose 32 bit installer);
+2) Put Patch.exe in USBTrace installed path;
+3) Run Patch.exe with administrator rights (right click on Path.exe->Run as Administrator);
+4) Enjoy!
+

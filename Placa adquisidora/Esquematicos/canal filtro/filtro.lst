@@ -1,0 +1,70 @@
+eeschema (2013-07-07 BZR 4022)-stable  >> Creation date: 06/03/2014 17:29:08
+#Cmp ( order = Reference )
+| C1         430pF       
+| C2         360pF       
+| C3         240pF       
+| C4         82pF        
+| C5         1nF         
+| C6         1.1nF       
+| C7         1.8nF       
+| C8         4.7nF       
+| C9         0.1uF       
+| C10        0.1uF       
+| P1         TST         
+| P2         TST         
+| P3         TST         
+| P4         TST         
+| P5         TST         
+| P6         TST         
+| P7         TST         
+| P8         TST         
+| R1         10k         
+| R2         10k         
+| R3         10k         
+| R4         10k         
+| R5         10k         
+| R6         10k         
+| R7         10k         
+| R8         10k         
+| R9         10k         
+| R10        10k         
+| R11        10k         
+| R12        10k         
+| U1         TL074       
+#End Cmp
+
+#Componentes ( orden = Valor )
+| 82pF         C4        
+| 240pF        C3        
+| 360pF        C2        
+| 430pF        C1        
+| 1nF          C5        
+| 1.1nF        C6        
+| 1.8nF        C7        
+| 4.7nF        C8        
+| 0.1uF        C9        
+| 0.1uF        C10       
+| TST          P1        
+| TST          P2        
+| TST          P3        
+| TST          P4        
+| TST          P5        
+| TST          P6        
+| TST          P7        
+| TST          P8        
+| 10k          R1        
+| 10k          R2        
+| 10k          R3        
+| 10k          R4        
+| 10k          R5        
+| 10k          R6        
+| 10k          R7        
+| 10k          R8        
+| 10k          R9        
+| 10k          R10       
+| 10k          R11       
+| 10k          R12       
+| TL074        U1        
+#Fin Componentes
+
+#Fin de Lista

@@ -1,0 +1,15 @@
+Title: * C:\Users\x\tesis\Placa adquisidora\Simulaciones\Filtro AntiAliasing\filtro ruido.asc
+Date: Tue Apr 08 23:18:03 2014
+Plotname: Noise Spectral Density - (V/Hz½ or A/Hz½)
+Output: o1
+Flags: real forward log
+No. Variables: 19
+No. Points:            0
+Offset:   0.0000000000000000e+000
+Command: Linear Technology Corporation LTspice IV
+Backannotation: u6 1 2 3
+Backannotation: u1 1 2 3
+Backannotation: u2 1 2 3
+Backannotation: u3 1 2 3
+Backannotation: u4 1 2 3
+Variables:

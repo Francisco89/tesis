@@ -1,0 +1,98 @@
+16:47 horas del jueves 7 de noviembre del 2013 - Vitácora de viaje
+
+La expedición esta en crisis, nos quedamos sin alimentos y agua, y estamos a merced de las criaturas de esta desolada tierra...
+
+No, me equivoque de papel.
+
+Saque un precioso patrón PWM con D = 50%.
+
+Para averiguar que fue lo que hice, primero escribamos algunos resultados:
+
+
+
+
+A la salida:
+
+Un tren de pulsos cuadrado de amplitud minima 3V, maxima 3.4V y se nota que es puro ruido en el medio. En un acercamiento, vemos que el techo del pulso esta formado por una sucesion de ripple como saque en la foto del celular. El ripple es interesante. Se repite cada 40us. Los primero 20us mide 3.3V planchado. Los ultimos 20us son una rampa que empieza en 3.3V y termina en 3V. Luego sube a 3.3V para empezar el nuevo periodo.
+El tren de pulsos tiene un periodo de 80ms, D = 50%, o sea esta prendido durante 40ms.
+
+
+
+
+Maquina de estados:
+
+La simpleza: Arranca y va a un estado vacio por medio de un LOGIC_ONE. De ahi va a un estado que solo tiene DR_DATA por medio de la condicion DMA_RDY_TH1. DR_DATA tiene tildado "Update new value from data source". Data source es un socket y el thread number es 1.
+Luego vuelve al estado anterior por medio de un LOGIC_1. 
+
+Acabo de notar que solo tiene un tiempo de reloj para escribir la data.
+
+
+
+A la entrada: 
+
+Usamos el contador de frecuencia, lo hacemos entrar al bucle cada 80ms. Dentro del bucle manda XferData de lo que tiene al buffer de salida. En este caso, en el buffer de salida tiene 1KB hecho de FF 00 FF 00 FF 00...
+
+
+
+
+Conclusiones.
+
+Si acorto o agrando el tiempo que tarda en entrar al bucle, se acorta o agranda el tiempo que esta en 0 la señal. Que cagada, no es porque yo se lo estoy escribiendo sino porque termino de dejar de escribir :(
+
+Entonces la teoria es que llenado el buffer de entrada, el canal DMA lo va drenando a la salida GPIF cada 16 bits.
+
+Para colmo, tenia 16 buffers y un databus de 32 bits ¬¬
+
+Lo baje a 16 buffers y un databus de 16 bits.
+
+Pongo basura a la salida y mientras tiene data (40ms) tiene patrones de 1s y 0s (ver foto).
+
+La basura que hay es (en int): 218 154 106 ... 22 0
+
+Escribimos a la entrada:
+
+255 0 0 255 0 0.. 
+
+A la salida aparece un 3.3V entre 0 y 40us y luego 0V desde 40us hasta 120us y vuelve a repetirse :)
+
+Anda :) Por cierto, la bajadita de 3.3V a 0V se produce porque pasamos al estado que no tiene nada.
+
+Arreglamos eso poniendo un contador que no salga de ese estado hasta que drene todo el buffer.
+
+Para llenar el Kb de salida, uso:
+
+    for (i=0;i<packetSize;i=i+2){
+        outBuffer[i]=1;
+        outBuffer[i+1]=0;
+    }
+
+Pero no anda :S, o sea, sale una salida constante igual a 1
+
+Anda si pongo 
+
+    for (i=0;i<packetSize;i=i+3){
+        outBuffer[i]=1;
+        outBuffer[i+1]=0;
+        outBuffer[i+2]=0;
+    }
+
+Aca sale 1/3 del tiempo 1 y el resto 0
+
+Entonces, si anda con mayor a 3, pongo
+
+    for (i=0;i<packetSize;i=i+4){
+        outBuffer[i]=1;
+        outBuffer[i+1]=1;
+        outBuffer[i+2]=0;
+        outBuffer[i+3]=0;
+    }
+
+Asi anda bien un duty del 50%.
+
+A la salida la puedo escribir re rapido :) tan rapido como 40us mas o menos, que es la mitad de lo que tardaba en leer y escribir :P ahora solo escribe :P vivo soy. 
+
+Pero bueno, poniendo el clock del micro con division por 2, el PWM que sale tiene un periodo de 160ns, aunque si descubriera por que no anda a 1 byte por estado, en lugar de los 2 que usamos ahora, puedo bajarlo a 80ns.
+
+Subo la configuracion asi como esta al GIT rev v3.1. Nos vemos.
+
+PD: EUREKA!! YA se por que!! Estoy sacando cada 16 bits, es decir, cada 2 bytes!! Por eso tengo que escribir 2 bytes de 1 y 2 bytes de 0!!

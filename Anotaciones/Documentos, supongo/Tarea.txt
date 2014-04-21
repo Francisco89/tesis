@@ -1,0 +1,9 @@
+Core i3 datasheet (2 pdfs grandes) de intel
+
+Chipset de lenovo E49 de intel
+
+Arquitectura del fresco-logic PCIe - USB 3.0
+
+Como mueve windows el stack usb - arquitectura del stack usb para windows (.sys y .dll involucrados)
+
+OpenMP como maneja memoria compartida shared memory y como maneja I/O

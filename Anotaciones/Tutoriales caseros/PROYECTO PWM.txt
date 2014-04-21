@@ -1,0 +1,117 @@
+CTL[4]=pin 60
+
+El que anda es el CTL[5], GPIO 22.
+
+
+
+
+
+TIPOS DE EVENTOS DEL GPIF:
+
+
+CyU3PGpifEventType: 	CYU3P_GPIF_EVT_END_STATE 		State machine has reached the designated end state.
+			CYU3P_GPIF_EVT_SM_INTERRUPT 		State machine has raised a software interrupt.
+			CYU3P_GPIF_EVT_SWITCH_TIMEOUT 		Desired state machine switch has timed out.
+			CYU3P_GPIF_EVT_ADDR_COUNTER 		Address counter has reached the limit.
+			CYU3P_GPIF_EVT_DATA_COUNTER 		Data counter has reached the limit.
+			CYU3P_GPIF_EVT_CTRL_COUNTER 		Control counter has reached the limit.
+			CYU3P_GPIF_EVT_ADDR_COMP 		Address comparator match has been obtained.
+			CYU3P_GPIF_EVT_DATA_COMP 		Data comparator match has been obtained.
+			CYU3P_GPIF_EVT_CTRL_COMP 		Control comparator match has been obtained.
+			CYU3P_GPIF_EVT_CRC_ERROR 		Incorrect CRC received on a read operation.
+
+
+
+
+
+
+SE MANEJAN CON LA FUNCION:
+
+CyU3PGpifRegisterCallback
+
+
+
+
+
+
+ejemplo:
+
+
+/* Load the GPIF configuration for Master mode. */
+
+    apiRetStatus = CyU3PGpifLoad (&CyFxGpifConfig);
+
+/* Register a callback function as shown below: */
+
+    CyU3PGpifRegisterCallback(CyFxBulkSrcSinkApplnGPIFEventCB);
+
+ 
+
+ void
+
+CyFxBulkSrcSinkApplnGPIFEventCB (
+
+            CyU3PGpifEventType event,          /* Event type that is being notified. */
+
+            uint8_t            currentState   /* Current state of the State Machine. */
+
+)
+
+{ 
+
+      switch (event)
+
+      {
+
+      case CYU3P_GPIF_EVT_SM_INTERRUPT:
+
+      {
+
+            CyU3PDmaChannelSetWrapUp(&glChHandleBulkLpPtoU); 
+
+      }
+
+      break;
+
+
+     default:
+
+            break;
+
+      }
+
+}
+
+
+
+
+
+
+COMO FUNCIONA EL FIRMWARE: Conviene leerlo del ultimo al primer item.
+
+1) La funcion "main" inicializa el kernel. Supongo que inicializa los threads.
+2) Despues viene la funcion "CyFxApplicationDefine" que crea los threads, basados en las funciones de entrada.
+3) Despues vienen las definiciones de las funciones de los threads. Normalmente terminan en "_entry". Creo que vendrian a ser como los "main" de cada thread. Dentro de cada funcion de entrada, estan las funciones que se ejecutan en ese thread.
+4) Adicionalmente estan las funciones comunes que son llamadas dentro de las funciones de entrada.
+
+AHORA LO MISMO PERO EN ORDEN DESCENDENTE:
+
+a) Primero creas tu programita salvaje como si fuera C y a todas sus funciones.
+b) A lo que seria el "main" lo tenes que llamar como quieras (conviene terminarlo en "_entry") y se transforma en la funcion de entrada.
+c) Llamas a la funcion "CyFxApplicationDefine" y registras a tu thread para que el micro lo corra.
+d) Llamas a main para que se inicialice el kernel del micro y corra los threads.
+
+
+
+
+
+NOTAS:
+
+LOS FAMOSOS
+
+ for (;;)									
+ {
+     CyU3PThreadSleep (1000);
+ }
+
+SEGURAMENTE SON TIEMPO DE RELLENO PARA TERMINAR EL THREAD!!!!!!!!!!!!!!!!!! LPM!!!

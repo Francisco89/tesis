@@ -1,0 +1,325 @@
+***************************************************************************************************************************
+
+					Resultados de los ensayos de velocidad 
+
+***************************************************************************************************************************
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+					Velocidad de generación de señal con la PC
+
+
+
+Se usa el contador interno de la maquina que tiene una frecuencia de 
+
+PCFreq = 2.33848 MHz
+
+Se toman dos muestras del contador al toque, una al lado de la otra y se muestra en pantalla segun el siguiente cacho de codigo:
+
+            t=GetCounter();
+            u=GetCounter();
+            cout << (u-t) << PCFreq << endl;
+
+Mostramos los resultados obtenidos y la cantidad de repeticiones de cada uno
+
+			Delay (us)		Repeticiones
+			0			69
+			1.81062e-017		23
+			0.427629		8
+
+			Media			Total
+			0.03421032		100 ensayos
+
+Ahora, resulta que la inversa de PCFreq = 0.427629us asi que consideramos los otros resultados errores numericos y decimos que el periodo minimo de repeticion de datos es
+
+T_min(cpu) = 427.629 ns
+
+que sería el peor caso.
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+					Ensayo de generación
+
+
+
+Mandamos fruta a esta velocidad, generamos muestras cada T_min y cada segundo sacamos una muestra en pantalla. No hay mayores inconvenientes, funciona bien.
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+					Ensayo de loopback por el puerto USB
+
+
+
+Tirando la casa por la ventana, hacemos un canal DMA Auto por la placa, conectando dos sockets asociados a dos endpoints.
+Haciendo ensayos vemos que el tamaño del paquete que usa el puerto es USB 3.0, es decir 1024 bytes.
+
+Ahora, la cantidad de data que le podemos mandar al puerto de un saque sin vaciarlo depende de la cantidad de buffers que hayamos declarado, siendo el tamaño de cada buffer automaticamente definido por la velocidad de transferencia. Es decir, para USB 3.0, cada buffer tiene 1KB. 
+
+Nos podemos ir al carajo y usar hasta 64K - 16 (supongo que sera 64KB - 16B = 65536B - 16B = 65520B) de memoria para buffer, pero es recomendado no derrapar tanto. Usualmente se usan 16KB y listo.
+
+Bueno, para el ensayo vamos a usar un multiplo de 16, ya que eventualmente vamos a necesitar 16 bits para la transferencia de datos por GPIF II. Entonces usaremos lo recomendado, 16 buffers de 1KB, 16KB de buffer.
+
+Ahora la parte del streaming: Creamos paquetes de 16kB, si, llenamos el buffer en cada paquete. Luego lo vaciamos y repetimos. Empezamos haciendo la transferencia cada 1 segundo.
+
+Despues de 10 ensayos, bajamos el tiempo por el que se repite la transferencia y vamos mostrando resultados.
+
+Ensayo		Tamaño		Tiempo(us)	Resultado
+1		16kB		1000000		OK
+2		16kB		1000000		OK
+3		16kB		1000000		OK
+4		16kB		1000000		OK
+5		16kB		1000000		OK
+6		16kB		1000000		OK
+7		16kB		1000000		OK
+8		16kB		1000000		OK
+9		16kB		1000000		OK
+10		16kB		1000000		OK
+
+Todo OK, bajamos a la decima parte el tiempo
+
+Ensayo		Tamaño		Tiempo(us)	Resultado
+1		16kB		100000		OK
+2		16kB		100000		OK
+3		16kB		100000		OK
+4		16kB		100000		OK
+5		16kB		100000		OK
+6		16kB		100000		OK
+7		16kB		100000		OK
+8		16kB		100000		OK
+9		16kB		100000		OK
+10		16kB		100000		OK
+
+Todo OK, vamos derecho a 1ms
+
+Ensayo		Tamaño		Tiempo(us)	Resultado
+1		16kB		1000		OK
+2		16kB		1000		OK
+3		16kB		1000		OK
+4		16kB		1000		OK
+5		16kB		1000		OK
+6		16kB		1000		OK
+7		16kB		1000		OK
+8		16kB		1000		OK
+9		16kB		1000		OK
+10		16kB		1000		OK
+
+¡¡Fascinante!! Ya tenemos garantizado 16kB de datos a 1KHz. Vamos a 10KHz (100us) que es lo que necesito para la tesis
+
+Ensayo		Tamaño		Tiempo(us)	Resultado
+1		16kB		100		OK
+2		16kB		100		OK
+3		16kB		100		OK
+4		16kB		100		OK
+5		16kB		100		OK
+6		16kB		100		OK
+7		16kB		100		OK
+8		16kB		100		OK
+9		16kB		100		OK
+10		16kB		100		OK
+
+DANGER!! Si, muy bonito, yo pongo que muestre cada 100us y lo hace, el problema es que el error de tiempos, es decir el tiempo que toma entre que entra al loop y vuelve a entrar, restando esos 100us, da 200us :S
+
+Bueno, por ahora no pincha, a ver hasta donde podemos estirar la suerte.
+
+Ensayo		Tamaño		Tiempo(us)	Resultado
+1		16kB		10		OK
+2		16kB		10		OK
+3		16kB		10		OK
+4		16kB		10		OK
+5		16kB		10		OK
+6		16kB		10		OK
+7		16kB		10		OK
+8		16kB		10		OK
+9		16kB		10		OK
+10		16kB		10		OK
+
+Ahora el error son 330us...
+
+Ensayo		Tamaño		Tiempo(us)	Resultado
+1		16kB		1		OK
+2		16kB		1		OK
+3		16kB		1		OK
+4		16kB		1		OK
+5		16kB		1		OK
+6		16kB		1		OK
+7		16kB		1		OK
+8		16kB		1		OK
+9		16kB		1		OK
+10		16kB		1		OK
+
+Ahora el error fluctua entre 200 y 400us, siendo lo mas comun 360us.
+
+OK, hasta aca llegamos, ya es al pedo seguir. Mmm.... capaz le estamos mandando 16kB cada 400us... da una cosa como 
+
+39MBps = 312,5Mbps
+
+y segun las especificaciones, el tope de velocidad de throughput es 400MBps (tope tope mal, totalmente inutil) usando transferencia BULK, el streamer, y un USB_BULKSourceSink modificado. Lo modifico como dice (eliminando un endpoint, subiendo el tamaño del buffer out /y llevando a 16KB el tamaño de los paquetes), alcanzo los 350000KB/s, me deja de funcionar el mouse y luego, la placa deja de ser reconocida.
+
+Me quedo con mis fieles 40MBps por ahora. Hay que hacerlos mas pompositos, porque son 16kb cada 400us, pero podemos hacerlos cada 1us o 500ns y queda mas lindo. Respectivamente, tendria que mandar 
+
+16kB/400us * 1us = 32bytes/us
+16kb/400us * 500ns = 16bytes/us
+
+¿Se podra hacer eso? Es decir, el paquete es de 1024kB de los cuales solo voy a ocupar 32bytes, pero ¿manda todo el paquete? ¿Mandarlo vacio acelera la velocidad? A ver entonces:
+
+Ensayo		Tamaño		Tiempo(us)	Resultado	Error (us)
+1		1kB		1000		OK		0.224078
+2		1kB		1000		OK		0.224078
+3		1kB		1000		OK		0.224078
+4		1kB		1000		OK		0.224078
+5		1kB		1000		OK		0.224078
+6		1kB		1000		OK		0.224078
+7		1kB		1000		OK		0.224078
+8		1kB		1000		OK		0.224078
+9		1kB		1000		OK		0.224078
+10		1kB		1000		OK		0.224078
+
+Ensayo		Tamaño		Tiempo(us)	Resultado	Error (us)
+1		32bytes		1000		OK		0.224078
+2		32bytes		1000		OK		0.224078
+3		32bytes		1000		OK		0.224078
+4		32bytes		1000		OK		0.224078
+5		32bytes		1000		OK		0.224078
+6		32bytes		1000		OK		0.224078
+7		32bytes		1000		OK		0.224078
+8		32bytes		1000		OK		0.224078
+9		32bytes		1000		OK		0.224078
+10		32bytes		1000		OK		0.224078
+
+:( Da igual...
+
+Capaz mando 32 bytes utiles pero en un paquete de 1024kB a un buffer de 1024kB.. o sea, seguro se paddea con 0s y estoy mandando lo mismo y por eso tarda lo mismo.
+
+A ver bajando el tiempo
+
+Ensayo		Tamaño		Tiempo(us)	Resultado	Error (us)
+1		1kB		100		OK		0.0651706
+2		1kB		100		OK		0.0651706
+3		1kB		100		OK		0.0651706
+4		1kB		100		OK		0.0651706
+5		1kB		100		OK		0.0651706
+6		1kB		100		OK		0.0651706
+7		1kB		100		OK		0.0651706
+8		1kB		100		OK		0.0651706
+9		1kB		100		OK		0.0651706
+10		1kB		100		OK		0.0651706
+
+Ensayo		Tamaño		Tiempo(us)	Resultado	Error (us)
+1		32bytes		100		OK		0.0651706
+2		32bytes		100		OK		0.0651706
+3		32bytes		100		OK		0.0651706
+4		32bytes		100		OK		0.0651706
+5		32bytes		100		OK		0.0651706
+6		32bytes		100		OK		0.0651706
+7		32bytes		100		OK		0.0651706
+8		32bytes		100		OK		0.0651706
+9		32bytes		100		OK		0.0651706
+10		32bytes		100		OK		0.0651706
+
+Que onda, ¿bajo? Macho-meno, en el primer caso tome el error de las primeras 10 muestras. En este caso deje que corra 20 y tome las ultimas 10. Las primeras tenian tiempos de entre 10us y 80us de error. Una especie de inestabilidad.
+
+Bajando, pero ahora con una muestra alcanza
+
+Ensayo		Tamaño		Tiempo(us)	Resultado	Error (us)
+1		1kB		10		OK		81.9402
+2		32bytes		10		OK		72.96
+
+Bueno, parece que encontramos el tiempo clave. Aproximemoslo a 80us.
+
+VELOCIDAD MINIMA = 1kB/80us = 12,8MBps = 102,4Mbps
+
+¡¡MOMENTO!! ¿Y los 40MBps? Vamos a mandar de nuevo 16k a un buffer de 16k a distintos tiempos.
+
+Ensayo		Tamaño		Tiempo(us)	Resultado	Error (us)
+1		16kB		500		OK		0.325853
+2		16kB		400		OK		0.260683
+3		16kB		300		OK		37.8269
+4		16kB		200		OK		113.024
+5		16kB		100		OK		204.472
+6		16kB		10		OK		331.676
+7		16kB		1		OK		265.84
+
+Bueno, asi las cosas, se ve que entre error y tiempo estamos hablando de mas o menos 350us por 16kB. Hay que notar que este es el promedio, ya que a veces conseguimos delays de 250us y a veces de 400us.
+
+Como ultima prueba, de goloso nomas, mandemos un paquete de 63kB en 1us a ver cuanto tiempo tarda. ¿Por que 63kB? El maximo es 64kB - 16, o sea, menor que 64k y no me voy a poner a escribir en bytes esa cifra.
+
+
+Ensayo		Tamaño		Tiempo(us)	Resultado	Error (us)
+1		63kB		1		OK		1024.45
+2		63kB		1		OK		1024.88
+3		63kB		1		OK		1020.18
+4		63kB		1		OK		1018.47
+5		63kB		1		OK		1024.03
+6		63kB		1		OK		1031.72
+7		63kB		1		OK		1022.74
+8		63kB		1		OK		1024.03
+9		63kB		1		OK		1010.77
+10		63kB		1		OK		1028.3
+11		63kB		1		OK		1034.72
+12		63kB		1		OK		990.244
+13		63kB		1		OK		1018.47
+14		63kB		1		OK		1022.74
+15		63kB		1		OK		1021.03
+16		63kB		1		OK		1024.88
+17		63kB		1		OK		1016.76
+18		63kB		1		OK		1022.74
+19 		63kB		1		OK		981.264
+20		63kB		1		OK		1027.02
+
+64kB/1024us = 64bytes/us = 64000000bytes/s = 61MBps
+
+VELOCIDAD MAXIMA = 61MBps
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+					Conclusiones
+
+Sin duda que muchas cosas afectan la velocidad de loopback. 
+
+- El tipo de canal DMA que estamos usando (MANUAL es mas rapido que AUTO)
+- Si la transferencia es MASS, BULK, ISO (BULK >> ISO >> MASS)
+- La cantidad de endpoints activos
+- El tamaño del buffer del endpoint
+- La velocidad de transferencia (USB 3.0 => paquetes de 1024bytes)
+
+Para escribir y leer usamos la función XferData, que es lo unico dentro del loop y entre tanto y tanto pasa el tiempo "error" cuando este es menor a lo que tarda en salir del loop.
+
+Claramente a medida que llenamos los buffers cada vez mas grandes, tarda mas en escribir y leer. Solamente probamos con 3 tamaños:
+
+1kB  =>	80us
+16kB =>	360us
+64kB => 1024us
+
+Se ve que la relacion no es muy lineal que digamos.
+
+Lo que me preocupa es la fluctuacion entre valores. O sea, esos 360us son un promedio, a veces daba 400us, a veces 250us, por rafagas de 50 transferencias que mandaba. Yo no creo que el driver decida ir variando la velocida de transferencia, mantengamos ese cuello de botella constante.
+
+Entonces medio que no nos queda otra: El sistema operativo WINDOWS 7 limita la velocidad de transferencia, supongamos que dedicandole tiempos variables a los threads, entonces a veces le toca una velocidad, a veces otra.
+
+Conseguimos entonces para velocidades de loopback, entre 61MBps y 12,5MBps. De acuerdo con el ejemplo que ocupamos, USBBulkLoopAuto, la velocidad maxima de salida, dicen los de Cypress es... no dice en ningun lado.
+
+Al mejor estilo Grynberg, hay que remangarse la camisa y meter la mano en la mierda:
+
+Generador: Cypress USB BulkLoop Example - Software que ya viene con el SDK (como el Control Center y el Streamer)
+
+Control de trafico: SySNucleus USBTrace - Software que controla el trafico en los puertos USB.
+
+Bueno, mandamos un incrementing byte en streaming y el USBTrace me dice que:
+
+Paquete		TIME		I/O		Buffer Size (bits)
+1		4.140702	OUT		256
+2		4.140705	OUT		256
+3		4.140723	IN		0
+4		4.141247	IN		0
+5		4.141301	OUT		0
+6		4.141303	OUT		0
+7		4.141314	IN		256
+8		4.141332	IN		256
+
+Un fragmento de una transferencia bien hecha. Mando dos bytes y recibio dos bytes. Me fije y son los mismos. Supongamos que el paquete 1 llega en 7 y 2 en el 8. Este seria el mejor caso y daria la mejor velocidad.
+
+7-1/Size =  (4.141314 - 4.140702)/256bits = 418300bps = 52288Bps = 51KBps	JAJA - yo te saco mas.
+
+Bueno, supongamos de nuevo pero que tiene que mandar de al menos 1kB porq esos son los paquetes mas chicos.
+
+V = 51KBps / 256bits * 1024bytes = 51KBps * 32 = 1632KBps = 1,59MBps... chiquito.

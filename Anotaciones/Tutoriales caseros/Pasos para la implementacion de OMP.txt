@@ -1,0 +1,4 @@
+1) Al proyecto agregar la linea " QMAKE_LFLAGS += -fopenmp ". 
+2) En el main incluir " #include <omp.h> ".
+
+HASTA ACA YA SE PUEDE USAR LA FUNCION " double x = omp_get_wtime(); ".

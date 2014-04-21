@@ -125,9 +125,9 @@ Widget::Widget(QWidget *parent) :
         LONG numero = LONG_MAX;                         //Si o si tienen q ser LONG
         unsigned char outBuffer[packetSize]="1";            //Si o si tienen q ser unsigned char
         unsigned char inBuffer[packetSize];
-        unsigned char uno = 0xCD;
+        unsigned char uno = 0xFF;
         unsigned char cero = 0x00;
-        unsigned char buf=0x0000;
+        unsigned char buf=0xFFFF;
         bool staOut, staIn;
         double T_pwm = 1000000;                         //1 segundo
         double D = 0.1;                                //Duty Cycle
@@ -206,7 +206,7 @@ Widget::Widget(QWidget *parent) :
             {
                 //PSINGLE_TRANSFER pTransfer = (PSINGLE_TRANSFER) pXmitBuf;
                 //pTransfer->ucEndpointAddress = Address;
-                staOut = USBDevice->BulkOutEndPt->XferData(&buf, len);
+                staOut = USBDevice->BulkOutEndPt->XferData(&uno, len);
                 //staIn = USBDevice->BulkInEndPt->XferData(inBuffer, len);
                 //memcpy(out, (int*)&outBuffer, sizeof(int));
                 //out++;
@@ -215,7 +215,7 @@ Widget::Widget(QWidget *parent) :
                 //cout << GetCounter()-u << endl;
                 //if (GetCounter()-u > 1000){
                 //DeviceIoControl(hDevice, IOCTL_ADAPT_SEND_NON_EP0_TRANSFER,pXmitBuf,iXmitBufSize,&buf,len,&dwReturnBytes,&outOvLap);
-                buf=~buf;
+                //buf=~buf;
     //DeviceIoControl (hDevice,IOCTL_ADAPT_SEND_NON_EP0_DIRECT,pXmitBuf, iXmitBufSize,&buf, bufLen,&dwReturnBytes, &ov);
                     //PUCHAR outContext = pXmitBuf;
                     //delete pXmitBuf;

@@ -1,0 +1,6 @@
+24-marzo-2014
+http://www.cypress.com/?app=forum&id=167&rID=72946
+Planilla GPIO DATA_Plots.xlsx con los datos de IOL/IOH 
+para las 4 configuraciones de capacidad de carga y
+distintas tensiones VIO.
+

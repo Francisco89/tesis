@@ -1,0 +1,1525 @@
+   1              		.cpu arm926ej-s
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 18, 4
+  11              		.file	"cyfxgpioapp.c"
+  19              	.Ltext0:
+  20              		.cfi_sections	.debug_frame
+  21              		.comm	gpioOutputThread,168,4
+  22              		.comm	gpioInputThread,168,4
+  23              		.comm	glFxGpioAppEvent,40,4
+  24              		.align	2
+  25              		.global	CyFxAppErrorHandler
+  27              	CyFxAppErrorHandler:
+  28              	.LFB0:
+  29              		.file 1 "../cyfxgpioapp.c"
+   1:../cyfxgpioapp.c **** /*
+   2:../cyfxgpioapp.c ****  ## Cypress USB 3.0 Platform source file (cyfxgpioapp.c)
+   3:../cyfxgpioapp.c ****  ## ===========================
+   4:../cyfxgpioapp.c ****  ##
+   5:../cyfxgpioapp.c ****  ##  Copyright Cypress Semiconductor Corporation, 2010-2011,
+   6:../cyfxgpioapp.c ****  ##  All Rights Reserved
+   7:../cyfxgpioapp.c ****  ##  UNPUBLISHED, LICENSED SOFTWARE.
+   8:../cyfxgpioapp.c ****  ##
+   9:../cyfxgpioapp.c ****  ##  CONFIDENTIAL AND PROPRIETARY INFORMATION
+  10:../cyfxgpioapp.c ****  ##  WHICH IS THE PROPERTY OF CYPRESS.
+  11:../cyfxgpioapp.c ****  ##
+  12:../cyfxgpioapp.c ****  ##  Use of this file is governed
+  13:../cyfxgpioapp.c ****  ##  by the license agreement included in the file
+  14:../cyfxgpioapp.c ****  ##
+  15:../cyfxgpioapp.c ****  ##     <install>/license/license.txt
+  16:../cyfxgpioapp.c ****  ##
+  17:../cyfxgpioapp.c ****  ##  where <install> is the Cypress software
+  18:../cyfxgpioapp.c ****  ##  installation root directory path.
+  19:../cyfxgpioapp.c ****  ##
+  20:../cyfxgpioapp.c ****  ## ===========================
+  21:../cyfxgpioapp.c **** */
+  22:../cyfxgpioapp.c **** 
+  23:../cyfxgpioapp.c **** /* This file implements a simple GPIO application example. */
+  24:../cyfxgpioapp.c **** 
+  25:../cyfxgpioapp.c **** /* This example illustrates the use of the FX3 firmware APIs to implement
+  26:../cyfxgpioapp.c ****  * a simple GPIO application example.
+  27:../cyfxgpioapp.c ****  *
+  28:../cyfxgpioapp.c ****  * The example illustrates the usage of simple GPIO API to set and get 
+  29:../cyfxgpioapp.c ****  * the status of the pin and the usage of GPIO interrupts.
+  30:../cyfxgpioapp.c ****  *
+  31:../cyfxgpioapp.c ****  * The example uses GPIO 21 as output. It toggles this pin ON and OFF 
+  32:../cyfxgpioapp.c ****  * at an interval of 2s.
+  33:../cyfxgpioapp.c ****  *
+  34:../cyfxgpioapp.c ****  * GPIO 45 is used as the input GPIO. Interrupts are enabled and a 
+  35:../cyfxgpioapp.c ****  * callback is registered for the GPIO edge interrupts both positive 
+  36:../cyfxgpioapp.c ****  * and negative edges.
+  37:../cyfxgpioapp.c ****  *
+  38:../cyfxgpioapp.c ****  * GPIO 21 (CTL4=P6.3) is located at pin 2 of the jumper J100 on the DVK board.
+  39:../cyfxgpioapp.c ****  * GPIO 45 is located on the DVK board at the test point TP13 (not connected to
+  40:../cyfxgpioapp.c ****  * Samtec)
+  41:../cyfxgpioapp.c ****  */
+  42:../cyfxgpioapp.c **** 
+  43:../cyfxgpioapp.c **** #include <cyu3system.h>
+  44:../cyfxgpioapp.c **** #include <cyu3os.h>
+  45:../cyfxgpioapp.c **** #include <cyu3error.h>
+  46:../cyfxgpioapp.c **** #include <cyu3gpio.h>
+  47:../cyfxgpioapp.c **** #include <cyu3uart.h>
+  48:../cyfxgpioapp.c **** 
+  49:../cyfxgpioapp.c **** #define CY_FX_GPIOAPP_THREAD_STACK       (0x0400)   /* GPIO application thread stack size */
+  50:../cyfxgpioapp.c **** #define CY_FX_GPIOAPP_THREAD_PRIORITY    (8)        /* GPIO application thread priority */
+  51:../cyfxgpioapp.c **** 
+  52:../cyfxgpioapp.c **** #define CY_FX_GPIOAPP_GPIO_HIGH_EVENT    (1 << 0)   /* GPIO high event */
+  53:../cyfxgpioapp.c **** #define CY_FX_GPIOAPP_GPIO_LOW_EVENT     (1 << 1)   /* GPIO low event */
+  54:../cyfxgpioapp.c **** 
+  55:../cyfxgpioapp.c **** CyU3PThread gpioOutputThread;   /* GPIO thread structure */
+  56:../cyfxgpioapp.c **** CyU3PThread gpioInputThread;    /* GPIO thread structure */
+  57:../cyfxgpioapp.c **** CyU3PEvent glFxGpioAppEvent;    /* GPIO input event group. */
+  58:../cyfxgpioapp.c **** 
+  59:../cyfxgpioapp.c **** #define INT_PIN		45  /* GPIO 45 es la entrada de interrupción */
+  60:../cyfxgpioapp.c **** #define OUT_PIN		19  /* GPIO 19 es la salida para medir la latencia de la interrupción */
+  61:../cyfxgpioapp.c **** #define LED_PIN		17	/* GPIO 17 es el ándodo del LED de 3mm */
+  62:../cyfxgpioapp.c **** 
+  63:../cyfxgpioapp.c **** 
+  64:../cyfxgpioapp.c **** /* Application error handler. */
+  65:../cyfxgpioapp.c **** void CyFxAppErrorHandler (CyU3PReturnStatus_t apiRetStatus    /* API return status */ )
+  66:../cyfxgpioapp.c **** {
+  30              		.loc 1 66 0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 8
+  33              		@ frame_needed = 1, uses_anonymous_args = 0
+  34 0000 00482DE9 		stmfd	sp!, {fp, lr}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 8
+  37 0004 04B08DE2 		add	fp, sp, #4
+  38              		.cfi_offset 14, -4
+  39              		.cfi_offset 11, -8
+  40              	.LCFI1:
+  41              		.cfi_def_cfa 11, 4
+  42 0008 08D04DE2 		sub	sp, sp, #8
+  43 000c 08000BE5 		str	r0, [fp, #-8]
+  44              	.L2:
+  67:../cyfxgpioapp.c ****     /* Application failed with the error code apiRetStatus */
+  68:../cyfxgpioapp.c ****     /* Add custom debug or recovery actions here */
+  69:../cyfxgpioapp.c ****     for (;;) /* Loop indefinitely */
+  70:../cyfxgpioapp.c ****     {
+  71:../cyfxgpioapp.c ****         CyU3PThreadSleep (100); /* Thread sleep : 100 ms */
+  45              		.loc 1 71 0 discriminator 1
+  46 0010 6400A0E3 		mov	r0, #100
+  47 0014 FEFFFFEB 		bl	_tx_thread_sleep
+  72:../cyfxgpioapp.c ****     }
+  48              		.loc 1 72 0 discriminator 1
+  49 0018 FCFFFFEA 		b	.L2
+  50              		.cfi_endproc
+  51              	.LFE0:
+  53              		.section	.rodata
+  54              		.align	2
+  55              	.LC0:
+  56 0000 0A0D4658 		.ascii	"\012\015FX3 API version %d.%d patch=%d build=%d\012"
+  56      33204150 
+  56      49207665 
+  56      7273696F 
+  56      6E202564 
+  57 002a 0D00     		.ascii	"\015\000"
+  58              		.text
+  59              		.align	2
+  60              		.global	CyFxDebugInit
+  62              	CyFxDebugInit:
+  63              	.LFB1:
+  73:../cyfxgpioapp.c **** }
+  74:../cyfxgpioapp.c **** 
+  75:../cyfxgpioapp.c **** /* Initialize the debug module with UART. */
+  76:../cyfxgpioapp.c **** CyU3PReturnStatus_t CyFxDebugInit (void)
+  77:../cyfxgpioapp.c **** {
+  64              		.loc 1 77 0
+  65              		.cfi_startproc
+  66              		@ args = 0, pretend = 0, frame = 40
+  67              		@ frame_needed = 1, uses_anonymous_args = 0
+  68 001c 00482DE9 		stmfd	sp!, {fp, lr}
+  69              	.LCFI2:
+  70              		.cfi_def_cfa_offset 8
+  71 0020 04B08DE2 		add	fp, sp, #4
+  72              		.cfi_offset 14, -4
+  73              		.cfi_offset 11, -8
+  74              	.LCFI3:
+  75              		.cfi_def_cfa 11, 4
+  76 0024 30D04DE2 		sub	sp, sp, #48
+  78:../cyfxgpioapp.c ****     CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
+  77              		.loc 1 78 0
+  78 0028 0030A0E3 		mov	r3, #0
+  79 002c 08300BE5 		str	r3, [fp, #-8]
+  79:../cyfxgpioapp.c **** 
+  80:../cyfxgpioapp.c ****     uint16_t majorVer;      /* Major version number for the release */
+  81:../cyfxgpioapp.c ****     uint16_t minorVer;      /* Minor version number for the release */
+  82:../cyfxgpioapp.c ****     uint16_t patchNo;        /* Patch version for the release */
+  83:../cyfxgpioapp.c ****     uint16_t buildNo;         /* The build number for the release */
+  84:../cyfxgpioapp.c **** 
+  85:../cyfxgpioapp.c ****     /* Initialize and configure the UART for logging. */
+  86:../cyfxgpioapp.c ****     status = CyU3PUartInit ();
+  80              		.loc 1 86 0
+  81 0030 FEFFFFEB 		bl	CyU3PUartInit
+  82 0034 08000BE5 		str	r0, [fp, #-8]
+  87:../cyfxgpioapp.c ****     if ( status != CY_U3P_SUCCESS) return status;
+  83              		.loc 1 87 0
+  84 0038 08301BE5 		ldr	r3, [fp, #-8]
+  85 003c 000053E3 		cmp	r3, #0
+  86 0040 0100000A 		beq	.L4
+  87              		.loc 1 87 0 is_stmt 0 discriminator 1
+  88 0044 08301BE5 		ldr	r3, [fp, #-8]
+  89 0048 3B0000EA 		b	.L5
+  90              	.L4:
+  88:../cyfxgpioapp.c **** 
+  89:../cyfxgpioapp.c ****     CyU3PUartConfig_t uartConfig;
+  90:../cyfxgpioapp.c ****     CyU3PMemSet ((uint8_t *)&uartConfig, 0, sizeof (uartConfig));
+  91              		.loc 1 90 0 is_stmt 1
+  92 004c 28304BE2 		sub	r3, fp, #40
+  93 0050 0300A0E1 		mov	r0, r3
+  94 0054 0010A0E3 		mov	r1, #0
+  95 0058 1820A0E3 		mov	r2, #24
+  96 005c FEFFFFEB 		bl	CyU3PMemSet
+  91:../cyfxgpioapp.c ****     uartConfig = (CyU3PUartConfig_t) { .txEnable=CyTrue,
+  97              		.loc 1 91 0
+  98 0060 E0309FE5 		ldr	r3, .L9
+  99 0064 28C04BE2 		sub	ip, fp, #40
+ 100 0068 03E0A0E1 		mov	lr, r3
+ 101 006c 0F00BEE8 		ldmia	lr!, {r0, r1, r2, r3}
+ 102 0070 0F00ACE8 		stmia	ip!, {r0, r1, r2, r3}
+ 103 0074 03009EE8 		ldmia	lr, {r0, r1}
+ 104 0078 03008CE8 		stmia	ip, {r0, r1}
+  92:../cyfxgpioapp.c ****     				  	  	  	  	   .rxEnable=CyFalse,
+  93:../cyfxgpioapp.c ****     				  	  	  	  	   .flowCtrl=CyFalse,
+  94:../cyfxgpioapp.c ****     				  	  	  	  	   .isDma=CyTrue,
+  95:../cyfxgpioapp.c ****     				  	  	  	  	   .baudRate=CY_U3P_UART_BAUDRATE_115200,
+  96:../cyfxgpioapp.c ****     				  	  	  	  	   .stopBit=CY_U3P_UART_ONE_STOP_BIT,
+  97:../cyfxgpioapp.c ****     				  	  	  	  	   .parity=CY_U3P_UART_NO_PARITY
+  98:../cyfxgpioapp.c ****     				 	 	 	 	 };
+  99:../cyfxgpioapp.c ****     status = CyU3PUartSetConfig (&uartConfig, NULL);
+ 105              		.loc 1 99 0
+ 106 007c 28304BE2 		sub	r3, fp, #40
+ 107 0080 0300A0E1 		mov	r0, r3
+ 108 0084 0010A0E3 		mov	r1, #0
+ 109 0088 FEFFFFEB 		bl	CyU3PUartSetConfig
+ 110 008c 08000BE5 		str	r0, [fp, #-8]
+ 100:../cyfxgpioapp.c ****     if (status != CY_U3P_SUCCESS) return status;
+ 111              		.loc 1 100 0
+ 112 0090 08301BE5 		ldr	r3, [fp, #-8]
+ 113 0094 000053E3 		cmp	r3, #0
+ 114 0098 0100000A 		beq	.L6
+ 115              		.loc 1 100 0 is_stmt 0 discriminator 1
+ 116 009c 08301BE5 		ldr	r3, [fp, #-8]
+ 117 00a0 250000EA 		b	.L5
+ 118              	.L6:
+ 101:../cyfxgpioapp.c **** 
+ 102:../cyfxgpioapp.c ****     /* Set the DMA for an infinity transfer */
+ 103:../cyfxgpioapp.c ****     status = CyU3PUartTxSetBlockXfer (0xFFFFFFFF);
+ 119              		.loc 1 103 0 is_stmt 1
+ 120 00a4 0000E0E3 		mvn	r0, #0
+ 121 00a8 FEFFFFEB 		bl	CyU3PUartTxSetBlockXfer
+ 122 00ac 08000BE5 		str	r0, [fp, #-8]
+ 104:../cyfxgpioapp.c ****     if (status != CY_U3P_SUCCESS) return status;
+ 123              		.loc 1 104 0
+ 124 00b0 08301BE5 		ldr	r3, [fp, #-8]
+ 125 00b4 000053E3 		cmp	r3, #0
+ 126 00b8 0100000A 		beq	.L7
+ 127              		.loc 1 104 0 is_stmt 0 discriminator 1
+ 128 00bc 08301BE5 		ldr	r3, [fp, #-8]
+ 129 00c0 1D0000EA 		b	.L5
+ 130              	.L7:
+ 105:../cyfxgpioapp.c **** 
+ 106:../cyfxgpioapp.c ****     /* Start the debug module for printing log messages. */
+ 107:../cyfxgpioapp.c ****     status = CyU3PDebugInit (CY_U3P_LPP_SOCKET_UART_CONS, 8);
+ 131              		.loc 1 107 0 is_stmt 1
+ 132 00c4 0300A0E3 		mov	r0, #3
+ 133 00c8 0810A0E3 		mov	r1, #8
+ 134 00cc FEFFFFEB 		bl	CyU3PDebugInit
+ 135 00d0 08000BE5 		str	r0, [fp, #-8]
+ 108:../cyfxgpioapp.c **** 
+ 109:../cyfxgpioapp.c ****     /* Desactivo el envio de preambulo */
+ 110:../cyfxgpioapp.c ****     CyU3PDebugPreamble(CyFalse);
+ 136              		.loc 1 110 0
+ 137 00d4 0000A0E3 		mov	r0, #0
+ 138 00d8 FEFFFFEB 		bl	CyU3PDebugPreamble
+ 111:../cyfxgpioapp.c **** 
+ 112:../cyfxgpioapp.c ****     /* Show API Version */
+ 113:../cyfxgpioapp.c ****     status = CyU3PSysGetApiVersion(&majorVer, &minorVer, &patchNo, &buildNo);
+ 139              		.loc 1 113 0
+ 140 00dc 0A004BE2 		sub	r0, fp, #10
+ 141 00e0 0C104BE2 		sub	r1, fp, #12
+ 142 00e4 0E204BE2 		sub	r2, fp, #14
+ 143 00e8 10304BE2 		sub	r3, fp, #16
+ 144 00ec FEFFFFEB 		bl	CyU3PSysGetApiVersion
+ 145 00f0 08000BE5 		str	r0, [fp, #-8]
+ 114:../cyfxgpioapp.c **** 	if (status != CY_U3P_SUCCESS) return status;
+ 146              		.loc 1 114 0
+ 147 00f4 08301BE5 		ldr	r3, [fp, #-8]
+ 148 00f8 000053E3 		cmp	r3, #0
+ 149 00fc 0100000A 		beq	.L8
+ 150              		.loc 1 114 0 is_stmt 0 discriminator 1
+ 151 0100 08301BE5 		ldr	r3, [fp, #-8]
+ 152 0104 0C0000EA 		b	.L5
+ 153              	.L8:
+ 115:../cyfxgpioapp.c **** 
+ 116:../cyfxgpioapp.c **** 	status = CyU3PDebugPrint(4,"\n\rFX3 API version %d.%d patch=%d build=%d\n\r", majorVer, minorVer, 
+ 154              		.loc 1 116 0 is_stmt 1
+ 155 0108 BA305BE1 		ldrh	r3, [fp, #-10]
+ 156 010c 0320A0E1 		mov	r2, r3
+ 157 0110 BC305BE1 		ldrh	r3, [fp, #-12]
+ 158 0114 BE105BE1 		ldrh	r1, [fp, #-14]
+ 159 0118 0100A0E1 		mov	r0, r1
+ 160 011c B0115BE1 		ldrh	r1, [fp, #-16]
+ 161 0120 00008DE5 		str	r0, [sp, #0]
+ 162 0124 04108DE5 		str	r1, [sp, #4]
+ 163 0128 0400A0E3 		mov	r0, #4
+ 164 012c 18109FE5 		ldr	r1, .L9+4
+ 165 0130 FEFFFFEB 		bl	CyU3PDebugPrint
+ 166 0134 08000BE5 		str	r0, [fp, #-8]
+ 117:../cyfxgpioapp.c ****     return status;
+ 167              		.loc 1 117 0
+ 168 0138 08301BE5 		ldr	r3, [fp, #-8]
+ 169              	.L5:
+ 118:../cyfxgpioapp.c **** }
+ 170              		.loc 1 118 0
+ 171 013c 0300A0E1 		mov	r0, r3
+ 172 0140 04D04BE2 		sub	sp, fp, #4
+ 173 0144 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 174              	.L10:
+ 175              		.align	2
+ 176              	.L9:
+ 177 0148 40030000 		.word	C.14.7850
+ 178 014c 00000000 		.word	.LC0
+ 179              		.cfi_endproc
+ 180              	.LFE1:
+ 182              		.align	2
+ 183              		.global	CyFxGpioIntrCb
+ 185              	CyFxGpioIntrCb:
+ 186              	.LFB2:
+ 119:../cyfxgpioapp.c **** 
+ 120:../cyfxgpioapp.c **** /* GPIO interrupt callback handler. This is received from
+ 121:../cyfxgpioapp.c ****  * the interrupt context. So DebugPrint API is not available
+ 122:../cyfxgpioapp.c ****  * from here. Set an event in the event group so that the
+ 123:../cyfxgpioapp.c ****  * GPIO thread can print the event information. */
+ 124:../cyfxgpioapp.c **** void CyFxGpioIntrCb (uint8_t gpioId /* Indicates the pin that triggered the interrupt */ )
+ 125:../cyfxgpioapp.c **** {
+ 187              		.loc 1 125 0
+ 188              		.cfi_startproc
+ 189              		@ args = 0, pretend = 0, frame = 16
+ 190              		@ frame_needed = 1, uses_anonymous_args = 0
+ 191 0150 00482DE9 		stmfd	sp!, {fp, lr}
+ 192              	.LCFI4:
+ 193              		.cfi_def_cfa_offset 8
+ 194 0154 04B08DE2 		add	fp, sp, #4
+ 195              		.cfi_offset 14, -4
+ 196              		.cfi_offset 11, -8
+ 197              	.LCFI5:
+ 198              		.cfi_def_cfa 11, 4
+ 199 0158 10D04DE2 		sub	sp, sp, #16
+ 200 015c 0030A0E1 		mov	r3, r0
+ 201 0160 0D304BE5 		strb	r3, [fp, #-13]
+ 126:../cyfxgpioapp.c ****     CyBool_t gpioValue = CyFalse;
+ 202              		.loc 1 126 0
+ 203 0164 0030A0E3 		mov	r3, #0
+ 204 0168 0C300BE5 		str	r3, [fp, #-12]
+ 127:../cyfxgpioapp.c **** 
+ 128:../cyfxgpioapp.c ****     /* Get the status of the pin */
+ 129:../cyfxgpioapp.c ****     CyU3PReturnStatus_t apiRetStatus = CyU3PGpioSimpleGetValue (gpioId, &gpioValue);
+ 205              		.loc 1 129 0
+ 206 016c 0D205BE5 		ldrb	r2, [fp, #-13]	@ zero_extendqisi2
+ 207 0170 0C304BE2 		sub	r3, fp, #12
+ 208 0174 0200A0E1 		mov	r0, r2
+ 209 0178 0310A0E1 		mov	r1, r3
+ 210 017c FEFFFFEB 		bl	CyU3PGpioSimpleGetValue
+ 211 0180 08000BE5 		str	r0, [fp, #-8]
+ 130:../cyfxgpioapp.c ****     CyU3PGpioSimpleSetValue (19, gpioValue);
+ 212              		.loc 1 130 0
+ 213 0184 0C301BE5 		ldr	r3, [fp, #-12]
+ 214 0188 1300A0E3 		mov	r0, #19
+ 215 018c 0310A0E1 		mov	r1, r3
+ 216 0190 FEFFFFEB 		bl	CyU3PGpioSimpleSetValue
+ 131:../cyfxgpioapp.c ****     if (apiRetStatus == CY_U3P_SUCCESS)
+ 217              		.loc 1 131 0
+ 218 0194 08301BE5 		ldr	r3, [fp, #-8]
+ 219 0198 000053E3 		cmp	r3, #0
+ 220 019c 0900001A 		bne	.L11
+ 132:../cyfxgpioapp.c ****     {   /* Upon status of the pin Set GPIO high/low event*/
+ 133:../cyfxgpioapp.c ****     	CyU3PEventSet(&glFxGpioAppEvent, (gpioValue == CyTrue)? CY_FX_GPIOAPP_GPIO_HIGH_EVENT:CY_FX_GP
+ 221              		.loc 1 133 0
+ 222 01a0 0C301BE5 		ldr	r3, [fp, #-12]
+ 223 01a4 010053E3 		cmp	r3, #1
+ 224 01a8 0100001A 		bne	.L13
+ 225              		.loc 1 133 0 is_stmt 0 discriminator 1
+ 226 01ac 0130A0E3 		mov	r3, #1
+ 227 01b0 000000EA 		b	.L14
+ 228              	.L13:
+ 229              		.loc 1 133 0 discriminator 2
+ 230 01b4 0230A0E3 		mov	r3, #2
+ 231              	.L14:
+ 232              		.loc 1 133 0 discriminator 3
+ 233 01b8 10009FE5 		ldr	r0, .L15
+ 234 01bc 0310A0E1 		mov	r1, r3
+ 235 01c0 0020A0E3 		mov	r2, #0
+ 236 01c4 FEFFFFEB 		bl	_txe_event_flags_set
+ 237              	.L11:
+ 134:../cyfxgpioapp.c ****     	                    CYU3P_EVENT_OR);
+ 135:../cyfxgpioapp.c ****     }
+ 136:../cyfxgpioapp.c **** }
+ 238              		.loc 1 136 0 is_stmt 1
+ 239 01c8 04D04BE2 		sub	sp, fp, #4
+ 240 01cc 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 241              	.L16:
+ 242              		.align	2
+ 243              	.L15:
+ 244 01d0 00000000 		.word	glFxGpioAppEvent
+ 245              		.cfi_endproc
+ 246              	.LFE2:
+ 248              		.section	.rodata
+ 249              		.align	2
+ 250              	.LC1:
+ 251 002c 43795533 		.ascii	"CyU3PGpioInit failed, error code = %d\012\000"
+ 251      50477069 
+ 251      6F496E69 
+ 251      74206661 
+ 251      696C6564 
+ 252 0053 00       		.align	2
+ 253              	.LC2:
+ 254 0054 43795533 		.ascii	"CyU3PGpioSetSimpleConfig failed, error code = %d\012"
+ 254      50477069 
+ 254      6F536574 
+ 254      53696D70 
+ 254      6C65436F 
+ 255 0085 00       		.ascii	"\000"
+ 256 0086 0000     		.align	2
+ 257              	.LC3:
+ 258 0088 456E7472 		.ascii	"Entrada de interrupcion en GPIO%d\012\015\000"
+ 258      61646120 
+ 258      64652069 
+ 258      6E746572 
+ 258      72757063 
+ 259              		.align	2
+ 260              	.LC4:
+ 261 00ac 43795533 		.ascii	"CyU3PDeviceGpioOverride failed, error code = %d\012"
+ 261      50446576 
+ 261      69636547 
+ 261      70696F4F 
+ 261      76657272 
+ 262 00dc 0D00     		.ascii	"\015\000"
+ 263 00de 0000     		.align	2
+ 264              	.LC5:
+ 265 00e0 4C454420 		.ascii	"LED indicador en GPIO%d\012\015\000"
+ 265      696E6469 
+ 265      6361646F 
+ 265      7220656E 
+ 265      20475049 
+ 266 00fa 0000     		.align	2
+ 267              	.LC6:
+ 268 00fc 43795533 		.ascii	"CyU3PDeviceGpioOverride failed, error code = %d\012"
+ 268      50446576 
+ 268      69636547 
+ 268      70696F4F 
+ 268      76657272 
+ 269 012c 00       		.ascii	"\000"
+ 270 012d 000000   		.align	2
+ 271              	.LC7:
+ 272 0130 53616C69 		.ascii	"Salida de medicion de latencia de interrupcion en G"
+ 272      64612064 
+ 272      65206D65 
+ 272      64696369 
+ 272      6F6E2064 
+ 273 0163 50494F25 		.ascii	"PIO%d\012\015\000"
+ 273      640A0D00 
+ 274 016b 00       		.align	2
+ 275              	.LC8:
+ 276 016c 43795533 		.ascii	"CyU3PSetGpioDriveStrength failed, error code = %d\012"
+ 276      50536574 
+ 276      4770696F 
+ 276      44726976 
+ 276      65537472 
+ 277 019e 00       		.ascii	"\000"
+ 278 019f 00       		.align	2
+ 279              	.LC9:
+ 280 01a0 4750494F 		.ascii	"GPIOs capacidad de corriente %d\012\015\000"
+ 280      73206361 
+ 280      70616369 
+ 280      64616420 
+ 280      64652063 
+ 281              		.text
+ 282              		.align	2
+ 283              		.global	CyFxGpioInit
+ 285              	CyFxGpioInit:
+ 286              	.LFB3:
+ 137:../cyfxgpioapp.c **** 
+ 138:../cyfxgpioapp.c **** void CyFxGpioInit (void)
+ 139:../cyfxgpioapp.c **** {
+ 287              		.loc 1 139 0
+ 288              		.cfi_startproc
+ 289              		@ args = 0, pretend = 0, frame = 40
+ 290              		@ frame_needed = 1, uses_anonymous_args = 0
+ 291 01d4 00482DE9 		stmfd	sp!, {fp, lr}
+ 292              	.LCFI6:
+ 293              		.cfi_def_cfa_offset 8
+ 294 01d8 04B08DE2 		add	fp, sp, #4
+ 295              		.cfi_offset 14, -4
+ 296              		.cfi_offset 11, -8
+ 297              	.LCFI7:
+ 298              		.cfi_def_cfa 11, 4
+ 299 01dc 28D04DE2 		sub	sp, sp, #40
+ 140:../cyfxgpioapp.c **** 	/* Initialize the GPIO module {fastClkDiv, slowClkDiv, halfDiv, simpleDiv, clkSrc} */
+ 141:../cyfxgpioapp.c ****     CyU3PGpioClock_t gpioClock={2, 0, 0, CY_U3P_GPIO_SIMPLE_DIV_BY_2, CY_U3P_SYS_CLK};
+ 300              		.loc 1 141 0
+ 301 01e0 34229FE5 		ldr	r2, .L25
+ 302 01e4 18304BE2 		sub	r3, fp, #24
+ 303 01e8 070092E8 		ldmia	r2, {r0, r1, r2}
+ 304 01ec 070083E8 		stmia	r3, {r0, r1, r2}
+ 142:../cyfxgpioapp.c ****     // gpioConfig;
+ 143:../cyfxgpioapp.c ****     CyU3PReturnStatus_t apiRetStatus = CY_U3P_SUCCESS;
+ 305              		.loc 1 143 0
+ 306 01f0 0030A0E3 		mov	r3, #0
+ 307 01f4 08300BE5 		str	r3, [fp, #-8]
+ 144:../cyfxgpioapp.c **** 
+ 145:../cyfxgpioapp.c ****     apiRetStatus = CyU3PGpioInit(&gpioClock, CyFxGpioIntrCb);
+ 308              		.loc 1 145 0
+ 309 01f8 18304BE2 		sub	r3, fp, #24
+ 310 01fc 0300A0E1 		mov	r0, r3
+ 311 0200 18129FE5 		ldr	r1, .L25+4
+ 312 0204 FEFFFFEB 		bl	CyU3PGpioInit
+ 313 0208 08000BE5 		str	r0, [fp, #-8]
+ 146:../cyfxgpioapp.c ****     if (apiRetStatus != 0) /* Error Handling */
+ 314              		.loc 1 146 0
+ 315 020c 08301BE5 		ldr	r3, [fp, #-8]
+ 316 0210 000053E3 		cmp	r3, #0
+ 317 0214 0500000A 		beq	.L18
+ 147:../cyfxgpioapp.c ****     {
+ 148:../cyfxgpioapp.c ****         CyU3PDebugPrint (4, "CyU3PGpioInit failed, error code = %d\n", apiRetStatus);
+ 318              		.loc 1 148 0
+ 319 0218 0400A0E3 		mov	r0, #4
+ 320 021c 00129FE5 		ldr	r1, .L25+8
+ 321 0220 08201BE5 		ldr	r2, [fp, #-8]
+ 322 0224 FEFFFFEB 		bl	CyU3PDebugPrint
+ 149:../cyfxgpioapp.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 323              		.loc 1 149 0
+ 324 0228 08001BE5 		ldr	r0, [fp, #-8]
+ 325 022c FEFFFFEB 		bl	CyFxAppErrorHandler
+ 326              	.L18:
+ 150:../cyfxgpioapp.c ****     }
+ 151:../cyfxgpioapp.c **** 
+ 152:../cyfxgpioapp.c ****     /* Configure GPIO 45 as input with interrupt enabled for both edges */
+ 153:../cyfxgpioapp.c ****     CyU3PGpioSimpleConfig_t gpioConfig = {CyTrue, // outValue
+ 327              		.loc 1 153 0
+ 328 0230 F0319FE5 		ldr	r3, .L25+12
+ 329 0234 2CC04BE2 		sub	ip, fp, #44
+ 330 0238 03E0A0E1 		mov	lr, r3
+ 331 023c 0F00BEE8 		ldmia	lr!, {r0, r1, r2, r3}
+ 332 0240 0F00ACE8 		stmia	ip!, {r0, r1, r2, r3}
+ 333 0244 00309EE5 		ldr	r3, [lr, #0]
+ 334 0248 00308CE5 		str	r3, [ip, #0]
+ 154:../cyfxgpioapp.c ****     									  CyFalse, // driveLowEn
+ 155:../cyfxgpioapp.c ****     									  CyFalse, // driveHighEn
+ 156:../cyfxgpioapp.c ****     									  CyTrue, // inputEn
+ 157:../cyfxgpioapp.c ****     									  CY_U3P_GPIO_INTR_BOTH_EDGE // intrMode
+ 158:../cyfxgpioapp.c ****     									  };
+ 159:../cyfxgpioapp.c ****     apiRetStatus = CyU3PGpioSetSimpleConfig(INT_PIN, &gpioConfig);
+ 335              		.loc 1 159 0
+ 336 024c 2C304BE2 		sub	r3, fp, #44
+ 337 0250 2D00A0E3 		mov	r0, #45
+ 338 0254 0310A0E1 		mov	r1, r3
+ 339 0258 FEFFFFEB 		bl	CyU3PGpioSetSimpleConfig
+ 340 025c 08000BE5 		str	r0, [fp, #-8]
+ 160:../cyfxgpioapp.c ****     if (apiRetStatus != CY_U3P_SUCCESS) /* Error handling */
+ 341              		.loc 1 160 0
+ 342 0260 08301BE5 		ldr	r3, [fp, #-8]
+ 343 0264 000053E3 		cmp	r3, #0
+ 344 0268 0500000A 		beq	.L19
+ 161:../cyfxgpioapp.c ****     {
+ 162:../cyfxgpioapp.c ****         CyU3PDebugPrint (4, "CyU3PGpioSetSimpleConfig failed, error code = %d\n", apiRetStatus);
+ 345              		.loc 1 162 0
+ 346 026c 0400A0E3 		mov	r0, #4
+ 347 0270 B4119FE5 		ldr	r1, .L25+16
+ 348 0274 08201BE5 		ldr	r2, [fp, #-8]
+ 349 0278 FEFFFFEB 		bl	CyU3PDebugPrint
+ 163:../cyfxgpioapp.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 350              		.loc 1 163 0
+ 351 027c 08001BE5 		ldr	r0, [fp, #-8]
+ 352 0280 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 353              	.L19:
+ 164:../cyfxgpioapp.c ****     }
+ 165:../cyfxgpioapp.c ****     CyU3PDebugPrint(4,"Entrada de interrupcion en GPIO%d\n\r",INT_PIN);
+ 354              		.loc 1 165 0
+ 355 0284 0400A0E3 		mov	r0, #4
+ 356 0288 A0119FE5 		ldr	r1, .L25+20
+ 357 028c 2D20A0E3 		mov	r2, #45
+ 358 0290 FEFFFFEB 		bl	CyU3PDebugPrint
+ 166:../cyfxgpioapp.c **** 
+ 167:../cyfxgpioapp.c ****     /* Override GPIO 21 as this pin is associated with GPIF Control signal.
+ 168:../cyfxgpioapp.c ****      * The IO cannot be selected as GPIO by CyU3PDeviceConfigureIOMatrix call
+ 169:../cyfxgpioapp.c ****      * as it is part of the GPIF IOs. Override API call must be made with
+ 170:../cyfxgpioapp.c ****      * caution as this will change the functionality of the pin. If the IO
+ 171:../cyfxgpioapp.c ****      * line is used as part of GPIF and is connected to some external device,
+ 172:../cyfxgpioapp.c ****      * then the line will no longer behave as a GPIF IO.. Here CTL4 line is
+ 173:../cyfxgpioapp.c ****      * not used and so it is safe to override.  */
+ 174:../cyfxgpioapp.c ****     apiRetStatus = CyU3PDeviceGpioOverride (LED_PIN, CyTrue);
+ 359              		.loc 1 174 0
+ 360 0294 1100A0E3 		mov	r0, #17
+ 361 0298 0110A0E3 		mov	r1, #1
+ 362 029c FEFFFFEB 		bl	CyU3PDeviceGpioOverride
+ 363 02a0 08000BE5 		str	r0, [fp, #-8]
+ 175:../cyfxgpioapp.c ****     if (apiRetStatus != 0) /* Error Handling */
+ 364              		.loc 1 175 0
+ 365 02a4 08301BE5 		ldr	r3, [fp, #-8]
+ 366 02a8 000053E3 		cmp	r3, #0
+ 367 02ac 0500000A 		beq	.L20
+ 176:../cyfxgpioapp.c ****     {
+ 177:../cyfxgpioapp.c ****         CyU3PDebugPrint (4, "CyU3PDeviceGpioOverride failed, error code = %d\n\r", apiRetStatus);
+ 368              		.loc 1 177 0
+ 369 02b0 0400A0E3 		mov	r0, #4
+ 370 02b4 78119FE5 		ldr	r1, .L25+24
+ 371 02b8 08201BE5 		ldr	r2, [fp, #-8]
+ 372 02bc FEFFFFEB 		bl	CyU3PDebugPrint
+ 178:../cyfxgpioapp.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 373              		.loc 1 178 0
+ 374 02c0 08001BE5 		ldr	r0, [fp, #-8]
+ 375 02c4 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 376              	.L20:
+ 179:../cyfxgpioapp.c ****     }
+ 180:../cyfxgpioapp.c **** 
+ 181:../cyfxgpioapp.c ****     /* Configure GPIO 21 as output to drive a LED3mm (anode is GPIO, cathode is GND)
+ 182:../cyfxgpioapp.c ****      *   								 {outValue, driveLowEn, driveHighEn, inputEn, intrMode}*/
+ 183:../cyfxgpioapp.c ****     gpioConfig = (CyU3PGpioSimpleConfig_t){CyFalse, // outValue
+ 377              		.loc 1 183 0
+ 378 02c8 68319FE5 		ldr	r3, .L25+28
+ 379 02cc 2CC04BE2 		sub	ip, fp, #44
+ 380 02d0 03E0A0E1 		mov	lr, r3
+ 381 02d4 0F00BEE8 		ldmia	lr!, {r0, r1, r2, r3}
+ 382 02d8 0F00ACE8 		stmia	ip!, {r0, r1, r2, r3}
+ 383 02dc 00309EE5 		ldr	r3, [lr, #0]
+ 384 02e0 00308CE5 		str	r3, [ip, #0]
+ 184:../cyfxgpioapp.c ****     							           CyTrue, // driveLowEn
+ 185:../cyfxgpioapp.c ****     							           CyTrue, // driveHighEn
+ 186:../cyfxgpioapp.c ****     							           CyFalse, // inputEn
+ 187:../cyfxgpioapp.c ****     							           CY_U3P_GPIO_NO_INTR // intrMode
+ 188:../cyfxgpioapp.c ****     							           };
+ 189:../cyfxgpioapp.c ****     apiRetStatus = CyU3PGpioSetSimpleConfig(LED_PIN, &gpioConfig);
+ 385              		.loc 1 189 0
+ 386 02e4 2C304BE2 		sub	r3, fp, #44
+ 387 02e8 1100A0E3 		mov	r0, #17
+ 388 02ec 0310A0E1 		mov	r1, r3
+ 389 02f0 FEFFFFEB 		bl	CyU3PGpioSetSimpleConfig
+ 390 02f4 08000BE5 		str	r0, [fp, #-8]
+ 190:../cyfxgpioapp.c ****     if (apiRetStatus != CY_U3P_SUCCESS) /* Error handling */
+ 391              		.loc 1 190 0
+ 392 02f8 08301BE5 		ldr	r3, [fp, #-8]
+ 393 02fc 000053E3 		cmp	r3, #0
+ 394 0300 0500000A 		beq	.L21
+ 191:../cyfxgpioapp.c ****     {
+ 192:../cyfxgpioapp.c ****         CyU3PDebugPrint (4, "CyU3PGpioSetSimpleConfig failed, error code = %d\n", apiRetStatus);
+ 395              		.loc 1 192 0
+ 396 0304 0400A0E3 		mov	r0, #4
+ 397 0308 1C119FE5 		ldr	r1, .L25+16
+ 398 030c 08201BE5 		ldr	r2, [fp, #-8]
+ 399 0310 FEFFFFEB 		bl	CyU3PDebugPrint
+ 193:../cyfxgpioapp.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 400              		.loc 1 193 0
+ 401 0314 08001BE5 		ldr	r0, [fp, #-8]
+ 402 0318 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 403              	.L21:
+ 194:../cyfxgpioapp.c ****     }
+ 195:../cyfxgpioapp.c ****     CyU3PDebugPrint(4,"LED indicador en GPIO%d\n\r",LED_PIN);
+ 404              		.loc 1 195 0
+ 405 031c 0400A0E3 		mov	r0, #4
+ 406 0320 14119FE5 		ldr	r1, .L25+32
+ 407 0324 1120A0E3 		mov	r2, #17
+ 408 0328 FEFFFFEB 		bl	CyU3PDebugPrint
+ 196:../cyfxgpioapp.c **** 
+ 197:../cyfxgpioapp.c ****     // Configure GPIO19 (CTL2=P6.4) as output to measure latency of interrupt on GPIO45
+ 198:../cyfxgpioapp.c ****     apiRetStatus = CyU3PDeviceGpioOverride(OUT_PIN, CyTrue);
+ 409              		.loc 1 198 0
+ 410 032c 1300A0E3 		mov	r0, #19
+ 411 0330 0110A0E3 		mov	r1, #1
+ 412 0334 FEFFFFEB 		bl	CyU3PDeviceGpioOverride
+ 413 0338 08000BE5 		str	r0, [fp, #-8]
+ 199:../cyfxgpioapp.c ****     if (apiRetStatus != 0) /* Error Handling */
+ 414              		.loc 1 199 0
+ 415 033c 08301BE5 		ldr	r3, [fp, #-8]
+ 416 0340 000053E3 		cmp	r3, #0
+ 417 0344 0500000A 		beq	.L22
+ 200:../cyfxgpioapp.c ****     {
+ 201:../cyfxgpioapp.c ****         CyU3PDebugPrint (4, "CyU3PDeviceGpioOverride failed, error code = %d\n", apiRetStatus);
+ 418              		.loc 1 201 0
+ 419 0348 0400A0E3 		mov	r0, #4
+ 420 034c EC109FE5 		ldr	r1, .L25+36
+ 421 0350 08201BE5 		ldr	r2, [fp, #-8]
+ 422 0354 FEFFFFEB 		bl	CyU3PDebugPrint
+ 202:../cyfxgpioapp.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 423              		.loc 1 202 0
+ 424 0358 08001BE5 		ldr	r0, [fp, #-8]
+ 425 035c FEFFFFEB 		bl	CyFxAppErrorHandler
+ 426              	.L22:
+ 203:../cyfxgpioapp.c ****     }
+ 204:../cyfxgpioapp.c **** 
+ 205:../cyfxgpioapp.c ****     /* Configure GPIO 19 as output   {outValue, driveLowEn, driveHighEn, inputEn, intrMode}*/
+ 206:../cyfxgpioapp.c ****     gpioConfig=(CyU3PGpioSimpleConfig_t){CyTrue, // outValue
+ 427              		.loc 1 206 0
+ 428 0360 DC309FE5 		ldr	r3, .L25+40
+ 429 0364 2CC04BE2 		sub	ip, fp, #44
+ 430 0368 03E0A0E1 		mov	lr, r3
+ 431 036c 0F00BEE8 		ldmia	lr!, {r0, r1, r2, r3}
+ 432 0370 0F00ACE8 		stmia	ip!, {r0, r1, r2, r3}
+ 433 0374 00309EE5 		ldr	r3, [lr, #0]
+ 434 0378 00308CE5 		str	r3, [ip, #0]
+ 207:../cyfxgpioapp.c ****     									 CyTrue, // driveLowEn
+ 208:../cyfxgpioapp.c ****     									 CyTrue, // driveHighEn
+ 209:../cyfxgpioapp.c ****     									 CyFalse, // inputEn
+ 210:../cyfxgpioapp.c ****     									 CY_U3P_GPIO_NO_INTR // intrMode
+ 211:../cyfxgpioapp.c ****     									 };
+ 212:../cyfxgpioapp.c ****     apiRetStatus = CyU3PGpioSetSimpleConfig(OUT_PIN, &gpioConfig);
+ 435              		.loc 1 212 0
+ 436 037c 2C304BE2 		sub	r3, fp, #44
+ 437 0380 1300A0E3 		mov	r0, #19
+ 438 0384 0310A0E1 		mov	r1, r3
+ 439 0388 FEFFFFEB 		bl	CyU3PGpioSetSimpleConfig
+ 440 038c 08000BE5 		str	r0, [fp, #-8]
+ 213:../cyfxgpioapp.c ****     if ( apiRetStatus != CY_U3P_SUCCESS) /* Error handling */
+ 441              		.loc 1 213 0
+ 442 0390 08301BE5 		ldr	r3, [fp, #-8]
+ 443 0394 000053E3 		cmp	r3, #0
+ 444 0398 0500000A 		beq	.L23
+ 214:../cyfxgpioapp.c ****     {
+ 215:../cyfxgpioapp.c ****         CyU3PDebugPrint (4, "CyU3PGpioSetSimpleConfig failed, error code = %d\n", apiRetStatus);
+ 445              		.loc 1 215 0
+ 446 039c 0400A0E3 		mov	r0, #4
+ 447 03a0 84109FE5 		ldr	r1, .L25+16
+ 448 03a4 08201BE5 		ldr	r2, [fp, #-8]
+ 449 03a8 FEFFFFEB 		bl	CyU3PDebugPrint
+ 216:../cyfxgpioapp.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 450              		.loc 1 216 0
+ 451 03ac 08001BE5 		ldr	r0, [fp, #-8]
+ 452 03b0 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 453              	.L23:
+ 217:../cyfxgpioapp.c ****     }
+ 218:../cyfxgpioapp.c ****     CyU3PDebugPrint(4,"Salida de medicion de latencia de interrupcion en GPIO%d\n\r",OUT_PIN);
+ 454              		.loc 1 218 0
+ 455 03b4 0400A0E3 		mov	r0, #4
+ 456 03b8 88109FE5 		ldr	r1, .L25+44
+ 457 03bc 1320A0E3 		mov	r2, #19
+ 458 03c0 FEFFFFEB 		bl	CyU3PDebugPrint
+ 219:../cyfxgpioapp.c **** 
+ 220:../cyfxgpioapp.c ****     /* Configuracion de corriente de salida */
+ 221:../cyfxgpioapp.c ****     CyU3PDriveStrengthState_t gpio_fanout=CY_U3P_DS_QUARTER_STRENGTH;
+ 459              		.loc 1 221 0
+ 460 03c4 0030A0E3 		mov	r3, #0
+ 461 03c8 09304BE5 		strb	r3, [fp, #-9]
+ 222:../cyfxgpioapp.c ****     apiRetStatus = CyU3PSetGpioDriveStrength(gpio_fanout);
+ 462              		.loc 1 222 0
+ 463 03cc 09305BE5 		ldrb	r3, [fp, #-9]	@ zero_extendqisi2
+ 464 03d0 0300A0E1 		mov	r0, r3
+ 465 03d4 FEFFFFEB 		bl	CyU3PSetGpioDriveStrength
+ 466 03d8 08000BE5 		str	r0, [fp, #-8]
+ 223:../cyfxgpioapp.c ****     if ( apiRetStatus != CY_U3P_SUCCESS) /* Error handling */
+ 467              		.loc 1 223 0
+ 468 03dc 08301BE5 		ldr	r3, [fp, #-8]
+ 469 03e0 000053E3 		cmp	r3, #0
+ 470 03e4 0500000A 		beq	.L24
+ 224:../cyfxgpioapp.c ****     {
+ 225:../cyfxgpioapp.c ****         CyU3PDebugPrint (4, "CyU3PSetGpioDriveStrength failed, error code = %d\n", apiRetStatus);
+ 471              		.loc 1 225 0
+ 472 03e8 0400A0E3 		mov	r0, #4
+ 473 03ec 58109FE5 		ldr	r1, .L25+48
+ 474 03f0 08201BE5 		ldr	r2, [fp, #-8]
+ 475 03f4 FEFFFFEB 		bl	CyU3PDebugPrint
+ 226:../cyfxgpioapp.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 476              		.loc 1 226 0
+ 477 03f8 08001BE5 		ldr	r0, [fp, #-8]
+ 478 03fc FEFFFFEB 		bl	CyFxAppErrorHandler
+ 479              	.L24:
+ 227:../cyfxgpioapp.c ****     }
+ 228:../cyfxgpioapp.c ****     CyU3PDebugPrint(4,"GPIOs capacidad de corriente %d\n\r",gpio_fanout);
+ 480              		.loc 1 228 0
+ 481 0400 09305BE5 		ldrb	r3, [fp, #-9]	@ zero_extendqisi2
+ 482 0404 0400A0E3 		mov	r0, #4
+ 483 0408 40109FE5 		ldr	r1, .L25+52
+ 484 040c 0320A0E1 		mov	r2, r3
+ 485 0410 FEFFFFEB 		bl	CyU3PDebugPrint
+ 229:../cyfxgpioapp.c **** }
+ 486              		.loc 1 229 0
+ 487 0414 04D04BE2 		sub	sp, fp, #4
+ 488 0418 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 489              	.L26:
+ 490              		.align	2
+ 491              	.L25:
+ 492 041c F8020000 		.word	C.6.7819
+ 493 0420 00000000 		.word	CyFxGpioIntrCb
+ 494 0424 2C000000 		.word	.LC1
+ 495 0428 04030000 		.word	C.7.7822
+ 496 042c 54000000 		.word	.LC2
+ 497 0430 88000000 		.word	.LC3
+ 498 0434 AC000000 		.word	.LC4
+ 499 0438 18030000 		.word	C.8.7827
+ 500 043c E0000000 		.word	.LC5
+ 501 0440 FC000000 		.word	.LC6
+ 502 0444 2C030000 		.word	C.9.7832
+ 503 0448 30010000 		.word	.LC7
+ 504 044c 6C010000 		.word	.LC8
+ 505 0450 A0010000 		.word	.LC9
+ 506              		.cfi_endproc
+ 507              	.LFE3:
+ 509              		.section	.rodata
+ 510 01c2 0000     		.align	2
+ 511              	.LC10:
+ 512 01c4 44656275 		.ascii	"Debug module initialization failed, error code = %d"
+ 512      67206D6F 
+ 512      64756C65 
+ 512      20696E69 
+ 512      7469616C 
+ 513 01f7 0A00     		.ascii	"\012\000"
+ 514 01f9 000000   		.align	2
+ 515              	.LC11:
+ 516 01fc 43795533 		.ascii	"CyU3PGpioGetValue failed, error code = %d\012\000"
+ 516      50477069 
+ 516      6F476574 
+ 516      56616C75 
+ 516      65206661 
+ 517 0227 00       		.align	2
+ 518              	.LC12:
+ 519 0228 43795533 		.ascii	"CyU3PGpioSetValue failed, error code = %d\012\000"
+ 519      50477069 
+ 519      6F536574 
+ 519      56616C75 
+ 519      65206661 
+ 520              		.text
+ 521              		.align	2
+ 522              		.global	GpioOutputThread_Entry
+ 524              	GpioOutputThread_Entry:
+ 525              	.LFB4:
+ 230:../cyfxgpioapp.c **** 
+ 231:../cyfxgpioapp.c **** /* Entry function for the gpioOutputThread */
+ 232:../cyfxgpioapp.c **** void GpioOutputThread_Entry (uint32_t input)
+ 233:../cyfxgpioapp.c **** {
+ 526              		.loc 1 233 0
+ 527              		.cfi_startproc
+ 528              		@ args = 0, pretend = 0, frame = 24
+ 529              		@ frame_needed = 1, uses_anonymous_args = 0
+ 530 0454 00482DE9 		stmfd	sp!, {fp, lr}
+ 531              	.LCFI8:
+ 532              		.cfi_def_cfa_offset 8
+ 533 0458 04B08DE2 		add	fp, sp, #4
+ 534              		.cfi_offset 14, -4
+ 535              		.cfi_offset 11, -8
+ 536              	.LCFI9:
+ 537              		.cfi_def_cfa 11, 4
+ 538 045c 18D04DE2 		sub	sp, sp, #24
+ 539 0460 18000BE5 		str	r0, [fp, #-24]
+ 234:../cyfxgpioapp.c ****     CyU3PReturnStatus_t apiRetStatus = CY_U3P_SUCCESS;
+ 540              		.loc 1 234 0
+ 541 0464 0030A0E3 		mov	r3, #0
+ 542 0468 08300BE5 		str	r3, [fp, #-8]
+ 235:../cyfxgpioapp.c ****     uint8_t gpioId=LED_PIN;
+ 543              		.loc 1 235 0
+ 544 046c 1130A0E3 		mov	r3, #17
+ 545 0470 09304BE5 		strb	r3, [fp, #-9]
+ 236:../cyfxgpioapp.c ****     CyBool_t gpioValue;
+ 237:../cyfxgpioapp.c ****     apiRetStatus = CyFxDebugInit(); /* Initialize Debug module */
+ 546              		.loc 1 237 0
+ 547 0474 FEFFFFEB 		bl	CyFxDebugInit
+ 548 0478 08000BE5 		str	r0, [fp, #-8]
+ 238:../cyfxgpioapp.c ****     if (apiRetStatus != CY_U3P_SUCCESS) /* Error handling */
+ 549              		.loc 1 238 0
+ 550 047c 08301BE5 		ldr	r3, [fp, #-8]
+ 551 0480 000053E3 		cmp	r3, #0
+ 552 0484 0500000A 		beq	.L28
+ 239:../cyfxgpioapp.c ****     {
+ 240:../cyfxgpioapp.c ****     	CyU3PDebugPrint (4, "Debug module initialization failed, error code = %d\n", apiRetStatus);
+ 553              		.loc 1 240 0
+ 554 0488 0400A0E3 		mov	r0, #4
+ 555 048c A0109FE5 		ldr	r1, .L32
+ 556 0490 08201BE5 		ldr	r2, [fp, #-8]
+ 557 0494 FEFFFFEB 		bl	CyU3PDebugPrint
+ 241:../cyfxgpioapp.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 558              		.loc 1 241 0
+ 559 0498 08001BE5 		ldr	r0, [fp, #-8]
+ 560 049c FEFFFFEB 		bl	CyFxAppErrorHandler
+ 561              	.L28:
+ 242:../cyfxgpioapp.c ****     }
+ 243:../cyfxgpioapp.c **** 
+ 244:../cyfxgpioapp.c ****     CyFxGpioInit (); /* Initialize GPIO module. */
+ 562              		.loc 1 244 0
+ 563 04a0 FEFFFFEB 		bl	CyFxGpioInit
+ 564              	.L31:
+ 245:../cyfxgpioapp.c **** 
+ 246:../cyfxgpioapp.c ****     for (;;) /* forever */
+ 247:../cyfxgpioapp.c ****     {
+ 248:../cyfxgpioapp.c ****         /* Get the GPIO value and toggle it*/
+ 249:../cyfxgpioapp.c ****     	apiRetStatus = CyU3PGpioGetValue(gpioId, &gpioValue);
+ 565              		.loc 1 249 0
+ 566 04a4 09205BE5 		ldrb	r2, [fp, #-9]	@ zero_extendqisi2
+ 567 04a8 10304BE2 		sub	r3, fp, #16
+ 568 04ac 0200A0E1 		mov	r0, r2
+ 569 04b0 0310A0E1 		mov	r1, r3
+ 570 04b4 FEFFFFEB 		bl	CyU3PGpioGetValue
+ 571 04b8 08000BE5 		str	r0, [fp, #-8]
+ 250:../cyfxgpioapp.c ****     	if (apiRetStatus != CY_U3P_SUCCESS) /* Error handling */
+ 572              		.loc 1 250 0
+ 573 04bc 08301BE5 		ldr	r3, [fp, #-8]
+ 574 04c0 000053E3 		cmp	r3, #0
+ 575 04c4 0500000A 		beq	.L29
+ 251:../cyfxgpioapp.c ****     	{
+ 252:../cyfxgpioapp.c ****             CyU3PDebugPrint (4, "CyU3PGpioGetValue failed, error code = %d\n", apiRetStatus);
+ 576              		.loc 1 252 0
+ 577 04c8 0400A0E3 		mov	r0, #4
+ 578 04cc 64109FE5 		ldr	r1, .L32+4
+ 579 04d0 08201BE5 		ldr	r2, [fp, #-8]
+ 580 04d4 FEFFFFEB 		bl	CyU3PDebugPrint
+ 253:../cyfxgpioapp.c ****     	    CyFxAppErrorHandler(apiRetStatus);
+ 581              		.loc 1 253 0
+ 582 04d8 08001BE5 		ldr	r0, [fp, #-8]
+ 583 04dc FEFFFFEB 		bl	CyFxAppErrorHandler
+ 584              	.L29:
+ 254:../cyfxgpioapp.c ****     	}
+ 255:../cyfxgpioapp.c ****         apiRetStatus = CyU3PGpioSetValue(gpioId, !gpioValue);
+ 585              		.loc 1 255 0
+ 586 04e0 10301BE5 		ldr	r3, [fp, #-16]
+ 587 04e4 000053E3 		cmp	r3, #0
+ 588 04e8 0030A013 		movne	r3, #0
+ 589 04ec 0130A003 		moveq	r3, #1
+ 590 04f0 09205BE5 		ldrb	r2, [fp, #-9]	@ zero_extendqisi2
+ 591 04f4 0200A0E1 		mov	r0, r2
+ 592 04f8 0310A0E1 		mov	r1, r3
+ 593 04fc FEFFFFEB 		bl	CyU3PGpioSetValue
+ 594 0500 08000BE5 		str	r0, [fp, #-8]
+ 256:../cyfxgpioapp.c ****         if (apiRetStatus != CY_U3P_SUCCESS) /* Error handling */
+ 595              		.loc 1 256 0
+ 596 0504 08301BE5 		ldr	r3, [fp, #-8]
+ 597 0508 000053E3 		cmp	r3, #0
+ 598 050c 0500000A 		beq	.L30
+ 257:../cyfxgpioapp.c ****         {
+ 258:../cyfxgpioapp.c ****             CyU3PDebugPrint (4, "CyU3PGpioSetValue failed, error code = %d\n", apiRetStatus);
+ 599              		.loc 1 258 0
+ 600 0510 0400A0E3 		mov	r0, #4
+ 601 0514 20109FE5 		ldr	r1, .L32+8
+ 602 0518 08201BE5 		ldr	r2, [fp, #-8]
+ 603 051c FEFFFFEB 		bl	CyU3PDebugPrint
+ 259:../cyfxgpioapp.c ****             CyFxAppErrorHandler(apiRetStatus);
+ 604              		.loc 1 259 0
+ 605 0520 08001BE5 		ldr	r0, [fp, #-8]
+ 606 0524 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 607              	.L30:
+ 260:../cyfxgpioapp.c ****         }
+ 261:../cyfxgpioapp.c ****         CyU3PThreadSleep(3000); /* Wait for 1000 milliseconds */
+ 608              		.loc 1 261 0
+ 609 0528 10009FE5 		ldr	r0, .L32+12
+ 610 052c FEFFFFEB 		bl	_tx_thread_sleep
+ 262:../cyfxgpioapp.c ****     }
+ 611              		.loc 1 262 0
+ 612 0530 DBFFFFEA 		b	.L31
+ 613              	.L33:
+ 614              		.align	2
+ 615              	.L32:
+ 616 0534 C4010000 		.word	.LC10
+ 617 0538 FC010000 		.word	.LC11
+ 618 053c 28020000 		.word	.LC12
+ 619 0540 B80B0000 		.word	3000
+ 620              		.cfi_endproc
+ 621              	.LFE4:
+ 623              		.section	.rodata
+ 624 0253 00       		.align	2
+ 625              	.LC13:
+ 626 0254 4750494F 		.ascii	"GPIO 45 is set to high\012\015\000"
+ 626      20343520 
+ 626      69732073 
+ 626      65742074 
+ 626      6F206869 
+ 627 026d 000000   		.align	2
+ 628              	.LC14:
+ 629 0270 4750494F 		.ascii	"GPIO 45 is set to low\012\015\000"
+ 629      20343520 
+ 629      69732073 
+ 629      65742074 
+ 629      6F206C6F 
+ 630              		.text
+ 631              		.align	2
+ 632              		.global	GpioInputThread_Entry
+ 634              	GpioInputThread_Entry:
+ 635              	.LFB5:
+ 263:../cyfxgpioapp.c **** }
+ 264:../cyfxgpioapp.c **** 
+ 265:../cyfxgpioapp.c **** /* Entry function for the gpioInputThread */
+ 266:../cyfxgpioapp.c **** void GpioInputThread_Entry (uint32_t input)
+ 267:../cyfxgpioapp.c **** {
+ 636              		.loc 1 267 0
+ 637              		.cfi_startproc
+ 638              		@ args = 0, pretend = 0, frame = 16
+ 639              		@ frame_needed = 1, uses_anonymous_args = 0
+ 640 0544 00482DE9 		stmfd	sp!, {fp, lr}
+ 641              	.LCFI10:
+ 642              		.cfi_def_cfa_offset 8
+ 643 0548 04B08DE2 		add	fp, sp, #4
+ 644              		.cfi_offset 14, -4
+ 645              		.cfi_offset 11, -8
+ 646              	.LCFI11:
+ 647              		.cfi_def_cfa 11, 4
+ 648 054c 18D04DE2 		sub	sp, sp, #24
+ 649 0550 10000BE5 		str	r0, [fp, #-16]
+ 268:../cyfxgpioapp.c ****     uint32_t eventFlag;
+ 269:../cyfxgpioapp.c ****     CyU3PReturnStatus_t txApiRetStatus = CY_U3P_SUCCESS;
+ 650              		.loc 1 269 0
+ 651 0554 0030A0E3 		mov	r3, #0
+ 652 0558 08300BE5 		str	r3, [fp, #-8]
+ 653 055c 000000EA 		b	.L37
+ 654              	.L38:
+ 270:../cyfxgpioapp.c **** 
+ 271:../cyfxgpioapp.c ****     for (;;)
+ 272:../cyfxgpioapp.c ****     {
+ 273:../cyfxgpioapp.c ****         /* Wait for a GPIO event */
+ 274:../cyfxgpioapp.c ****         txApiRetStatus = CyU3PEventGet (&glFxGpioAppEvent,
+ 275:../cyfxgpioapp.c ****                 (CY_FX_GPIOAPP_GPIO_HIGH_EVENT | CY_FX_GPIOAPP_GPIO_LOW_EVENT),
+ 276:../cyfxgpioapp.c ****                 CYU3P_EVENT_OR_CLEAR, &eventFlag, CYU3P_WAIT_FOREVER);
+ 277:../cyfxgpioapp.c ****         if (txApiRetStatus == CY_U3P_SUCCESS)
+ 278:../cyfxgpioapp.c ****         {
+ 279:../cyfxgpioapp.c ****             if (eventFlag & CY_FX_GPIOAPP_GPIO_HIGH_EVENT)
+ 280:../cyfxgpioapp.c ****             {
+ 281:../cyfxgpioapp.c ****                 /* Print the status of the pin */
+ 282:../cyfxgpioapp.c ****                 CyU3PDebugPrint (4, "GPIO 45 is set to high\n\r");
+ 283:../cyfxgpioapp.c ****             }
+ 284:../cyfxgpioapp.c ****             else
+ 285:../cyfxgpioapp.c ****             {
+ 286:../cyfxgpioapp.c ****                 /* Print the status of the pin */
+ 287:../cyfxgpioapp.c ****                 CyU3PDebugPrint (4, "GPIO 45 is set to low\n\r");
+ 288:../cyfxgpioapp.c ****             }
+ 289:../cyfxgpioapp.c ****         }
+ 290:../cyfxgpioapp.c ****     }
+ 655              		.loc 1 290 0
+ 656 0560 0000A0E1 		mov	r0, r0	@ nop
+ 657              	.L37:
+ 274:../cyfxgpioapp.c ****         txApiRetStatus = CyU3PEventGet (&glFxGpioAppEvent,
+ 658              		.loc 1 274 0
+ 659 0564 0C304BE2 		sub	r3, fp, #12
+ 660 0568 0020E0E3 		mvn	r2, #0
+ 661 056c 00208DE5 		str	r2, [sp, #0]
+ 662 0570 4C009FE5 		ldr	r0, .L39
+ 663 0574 0310A0E3 		mov	r1, #3
+ 664 0578 0120A0E3 		mov	r2, #1
+ 665 057c FEFFFFEB 		bl	_txe_event_flags_get
+ 666 0580 08000BE5 		str	r0, [fp, #-8]
+ 277:../cyfxgpioapp.c ****         if (txApiRetStatus == CY_U3P_SUCCESS)
+ 667              		.loc 1 277 0
+ 668 0584 08301BE5 		ldr	r3, [fp, #-8]
+ 669 0588 000053E3 		cmp	r3, #0
+ 670 058c F3FFFF1A 		bne	.L38
+ 279:../cyfxgpioapp.c ****             if (eventFlag & CY_FX_GPIOAPP_GPIO_HIGH_EVENT)
+ 671              		.loc 1 279 0
+ 672 0590 0C301BE5 		ldr	r3, [fp, #-12]
+ 673 0594 013003E2 		and	r3, r3, #1
+ 674 0598 FF3003E2 		and	r3, r3, #255
+ 675 059c 000053E3 		cmp	r3, #0
+ 676 05a0 0300000A 		beq	.L36
+ 282:../cyfxgpioapp.c ****                 CyU3PDebugPrint (4, "GPIO 45 is set to high\n\r");
+ 677              		.loc 1 282 0
+ 678 05a4 0400A0E3 		mov	r0, #4
+ 679 05a8 18109FE5 		ldr	r1, .L39+4
+ 680 05ac FEFFFFEB 		bl	CyU3PDebugPrint
+ 681              		.loc 1 290 0
+ 682 05b0 EBFFFFEA 		b	.L37
+ 683              	.L36:
+ 287:../cyfxgpioapp.c ****                 CyU3PDebugPrint (4, "GPIO 45 is set to low\n\r");
+ 684              		.loc 1 287 0
+ 685 05b4 0400A0E3 		mov	r0, #4
+ 686 05b8 0C109FE5 		ldr	r1, .L39+8
+ 687 05bc FEFFFFEB 		bl	CyU3PDebugPrint
+ 688              		.loc 1 290 0
+ 689 05c0 E7FFFFEA 		b	.L37
+ 690              	.L40:
+ 691              		.align	2
+ 692              	.L39:
+ 693 05c4 00000000 		.word	glFxGpioAppEvent
+ 694 05c8 54020000 		.word	.LC13
+ 695 05cc 70020000 		.word	.LC14
+ 696              		.cfi_endproc
+ 697              	.LFE5:
+ 699              		.section	.rodata
+ 700              		.align	2
+ 701              	.LC15:
+ 702 0288 4F55545F 		.ascii	"OUT_PIN:GPIO_simple_output\000"
+ 702      50494E3A 
+ 702      4750494F 
+ 702      5F73696D 
+ 702      706C655F 
+ 703 02a3 00       		.align	2
+ 704              	.LC16:
+ 705 02a4 54455354 		.ascii	"TEST_PIN:GPIO_simple_input\000"
+ 705      5F50494E 
+ 705      3A475049 
+ 705      4F5F7369 
+ 705      6D706C65 
+ 706              		.text
+ 707              		.align	2
+ 708              		.global	CyFxApplicationDefine
+ 710              	CyFxApplicationDefine:
+ 711              	.LFB6:
+ 291:../cyfxgpioapp.c **** }
+ 292:../cyfxgpioapp.c **** 
+ 293:../cyfxgpioapp.c **** /* Application define function which creates the threads. */
+ 294:../cyfxgpioapp.c **** void CyFxApplicationDefine (void)
+ 295:../cyfxgpioapp.c **** {
+ 712              		.loc 1 295 0
+ 713              		.cfi_startproc
+ 714              		@ args = 0, pretend = 0, frame = 8
+ 715              		@ frame_needed = 1, uses_anonymous_args = 0
+ 716 05d0 00482DE9 		stmfd	sp!, {fp, lr}
+ 717              	.LCFI12:
+ 718              		.cfi_def_cfa_offset 8
+ 719 05d4 04B08DE2 		add	fp, sp, #4
+ 720              		.cfi_offset 14, -4
+ 721              		.cfi_offset 11, -8
+ 722              	.LCFI13:
+ 723              		.cfi_def_cfa 11, 4
+ 724 05d8 28D04DE2 		sub	sp, sp, #40
+ 296:../cyfxgpioapp.c ****     void *ptr = NULL;
+ 725              		.loc 1 296 0
+ 726 05dc 0030A0E3 		mov	r3, #0
+ 727 05e0 08300BE5 		str	r3, [fp, #-8]
+ 297:../cyfxgpioapp.c ****     uint32_t retThrdCreate = CY_U3P_SUCCESS;
+ 728              		.loc 1 297 0
+ 729 05e4 0030A0E3 		mov	r3, #0
+ 730 05e8 0C300BE5 		str	r3, [fp, #-12]
+ 298:../cyfxgpioapp.c **** 
+ 299:../cyfxgpioapp.c ****     ptr = CyU3PMemAlloc (CY_FX_GPIOAPP_THREAD_STACK); /* Allocate the memory for the threads */
+ 731              		.loc 1 299 0
+ 732 05ec 010BA0E3 		mov	r0, #1024
+ 733 05f0 FEFFFFEB 		bl	CyU3PMemAlloc
+ 734 05f4 08000BE5 		str	r0, [fp, #-8]
+ 300:../cyfxgpioapp.c **** 
+ 301:../cyfxgpioapp.c ****     /* Create the thread for the application */
+ 302:../cyfxgpioapp.c ****     retThrdCreate = CyU3PThreadCreate (&gpioOutputThread,        /* GPIO Example App Thread structu
+ 735              		.loc 1 302 0
+ 736 05f8 08301BE5 		ldr	r3, [fp, #-8]
+ 737 05fc 00308DE5 		str	r3, [sp, #0]
+ 738 0600 013BA0E3 		mov	r3, #1024
+ 739 0604 04308DE5 		str	r3, [sp, #4]
+ 740 0608 0830A0E3 		mov	r3, #8
+ 741 060c 08308DE5 		str	r3, [sp, #8]
+ 742 0610 0830A0E3 		mov	r3, #8
+ 743 0614 0C308DE5 		str	r3, [sp, #12]
+ 744 0618 0030A0E3 		mov	r3, #0
+ 745 061c 10308DE5 		str	r3, [sp, #16]
+ 746 0620 0130A0E3 		mov	r3, #1
+ 747 0624 14308DE5 		str	r3, [sp, #20]
+ 748 0628 A830A0E3 		mov	r3, #168
+ 749 062c 18308DE5 		str	r3, [sp, #24]
+ 750 0630 B8009FE5 		ldr	r0, .L48
+ 751 0634 B8109FE5 		ldr	r1, .L48+4
+ 752 0638 B8209FE5 		ldr	r2, .L48+8
+ 753 063c 0030A0E3 		mov	r3, #0
+ 754 0640 FEFFFFEB 		bl	_txe_thread_create
+ 755 0644 0C000BE5 		str	r0, [fp, #-12]
+ 303:../cyfxgpioapp.c ****                           "OUT_PIN:GPIO_simple_output",          /* Thread ID and Thread name */
+ 304:../cyfxgpioapp.c ****                           GpioOutputThread_Entry,                /* GPIO Example App Thread Entry f
+ 305:../cyfxgpioapp.c ****                           0,                                     /* No input parameter to thread */
+ 306:../cyfxgpioapp.c ****                           ptr,                                   /* Pointer to the allocated thread
+ 307:../cyfxgpioapp.c ****                           CY_FX_GPIOAPP_THREAD_STACK,            /* Thread stack size */
+ 308:../cyfxgpioapp.c ****                           CY_FX_GPIOAPP_THREAD_PRIORITY,         /* Thread priority */
+ 309:../cyfxgpioapp.c ****                           CY_FX_GPIOAPP_THREAD_PRIORITY,         /* Pre-emption threshold for the t
+ 310:../cyfxgpioapp.c ****                           CYU3P_NO_TIME_SLICE,                   /* No time slice for the applicati
+ 311:../cyfxgpioapp.c ****                           CYU3P_AUTO_START                       /* Start the Thread immediately */
+ 312:../cyfxgpioapp.c ****                           );
+ 313:../cyfxgpioapp.c **** 
+ 314:../cyfxgpioapp.c ****     if (retThrdCreate != 0) /* Check the return code */
+ 756              		.loc 1 314 0
+ 757 0648 0C301BE5 		ldr	r3, [fp, #-12]
+ 758 064c 000053E3 		cmp	r3, #0
+ 759 0650 0000000A 		beq	.L42
+ 760              	.L43:
+ 315:../cyfxgpioapp.c ****     {
+ 316:../cyfxgpioapp.c ****         /* Thread creation failed with the error code retThrdCreate */
+ 317:../cyfxgpioapp.c **** 
+ 318:../cyfxgpioapp.c ****         /* Add custom recovery or debug actions here */
+ 319:../cyfxgpioapp.c **** 
+ 320:../cyfxgpioapp.c ****         /* Application cannot continue */
+ 321:../cyfxgpioapp.c ****         /* Loop indefinitely */
+ 322:../cyfxgpioapp.c ****         while(1);
+ 761              		.loc 1 322 0 discriminator 1
+ 762 0654 FEFFFFEA 		b	.L43
+ 763              	.L42:
+ 323:../cyfxgpioapp.c ****     }
+ 324:../cyfxgpioapp.c **** 
+ 325:../cyfxgpioapp.c ****     ptr = CyU3PMemAlloc (CY_FX_GPIOAPP_THREAD_STACK); /* Allocate the memory for the threads */
+ 764              		.loc 1 325 0
+ 765 0658 010BA0E3 		mov	r0, #1024
+ 766 065c FEFFFFEB 		bl	CyU3PMemAlloc
+ 767 0660 08000BE5 		str	r0, [fp, #-8]
+ 326:../cyfxgpioapp.c **** 
+ 327:../cyfxgpioapp.c ****     /* Create the thread for the application */
+ 328:../cyfxgpioapp.c ****     retThrdCreate = CyU3PThreadCreate (&gpioInputThread,	/* GPIO Example App Thread structure */
+ 768              		.loc 1 328 0
+ 769 0664 08301BE5 		ldr	r3, [fp, #-8]
+ 770 0668 00308DE5 		str	r3, [sp, #0]
+ 771 066c 013BA0E3 		mov	r3, #1024
+ 772 0670 04308DE5 		str	r3, [sp, #4]
+ 773 0674 0830A0E3 		mov	r3, #8
+ 774 0678 08308DE5 		str	r3, [sp, #8]
+ 775 067c 0830A0E3 		mov	r3, #8
+ 776 0680 0C308DE5 		str	r3, [sp, #12]
+ 777 0684 0030A0E3 		mov	r3, #0
+ 778 0688 10308DE5 		str	r3, [sp, #16]
+ 779 068c 0130A0E3 		mov	r3, #1
+ 780 0690 14308DE5 		str	r3, [sp, #20]
+ 781 0694 A830A0E3 		mov	r3, #168
+ 782 0698 18308DE5 		str	r3, [sp, #24]
+ 783 069c 58009FE5 		ldr	r0, .L48+12
+ 784 06a0 58109FE5 		ldr	r1, .L48+16
+ 785 06a4 58209FE5 		ldr	r2, .L48+20
+ 786 06a8 0030A0E3 		mov	r3, #0
+ 787 06ac FEFFFFEB 		bl	_txe_thread_create
+ 788 06b0 0C000BE5 		str	r0, [fp, #-12]
+ 329:../cyfxgpioapp.c ****                           "TEST_PIN:GPIO_simple_input",           /* Thread ID and Thread name */
+ 330:../cyfxgpioapp.c ****                           GpioInputThread_Entry,            /* GPIO Example App Thread entry functi
+ 331:../cyfxgpioapp.c ****                           0,                                /* No input parameter to thread */
+ 332:../cyfxgpioapp.c ****                           ptr,                              /* Pointer to the allocated thread stac
+ 333:../cyfxgpioapp.c ****                           CY_FX_GPIOAPP_THREAD_STACK,       /* Thread stack size */
+ 334:../cyfxgpioapp.c ****                           CY_FX_GPIOAPP_THREAD_PRIORITY,    /* Thread priority */
+ 335:../cyfxgpioapp.c ****                           CY_FX_GPIOAPP_THREAD_PRIORITY,    /* Pre-emption threshold for the thread
+ 336:../cyfxgpioapp.c ****                           CYU3P_NO_TIME_SLICE,              /* No time slice for the application th
+ 337:../cyfxgpioapp.c ****                           CYU3P_AUTO_START                  /* Start the Thread immediately */
+ 338:../cyfxgpioapp.c ****                           );
+ 339:../cyfxgpioapp.c **** 
+ 340:../cyfxgpioapp.c ****     if (retThrdCreate != 0)  /* Check the return code */
+ 789              		.loc 1 340 0
+ 790 06b4 0C301BE5 		ldr	r3, [fp, #-12]
+ 791 06b8 000053E3 		cmp	r3, #0
+ 792 06bc 0000000A 		beq	.L44
+ 793              	.L45:
+ 341:../cyfxgpioapp.c ****     {
+ 342:../cyfxgpioapp.c ****         /* Thread creation failed with the error code retThrdCreate */
+ 343:../cyfxgpioapp.c **** 
+ 344:../cyfxgpioapp.c ****         /* Add custom recovery or debug actions here */
+ 345:../cyfxgpioapp.c **** 
+ 346:../cyfxgpioapp.c ****         /* Application cannot continue */
+ 347:../cyfxgpioapp.c ****         /* Loop indefinitely */
+ 348:../cyfxgpioapp.c ****         while(1);
+ 794              		.loc 1 348 0 discriminator 1
+ 795 06c0 FEFFFFEA 		b	.L45
+ 796              	.L44:
+ 349:../cyfxgpioapp.c ****     }
+ 350:../cyfxgpioapp.c **** 
+ 351:../cyfxgpioapp.c ****     /* Create GPIO application event group */
+ 352:../cyfxgpioapp.c ****     retThrdCreate = CyU3PEventCreate(&glFxGpioAppEvent);
+ 797              		.loc 1 352 0
+ 798 06c4 3C009FE5 		ldr	r0, .L48+24
+ 799 06c8 0010A0E3 		mov	r1, #0
+ 800 06cc 2820A0E3 		mov	r2, #40
+ 801 06d0 FEFFFFEB 		bl	_txe_event_flags_create
+ 802 06d4 0C000BE5 		str	r0, [fp, #-12]
+ 353:../cyfxgpioapp.c ****     if (retThrdCreate != 0)
+ 803              		.loc 1 353 0
+ 804 06d8 0C301BE5 		ldr	r3, [fp, #-12]
+ 805 06dc 000053E3 		cmp	r3, #0
+ 806 06e0 0000000A 		beq	.L41
+ 807              	.L47:
+ 354:../cyfxgpioapp.c ****     {
+ 355:../cyfxgpioapp.c ****         /* Event group creation failed with the error code retThrdCreate */
+ 356:../cyfxgpioapp.c **** 
+ 357:../cyfxgpioapp.c ****         /* Add custom recovery or debug actions here */
+ 358:../cyfxgpioapp.c **** 
+ 359:../cyfxgpioapp.c ****         /* Application cannot continue */
+ 360:../cyfxgpioapp.c ****         /* Loop indefinitely */
+ 361:../cyfxgpioapp.c ****         while(1);
+ 808              		.loc 1 361 0 discriminator 1
+ 809 06e4 FEFFFFEA 		b	.L47
+ 810              	.L41:
+ 362:../cyfxgpioapp.c ****     }
+ 363:../cyfxgpioapp.c **** }
+ 811              		.loc 1 363 0
+ 812 06e8 04D04BE2 		sub	sp, fp, #4
+ 813 06ec 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 814              	.L49:
+ 815              		.align	2
+ 816              	.L48:
+ 817 06f0 00000000 		.word	gpioOutputThread
+ 818 06f4 88020000 		.word	.LC15
+ 819 06f8 00000000 		.word	GpioOutputThread_Entry
+ 820 06fc 00000000 		.word	gpioInputThread
+ 821 0700 A4020000 		.word	.LC16
+ 822 0704 00000000 		.word	GpioInputThread_Entry
+ 823 0708 00000000 		.word	glFxGpioAppEvent
+ 824              		.cfi_endproc
+ 825              	.LFE6:
+ 827              		.align	2
+ 828              		.global	main
+ 830              	main:
+ 831              	.LFB7:
+ 364:../cyfxgpioapp.c **** 
+ 365:../cyfxgpioapp.c **** /* Main function */
+ 366:../cyfxgpioapp.c **** int main (void)
+ 367:../cyfxgpioapp.c **** {
+ 832              		.loc 1 367 0
+ 833              		.cfi_startproc
+ 834              		@ args = 0, pretend = 0, frame = 64
+ 835              		@ frame_needed = 1, uses_anonymous_args = 0
+ 836 070c 00482DE9 		stmfd	sp!, {fp, lr}
+ 837              	.LCFI14:
+ 838              		.cfi_def_cfa_offset 8
+ 839 0710 04B08DE2 		add	fp, sp, #4
+ 840              		.cfi_offset 14, -4
+ 841              		.cfi_offset 11, -8
+ 842              	.LCFI15:
+ 843              		.cfi_def_cfa 11, 4
+ 844 0714 40D04DE2 		sub	sp, sp, #64
+ 368:../cyfxgpioapp.c **** 	/* Set system clocks */
+ 369:../cyfxgpioapp.c **** 	CyU3PSysClockConfig_t sys_clk={CyTrue,	// setSysClk400? 403.2MHz : 384MHz
+ 845              		.loc 1 369 0
+ 846 0718 BC309FE5 		ldr	r3, .L55
+ 847 071c 18C04BE2 		sub	ip, fp, #24
+ 848 0720 0F0093E8 		ldmia	r3, {r0, r1, r2, r3}
+ 849 0724 0F008CE8 		stmia	ip, {r0, r1, r2, r3}
+ 370:../cyfxgpioapp.c **** 								   2,	// cpuClkDiv (201.6 / 192 MHz)
+ 371:../cyfxgpioapp.c **** 								   2,	// dmaClkDiv
+ 372:../cyfxgpioapp.c **** 								   2,	// mmioClkDiv
+ 373:../cyfxgpioapp.c **** 								   CyTrue,	// useStandbyClk
+ 374:../cyfxgpioapp.c **** 								   (CyU3PSysClockSrc_t)CY_U3P_SYS_CLK // clkSrc
+ 375:../cyfxgpioapp.c **** 								};
+ 376:../cyfxgpioapp.c **** 
+ 377:../cyfxgpioapp.c **** 	CyU3PReturnStatus_t status = CyU3PDeviceInit (&sys_clk); /* Initialize the device */
+ 850              		.loc 1 377 0
+ 851 0728 18304BE2 		sub	r3, fp, #24
+ 852 072c 0300A0E1 		mov	r0, r3
+ 853 0730 FEFFFFEB 		bl	CyU3PDeviceInit
+ 854 0734 08000BE5 		str	r0, [fp, #-8]
+ 378:../cyfxgpioapp.c ****     if (status != CY_U3P_SUCCESS) goto handle_fatal_error;
+ 855              		.loc 1 378 0
+ 856 0738 08301BE5 		ldr	r3, [fp, #-8]
+ 857 073c 000053E3 		cmp	r3, #0
+ 858 0740 0000000A 		beq	.L51
+ 859              		.loc 1 378 0 is_stmt 0 discriminator 1
+ 860 0744 230000EA 		b	.L52
+ 861              	.L51:
+ 379:../cyfxgpioapp.c **** 
+ 380:../cyfxgpioapp.c ****     /* Initialize the caches. Enable both Instruction and Data Caches. */
+ 381:../cyfxgpioapp.c ****     status = CyU3PDeviceCacheControl (CyTrue, // is Instruction Cache Enable
+ 862              		.loc 1 381 0 is_stmt 1
+ 863 0748 0100A0E3 		mov	r0, #1
+ 864 074c 0110A0E3 		mov	r1, #1
+ 865 0750 0120A0E3 		mov	r2, #1
+ 866 0754 FEFFFFEB 		bl	CyU3PDeviceCacheControl
+ 867 0758 08000BE5 		str	r0, [fp, #-8]
+ 382:../cyfxgpioapp.c ****     								  CyTrue, // is Data Cache Enable
+ 383:../cyfxgpioapp.c ****     								  CyTrue  // isDmaHandleDCache
+ 384:../cyfxgpioapp.c ****     								  );
+ 385:../cyfxgpioapp.c ****     if (status != CY_U3P_SUCCESS) goto handle_fatal_error;
+ 868              		.loc 1 385 0
+ 869 075c 08301BE5 		ldr	r3, [fp, #-8]
+ 870 0760 000053E3 		cmp	r3, #0
+ 871 0764 0000000A 		beq	.L53
+ 872              		.loc 1 385 0 is_stmt 0 discriminator 1
+ 873 0768 1A0000EA 		b	.L52
+ 874              	.L53:
+ 386:../cyfxgpioapp.c **** 
+ 387:../cyfxgpioapp.c ****     /* Configure the IO matrix for the device. On the FX3 DVK board,
+ 388:../cyfxgpioapp.c ****      * the COM port is connected to the IO(53:56). This means that
+ 389:../cyfxgpioapp.c ****      * either DQ32 mode should be selected or lppMode should be set
+ 390:../cyfxgpioapp.c ****      * to UART_ONLY. Here we are choosing UART_ONLY configuration. */
+ 391:../cyfxgpioapp.c ****     CyU3PIoMatrixConfig_t io_cfg;
+ 392:../cyfxgpioapp.c ****     CyU3PMemSet ((uint8_t *)&io_cfg, 0, sizeof(io_cfg));
+ 875              		.loc 1 392 0 is_stmt 1
+ 876 076c 40304BE2 		sub	r3, fp, #64
+ 877 0770 0300A0E1 		mov	r0, r3
+ 878 0774 0010A0E3 		mov	r1, #0
+ 879 0778 2820A0E3 		mov	r2, #40
+ 880 077c FEFFFFEB 		bl	CyU3PMemSet
+ 393:../cyfxgpioapp.c ****     io_cfg= (CyU3PIoMatrixConfig_t){ CyFalse, // isDQ32Bit
+ 881              		.loc 1 393 0
+ 882 0780 58309FE5 		ldr	r3, .L55+4
+ 883 0784 40C04BE2 		sub	ip, fp, #64
+ 884 0788 03E0A0E1 		mov	lr, r3
+ 885 078c 0F00BEE8 		ldmia	lr!, {r0, r1, r2, r3}
+ 886 0790 0F00ACE8 		stmia	ip!, {r0, r1, r2, r3}
+ 887 0794 0F00BEE8 		ldmia	lr!, {r0, r1, r2, r3}
+ 888 0798 0F00ACE8 		stmia	ip!, {r0, r1, r2, r3}
+ 889 079c 03009EE8 		ldmia	lr, {r0, r1}
+ 890 07a0 03008CE8 		stmia	ip, {r0, r1}
+ 394:../cyfxgpioapp.c ****     								 CyTrue, // useUart
+ 395:../cyfxgpioapp.c ****     								 CyFalse, // useI2C
+ 396:../cyfxgpioapp.c ****     								 CyFalse, // useI2S
+ 397:../cyfxgpioapp.c ****     								 CyFalse, // useSpi
+ 398:../cyfxgpioapp.c ****     								 CyFalse, // s0Mode
+ 399:../cyfxgpioapp.c ****     								 CyFalse, // s1Mode
+ 400:../cyfxgpioapp.c ****     								 CY_U3P_IO_MATRIX_LPP_UART_ONLY, // lppMode
+ 401:../cyfxgpioapp.c ****     					/* GPIO 45 is used as input pin. GPIO 21 is also used but cannot
+ 402:../cyfxgpioapp.c ****     					* be selected here as it is part of the GPIF IOs (CTL4). Since
+ 403:../cyfxgpioapp.c ****     					* this IO is not used, it can be overridden to become a GPIO by
+ 404:../cyfxgpioapp.c ****     					* invoking the CyU3PDeviceGpioOverride call. */
+ 405:../cyfxgpioapp.c ****     								 {0, 1<<(45%32)}, // gpioSimpleEn[2]
+ 406:../cyfxgpioapp.c ****     								 {0, 0}, // gpioComplexEn[2]
+ 407:../cyfxgpioapp.c ****     								};
+ 408:../cyfxgpioapp.c **** 
+ 409:../cyfxgpioapp.c ****     status = CyU3PDeviceConfigureIOMatrix (&io_cfg);
+ 891              		.loc 1 409 0
+ 892 07a4 40304BE2 		sub	r3, fp, #64
+ 893 07a8 0300A0E1 		mov	r0, r3
+ 894 07ac FEFFFFEB 		bl	CyU3PDeviceConfigureIOMatrix
+ 895 07b0 08000BE5 		str	r0, [fp, #-8]
+ 410:../cyfxgpioapp.c ****     if (status != CY_U3P_SUCCESS) goto handle_fatal_error;
+ 896              		.loc 1 410 0
+ 897 07b4 08301BE5 		ldr	r3, [fp, #-8]
+ 898 07b8 000053E3 		cmp	r3, #0
+ 899 07bc 0000000A 		beq	.L54
+ 900              		.loc 1 410 0 is_stmt 0 discriminator 1
+ 901 07c0 040000EA 		b	.L52
+ 902              	.L54:
+ 411:../cyfxgpioapp.c **** 
+ 412:../cyfxgpioapp.c ****     CyU3PKernelEntry (); /* This is a non returnable call for initializing the RTOS kernel */
+ 903              		.loc 1 412 0 is_stmt 1
+ 904 07c4 FEFFFFEB 		bl	_tx_initialize_kernel_enter
+ 413:../cyfxgpioapp.c ****     return 0; /* Dummy return to make the compiler happy */
+ 905              		.loc 1 413 0
+ 906 07c8 0030A0E3 		mov	r3, #0
+ 414:../cyfxgpioapp.c **** 
+ 415:../cyfxgpioapp.c **** handle_fatal_error:    /* Cannot recover from this error. */
+ 416:../cyfxgpioapp.c ****     while (1);
+ 417:../cyfxgpioapp.c **** }
+ 907              		.loc 1 417 0
+ 908 07cc 0300A0E1 		mov	r0, r3
+ 909 07d0 04D04BE2 		sub	sp, fp, #4
+ 910 07d4 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 911              	.L52:
+ 416:../cyfxgpioapp.c ****     while (1);
+ 912              		.loc 1 416 0 discriminator 1
+ 913 07d8 FEFFFFEA 		b	.L52
+ 914              	.L56:
+ 915              		.align	2
+ 916              	.L55:
+ 917 07dc C0020000 		.word	C.0.7785
+ 918 07e0 D0020000 		.word	C.2.7791
+ 919              		.cfi_endproc
+ 920              	.LFE7:
+ 922              		.section	.rodata
+ 923 02bf 00       		.align	2
+ 926              	C.0.7785:
+ 927 02c0 01000000 		.word	1
+ 928 02c4 02       		.byte	2
+ 929 02c5 02       		.byte	2
+ 930 02c6 02       		.byte	2
+ 931 02c7 00       		.space	1
+ 932 02c8 01000000 		.word	1
+ 933 02cc 03       		.byte	3
+ 934 02cd 000000   		.space	3
+ 935              		.align	2
+ 938              	C.2.7791:
+ 939 02d0 00000000 		.word	0
+ 940 02d4 01000000 		.word	1
+ 941 02d8 00000000 		.word	0
+ 942 02dc 00000000 		.word	0
+ 943 02e0 00000000 		.word	0
+ 944 02e4 00       		.byte	0
+ 945 02e5 00       		.byte	0
+ 946 02e6 01       		.byte	1
+ 947 02e7 00       		.space	1
+ 948 02e8 00000000 		.word	0
+ 949 02ec 00200000 		.word	8192
+ 950 02f0 00000000 		.word	0
+ 951 02f4 00000000 		.word	0
+ 952              		.align	2
+ 955              	C.6.7819:
+ 956 02f8 02       		.byte	2
+ 957 02f9 00       		.byte	0
+ 958 02fa 0000     		.space	2
+ 959 02fc 00000000 		.word	0
+ 960 0300 00       		.byte	0
+ 961 0301 03       		.byte	3
+ 962 0302 0000     		.space	2
+ 963              		.align	2
+ 966              	C.7.7822:
+ 967 0304 01000000 		.word	1
+ 968 0308 00000000 		.word	0
+ 969 030c 00000000 		.word	0
+ 970 0310 01000000 		.word	1
+ 971 0314 03       		.byte	3
+ 972 0315 000000   		.space	3
+ 973              		.align	2
+ 976              	C.8.7827:
+ 977 0318 00000000 		.word	0
+ 978 031c 01000000 		.word	1
+ 979 0320 01000000 		.word	1
+ 980 0324 00000000 		.word	0
+ 981 0328 00       		.byte	0
+ 982 0329 000000   		.space	3
+ 983              		.align	2
+ 986              	C.9.7832:
+ 987 032c 01000000 		.word	1
+ 988 0330 01000000 		.word	1
+ 989 0334 01000000 		.word	1
+ 990 0338 00000000 		.word	0
+ 991 033c 00       		.byte	0
+ 992 033d 000000   		.space	3
+ 993              		.align	2
+ 996              	C.14.7850:
+ 997 0340 01000000 		.word	1
+ 998 0344 00000000 		.word	0
+ 999 0348 00000000 		.word	0
+ 1000 034c 01000000 		.word	1
+ 1001 0350 00C20100 		.word	115200
+ 1002 0354 01       		.byte	1
+ 1003 0355 00       		.byte	0
+ 1004 0356 0000     		.space	2
+ 1005              		.text
+ 1006              	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 cyfxgpioapp.c
+                            *COM*:000000a8 gpioOutputThread
+                            *COM*:000000a8 gpioInputThread
+                            *COM*:00000028 glFxGpioAppEvent
+C:\Users\ric\AppData\Local\Temp\ccZtTOiH.s:24     .text:00000000 $a
+C:\Users\ric\AppData\Local\Temp\ccZtTOiH.s:27     .text:00000000 CyFxAppErrorHandler
+C:\Users\ric\AppData\Local\Temp\ccZtTOiH.s:54     .rodata:00000000 $d
+C:\Users\ric\AppData\Local\Temp\ccZtTOiH.s:62     .text:0000001c CyFxDebugInit
+C:\Users\ric\AppData\Local\Temp\ccZtTOiH.s:177    .text:00000148 $d
+C:\Users\ric\AppData\Local\Temp\ccZtTOiH.s:996    .rodata:00000340 C.14.7850
+C:\Users\ric\AppData\Local\Temp\ccZtTOiH.s:182    .text:00000150 $a
+C:\Users\ric\AppData\Local\Temp\ccZtTOiH.s:185    .text:00000150 CyFxGpioIntrCb
+C:\Users\ric\AppData\Local\Temp\ccZtTOiH.s:244    .text:000001d0 $d
+C:\Users\ric\AppData\Local\Temp\ccZtTOiH.s:282    .text:000001d4 $a
+C:\Users\ric\AppData\Local\Temp\ccZtTOiH.s:285    .text:000001d4 CyFxGpioInit
+C:\Users\ric\AppData\Local\Temp\ccZtTOiH.s:492    .text:0000041c $d
+C:\Users\ric\AppData\Local\Temp\ccZtTOiH.s:955    .rodata:000002f8 C.6.7819
+C:\Users\ric\AppData\Local\Temp\ccZtTOiH.s:966    .rodata:00000304 C.7.7822
+C:\Users\ric\AppData\Local\Temp\ccZtTOiH.s:976    .rodata:00000318 C.8.7827
+C:\Users\ric\AppData\Local\Temp\ccZtTOiH.s:986    .rodata:0000032c C.9.7832
+C:\Users\ric\AppData\Local\Temp\ccZtTOiH.s:521    .text:00000454 $a
+C:\Users\ric\AppData\Local\Temp\ccZtTOiH.s:524    .text:00000454 GpioOutputThread_Entry
+C:\Users\ric\AppData\Local\Temp\ccZtTOiH.s:616    .text:00000534 $d
+C:\Users\ric\AppData\Local\Temp\ccZtTOiH.s:631    .text:00000544 $a
+C:\Users\ric\AppData\Local\Temp\ccZtTOiH.s:634    .text:00000544 GpioInputThread_Entry
+C:\Users\ric\AppData\Local\Temp\ccZtTOiH.s:693    .text:000005c4 $d
+C:\Users\ric\AppData\Local\Temp\ccZtTOiH.s:707    .text:000005d0 $a
+C:\Users\ric\AppData\Local\Temp\ccZtTOiH.s:710    .text:000005d0 CyFxApplicationDefine
+C:\Users\ric\AppData\Local\Temp\ccZtTOiH.s:817    .text:000006f0 $d
+C:\Users\ric\AppData\Local\Temp\ccZtTOiH.s:827    .text:0000070c $a
+C:\Users\ric\AppData\Local\Temp\ccZtTOiH.s:830    .text:0000070c main
+C:\Users\ric\AppData\Local\Temp\ccZtTOiH.s:917    .text:000007dc $d
+C:\Users\ric\AppData\Local\Temp\ccZtTOiH.s:926    .rodata:000002c0 C.0.7785
+C:\Users\ric\AppData\Local\Temp\ccZtTOiH.s:938    .rodata:000002d0 C.2.7791
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+_tx_thread_sleep
+CyU3PUartInit
+CyU3PMemSet
+CyU3PUartSetConfig
+CyU3PUartTxSetBlockXfer
+CyU3PDebugInit
+CyU3PDebugPreamble
+CyU3PSysGetApiVersion
+CyU3PDebugPrint
+CyU3PGpioSimpleGetValue
+CyU3PGpioSimpleSetValue
+_txe_event_flags_set
+CyU3PGpioInit
+CyU3PGpioSetSimpleConfig
+CyU3PDeviceGpioOverride
+CyU3PSetGpioDriveStrength
+CyU3PGpioGetValue
+CyU3PGpioSetValue
+_txe_event_flags_get
+CyU3PMemAlloc
+_txe_thread_create
+_txe_event_flags_create
+CyU3PDeviceInit
+CyU3PDeviceCacheControl
+CyU3PDeviceConfigureIOMatrix
+_tx_initialize_kernel_enter

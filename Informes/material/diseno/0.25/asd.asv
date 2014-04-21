@@ -1,0 +1,11 @@
+plot(a2(:,1)*1E9,a2(:,2),'r');
+hold on;
+plot(a2(:,1)*1E9,a2(:,3),'b');
+hold on;
+plot(data3(:,1)*1E9,data3(:,2),'g');
+hold on;
+plot(data3(:,1)*1E9,data3(:,6),'black');
+xlabel('tiempo (ns)');
+ylabel('Amplitud (V)');
+grid on;
+grid minor;

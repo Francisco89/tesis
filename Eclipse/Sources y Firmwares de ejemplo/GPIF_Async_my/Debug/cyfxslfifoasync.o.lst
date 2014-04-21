@@ -1,0 +1,2499 @@
+   1              		.cpu arm926ej-s
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 18, 4
+  11              		.file	"cyfxslfifoasync.c"
+  19              	.Ltext0:
+  20              		.cfi_sections	.debug_frame
+  21              		.global	CyFxGpifTransition
+  22              		.data
+  23              		.align	2
+  26              	CyFxGpifTransition:
+  27 0000 0000     		.short	0
+  28 0002 FFFF     		.short	-1
+  29 0004 AAAA     		.short	-21846
+  30              		.global	CyFxGpifWavedata
+  31 0006 0000     		.align	2
+  34              	CyFxGpifWavedata:
+  35 0008 0190732E 		.word	779325441
+  36 000c C00C0000 		.word	3264
+  37 0010 00080080 		.word	-2147481600
+  38 0014 00000000 		.word	0
+  39 0018 00000000 		.word	0
+  40 001c 00000000 		.word	0
+  41 0020 029C731E 		.word	510893058
+  42 0024 40040010 		.word	268436544
+  43 0028 00080080 		.word	-2147481600
+  44 002c 00000000 		.word	0
+  45 0030 00000000 		.word	0
+  46 0034 00000000 		.word	0
+  47 0038 039C731E 		.word	510893059
+  48 003c 40000000 		.word	64
+  49 0040 00080081 		.word	-2130704384
+  50 0044 00000000 		.word	0
+  51 0048 00000000 		.word	0
+  52 004c 00000000 		.word	0
+  53 0050 049C731E 		.word	510893060
+  54 0054 00000000 		.word	0
+  55 0058 00080080 		.word	-2147481600
+  56 005c 00000000 		.word	0
+  57 0060 00000000 		.word	0
+  58 0064 00000000 		.word	0
+  59              		.global	CyFxGpifWavedataPosition
+  60              		.align	2
+  63              	CyFxGpifWavedataPosition:
+  64 0068 00       		.byte	0
+  65 0069 01       		.byte	1
+  66 006a 02       		.byte	2
+  67 006b 03       		.byte	3
+  68 006c 00       		.byte	0
+  69              		.global	CyFxGpifRegValue
+  70 006d 000000   		.align	2
+  73              	CyFxGpifRegValue:
+  74 0070 10820080 		.word	-2147450352
+  75 0074 67000000 		.word	103
+  76 0078 00000000 		.word	0
+  77 007c 52000000 		.word	82
+  78 0080 00000000 		.word	0
+  79 0084 00000000 		.word	0
+  80 0088 00000000 		.word	0
+  81 008c 82000000 		.word	130
+  82 0090 82070000 		.word	1922
+  83 0094 15000054 		.word	1409286165
+  84 0098 FFFF0000 		.word	65535
+  85 009c 1F000000 		.word	31
+  86 00a0 00000000 		.word	0
+  87 00a4 00000000 		.word	0
+  88 00a8 01000000 		.word	1
+  89 00ac 02000000 		.word	2
+  90 00b0 00000000 		.word	0
+  91 00b4 00000000 		.word	0
+  92 00b8 00000000 		.word	0
+  93 00bc 00000000 		.word	0
+  94 00c0 00000000 		.word	0
+  95 00c4 00000000 		.word	0
+  96 00c8 00000000 		.word	0
+  97 00cc 00000000 		.word	0
+  98 00d0 00000000 		.word	0
+  99 00d4 00000000 		.word	0
+ 100 00d8 00000000 		.word	0
+ 101 00dc 00000000 		.word	0
+ 102 00e0 00000000 		.word	0
+ 103 00e4 06000000 		.word	6
+ 104 00e8 00000000 		.word	0
+ 105 00ec FFFF0000 		.word	65535
+ 106 00f0 0A010000 		.word	266
+ 107 00f4 00000000 		.word	0
+ 108 00f8 FFFF0000 		.word	65535
+ 109 00fc 00000000 		.word	0
+ 110 0100 FFFF0000 		.word	65535
+ 111 0104 0A010000 		.word	266
+ 112 0108 00000000 		.word	0
+ 113 010c FFFF0000 		.word	65535
+ 114 0110 00000000 		.word	0
+ 115 0114 00000000 		.word	0
+ 116 0118 00000000 		.word	0
+ 117 011c 00000000 		.word	0
+ 118 0120 00000000 		.word	0
+ 119 0124 00000000 		.word	0
+ 120 0128 00000000 		.word	0
+ 121 012c 00000000 		.word	0
+ 122 0130 00000000 		.word	0
+ 123 0134 00000000 		.word	0
+ 124 0138 00000000 		.word	0
+ 125 013c 00000000 		.word	0
+ 126 0140 00000000 		.word	0
+ 127 0144 00000000 		.word	0
+ 128 0148 00000000 		.word	0
+ 129 014c 00000000 		.word	0
+ 130 0150 00000000 		.word	0
+ 131 0154 00000000 		.word	0
+ 132 0158 00000000 		.word	0
+ 133 015c 00000000 		.word	0
+ 134 0160 00000000 		.word	0
+ 135 0164 00000000 		.word	0
+ 136 0168 00000000 		.word	0
+ 137 016c 00040180 		.word	-2147417088
+ 138 0170 01040180 		.word	-2147417087
+ 139 0174 02040180 		.word	-2147417086
+ 140 0178 03040180 		.word	-2147417085
+ 141 017c 00000000 		.word	0
+ 142 0180 00000000 		.word	0
+ 143 0184 00000000 		.word	0
+ 144 0188 00000000 		.word	0
+ 145 018c 00000000 		.word	0
+ 146 0190 00000000 		.word	0
+ 147 0194 00000000 		.word	0
+ 148 0198 00000000 		.word	0
+ 149 019c C1FFFFFF 		.word	-63
+ 150              		.global	CyFxGpifConfig
+ 151              		.section	.rodata
+ 152              		.align	2
+ 155              	CyFxGpifConfig:
+ 156 0000 0500     		.short	5
+ 157 0002 0000     		.space	2
+ 158 0004 00000000 		.word	CyFxGpifWavedata
+ 159 0008 00000000 		.word	CyFxGpifWavedataPosition
+ 160 000c 0300     		.short	3
+ 161 000e 0000     		.space	2
+ 162 0010 00000000 		.word	CyFxGpifTransition
+ 163 0014 4C00     		.short	76
+ 164 0016 0000     		.space	2
+ 165 0018 00000000 		.word	CyFxGpifRegValue
+ 166              		.comm	slFifoAppThread,168,4
+ 167              		.comm	glChHandleSlFifoUtoP,160,4
+ 168              		.comm	glChHandleSlFifoPtoU,160,4
+ 169              		.global	glDMARxCount
+ 170              		.bss
+ 171              		.align	2
+ 174              	glDMARxCount:
+ 175 0000 00000000 		.space	4
+ 176              		.global	glDMATxCount
+ 177              		.align	2
+ 180              	glDMATxCount:
+ 181 0004 00000000 		.space	4
+ 182              		.global	glIsApplnActive
+ 183              		.align	2
+ 186              	glIsApplnActive:
+ 187 0008 00000000 		.space	4
+ 188              		.text
+ 189              		.align	2
+ 190              		.global	CyFxAppErrorHandler
+ 192              	CyFxAppErrorHandler:
+ 193              	.LFB0:
+ 194              		.file 1 "../cyfxslfifoasync.c"
+   1:../cyfxslfifoasync.c **** /*
+   2:../cyfxslfifoasync.c ****  ## Cypress USB 3.0 Platform source file (cyfxslfifoasync.c)
+   3:../cyfxslfifoasync.c ****  ## ===========================
+   4:../cyfxslfifoasync.c ****  ##
+   5:../cyfxslfifoasync.c ****  ##  Copyright Cypress Semiconductor Corporation, 2010-2011,
+   6:../cyfxslfifoasync.c ****  ##  All Rights Reserved
+   7:../cyfxslfifoasync.c ****  ##  UNPUBLISHED, LICENSED SOFTWARE.
+   8:../cyfxslfifoasync.c ****  ##
+   9:../cyfxslfifoasync.c ****  ##  CONFIDENTIAL AND PROPRIETARY INFORMATION
+  10:../cyfxslfifoasync.c ****  ##  WHICH IS THE PROPERTY OF CYPRESS.
+  11:../cyfxslfifoasync.c ****  ##
+  12:../cyfxslfifoasync.c ****  ##  Use of this file is governed
+  13:../cyfxslfifoasync.c ****  ##  by the license agreement included in the file
+  14:../cyfxslfifoasync.c ****  ##
+  15:../cyfxslfifoasync.c ****  ##     <install>/license/license.txt
+  16:../cyfxslfifoasync.c ****  ##
+  17:../cyfxslfifoasync.c ****  ##  where <install> is the Cypress software
+  18:../cyfxslfifoasync.c ****  ##  installation root directory path.
+  19:../cyfxslfifoasync.c ****  ##
+  20:../cyfxslfifoasync.c ****  ## ===========================
+  21:../cyfxslfifoasync.c **** */
+  22:../cyfxslfifoasync.c **** 
+  23:../cyfxslfifoasync.c **** /* This file illustrates the Slave FIFO Asynchronous mode example */
+  24:../cyfxslfifoasync.c **** 
+  25:../cyfxslfifoasync.c **** /*
+  26:../cyfxslfifoasync.c ****    This example comprises of two USB bulk endpoints. A bulk OUT endpoint acts as the
+  27:../cyfxslfifoasync.c ****    producer of data from the host. A bulk IN endpoint acts as the consumer of data to
+  28:../cyfxslfifoasync.c ****    the host. Appropriate vendor class USB enumeration descriptors with these two bulk
+  29:../cyfxslfifoasync.c ****    endpoints are implemented.
+  30:../cyfxslfifoasync.c **** 
+  31:../cyfxslfifoasync.c ****    The GPIF configuration data for the Asynchronous Slave FIFO operation is loaded onto
+  32:../cyfxslfifoasync.c ****    the appropriate GPIF registers. The p-port data transfers are done via the producer
+  33:../cyfxslfifoasync.c ****    p-port socket and the consumer p-port socket.
+  34:../cyfxslfifoasync.c **** 
+  35:../cyfxslfifoasync.c ****    This example implements two DMA Channels in MANUAL mode one for P to U data transfer
+  36:../cyfxslfifoasync.c ****    and one for U to P data transfer.
+  37:../cyfxslfifoasync.c **** 
+  38:../cyfxslfifoasync.c ****    The U to P DMA channel connects the USB producer (OUT) endpoint to the consumer p-port
+  39:../cyfxslfifoasync.c ****    socket. And the P to U DMA channel connects the producer p-port socket to the USB 
+  40:../cyfxslfifoasync.c ****    consumer (IN) endpoint.
+  41:../cyfxslfifoasync.c **** 
+  42:../cyfxslfifoasync.c ****    Upon every reception of data in the DMA buffer from the host or from the p-port, the
+  43:../cyfxslfifoasync.c ****    CPU is signalled using DMA callbacks. There are two DMA callback functions implemented
+  44:../cyfxslfifoasync.c ****    each for U to P and P to U data paths. The CPU then commits the DMA buffer received so
+  45:../cyfxslfifoasync.c ****    that the data is transferred to the consumer.
+  46:../cyfxslfifoasync.c **** 
+  47:../cyfxslfifoasync.c ****    The DMA buffer size for each channel is defined based on the USB speed. 64 for full
+  48:../cyfxslfifoasync.c ****    speed, 512 for high speed and 1024 for super speed. CY_FX_SLFIFO_DMA_BUF_COUNT in the
+  49:../cyfxslfifoasync.c ****    header file defines the number of DMA buffers per channel.
+  50:../cyfxslfifoasync.c **** 
+  51:../cyfxslfifoasync.c ****    The constant CY_FX_SLFIFO_GPIF_16_32BIT_CONF_SELECT in the header file is used to
+  52:../cyfxslfifoasync.c ****    select 16bit or 32bit GPIF data bus configuration.
+  53:../cyfxslfifoasync.c ****  */
+  54:../cyfxslfifoasync.c **** 
+  55:../cyfxslfifoasync.c **** #include "cyu3system.h"
+  56:../cyfxslfifoasync.c **** #include "cyu3os.h"
+  57:../cyfxslfifoasync.c **** #include "cyu3dma.h"
+  58:../cyfxslfifoasync.c **** #include "cyu3error.h"
+  59:../cyfxslfifoasync.c **** #include "cyu3usb.h"
+  60:../cyfxslfifoasync.c **** #include "cyu3uart.h"
+  61:../cyfxslfifoasync.c **** #include "cyfxslfifoasync.h"
+  62:../cyfxslfifoasync.c **** #include "cyu3gpif.h"
+  63:../cyfxslfifoasync.c **** #include "cyu3pib.h"
+  64:../cyfxslfifoasync.c **** #include "pib_regs.h"
+  65:../cyfxslfifoasync.c **** 
+  66:../cyfxslfifoasync.c **** /* This file should be included only once as it contains
+  67:../cyfxslfifoasync.c ****  * structure definitions. Including it in multiple places
+  68:../cyfxslfifoasync.c ****  * can result in linker error. */
+  69:../cyfxslfifoasync.c **** #include "cyfxgpif2config.h"
+  70:../cyfxslfifoasync.c **** 
+  71:../cyfxslfifoasync.c **** CyU3PThread slFifoAppThread;	        /* Slave FIFO application thread structure */
+  72:../cyfxslfifoasync.c **** CyU3PDmaChannel glChHandleSlFifoUtoP;   /* DMA Channel handle for U2P transfer. */
+  73:../cyfxslfifoasync.c **** CyU3PDmaChannel glChHandleSlFifoPtoU;   /* DMA Channel handle for P2U transfer. */
+  74:../cyfxslfifoasync.c **** 
+  75:../cyfxslfifoasync.c **** uint32_t glDMARxCount = 0;               /* Counter to track the number of buffers received from US
+  76:../cyfxslfifoasync.c **** uint32_t glDMATxCount = 0;               /* Counter to track the number of buffers sent to USB. */
+  77:../cyfxslfifoasync.c **** CyBool_t glIsApplnActive = CyFalse;      /* Whether the loopback application is active or not. */
+  78:../cyfxslfifoasync.c **** 
+  79:../cyfxslfifoasync.c **** /* Application Error Handler */
+  80:../cyfxslfifoasync.c **** void
+  81:../cyfxslfifoasync.c **** CyFxAppErrorHandler (
+  82:../cyfxslfifoasync.c ****         CyU3PReturnStatus_t apiRetStatus    /* API return status */
+  83:../cyfxslfifoasync.c ****         )
+  84:../cyfxslfifoasync.c **** {
+ 195              		.loc 1 84 0
+ 196              		.cfi_startproc
+ 197              		@ args = 0, pretend = 0, frame = 8
+ 198              		@ frame_needed = 1, uses_anonymous_args = 0
+ 199 0000 00482DE9 		stmfd	sp!, {fp, lr}
+ 200              	.LCFI0:
+ 201              		.cfi_def_cfa_offset 8
+ 202 0004 04B08DE2 		add	fp, sp, #4
+ 203              		.cfi_offset 14, -4
+ 204              		.cfi_offset 11, -8
+ 205              	.LCFI1:
+ 206              		.cfi_def_cfa 11, 4
+ 207 0008 08D04DE2 		sub	sp, sp, #8
+ 208 000c 08000BE5 		str	r0, [fp, #-8]
+ 209              	.L2:
+  85:../cyfxslfifoasync.c ****     /* Application failed with the error code apiRetStatus */
+  86:../cyfxslfifoasync.c **** 
+  87:../cyfxslfifoasync.c ****     /* Add custom debug or recovery actions here */
+  88:../cyfxslfifoasync.c **** 
+  89:../cyfxslfifoasync.c ****     /* Loop Indefinitely */
+  90:../cyfxslfifoasync.c ****     for (;;)
+  91:../cyfxslfifoasync.c ****     {
+  92:../cyfxslfifoasync.c ****         /* Thread sleep : 100 ms */
+  93:../cyfxslfifoasync.c ****         CyU3PThreadSleep (100);
+ 210              		.loc 1 93 0 discriminator 1
+ 211 0010 6400A0E3 		mov	r0, #100
+ 212 0014 FEFFFFEB 		bl	_tx_thread_sleep
+  94:../cyfxslfifoasync.c ****     }
+ 213              		.loc 1 94 0 discriminator 1
+ 214 0018 FCFFFFEA 		b	.L2
+ 215              		.cfi_endproc
+ 216              	.LFE0:
+ 218              		.align	2
+ 219              		.global	CyFxSlFifoApplnDebugInit
+ 221              	CyFxSlFifoApplnDebugInit:
+ 222              	.LFB1:
+  95:../cyfxslfifoasync.c **** }
+  96:../cyfxslfifoasync.c **** 
+  97:../cyfxslfifoasync.c **** /* This function initializes the debug module. The debug prints
+  98:../cyfxslfifoasync.c ****  * are routed to the UART and can be seen using a UART console
+  99:../cyfxslfifoasync.c ****  * running at 115200 baud rate. */
+ 100:../cyfxslfifoasync.c **** void
+ 101:../cyfxslfifoasync.c **** CyFxSlFifoApplnDebugInit (void)
+ 102:../cyfxslfifoasync.c **** {
+ 223              		.loc 1 102 0
+ 224              		.cfi_startproc
+ 225              		@ args = 0, pretend = 0, frame = 32
+ 226              		@ frame_needed = 1, uses_anonymous_args = 0
+ 227 001c 00482DE9 		stmfd	sp!, {fp, lr}
+ 228              	.LCFI2:
+ 229              		.cfi_def_cfa_offset 8
+ 230 0020 04B08DE2 		add	fp, sp, #4
+ 231              		.cfi_offset 14, -4
+ 232              		.cfi_offset 11, -8
+ 233              	.LCFI3:
+ 234              		.cfi_def_cfa 11, 4
+ 235 0024 20D04DE2 		sub	sp, sp, #32
+ 103:../cyfxslfifoasync.c ****     CyU3PUartConfig_t uartConfig;
+ 104:../cyfxslfifoasync.c ****     CyU3PReturnStatus_t apiRetStatus = CY_U3P_SUCCESS;
+ 236              		.loc 1 104 0
+ 237 0028 0030A0E3 		mov	r3, #0
+ 238 002c 08300BE5 		str	r3, [fp, #-8]
+ 105:../cyfxslfifoasync.c **** 
+ 106:../cyfxslfifoasync.c ****     /* Initialize the UART for printing debug messages */
+ 107:../cyfxslfifoasync.c ****     apiRetStatus = CyU3PUartInit();
+ 239              		.loc 1 107 0
+ 240 0030 FEFFFFEB 		bl	CyU3PUartInit
+ 241 0034 08000BE5 		str	r0, [fp, #-8]
+ 108:../cyfxslfifoasync.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 242              		.loc 1 108 0
+ 243 0038 08301BE5 		ldr	r3, [fp, #-8]
+ 244 003c 000053E3 		cmp	r3, #0
+ 245 0040 0100000A 		beq	.L4
+ 109:../cyfxslfifoasync.c ****     {
+ 110:../cyfxslfifoasync.c ****         /* Error handling */
+ 111:../cyfxslfifoasync.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 246              		.loc 1 111 0
+ 247 0044 08001BE5 		ldr	r0, [fp, #-8]
+ 248 0048 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 249              	.L4:
+ 112:../cyfxslfifoasync.c ****     }
+ 113:../cyfxslfifoasync.c **** 
+ 114:../cyfxslfifoasync.c ****     /* Set UART configuration */
+ 115:../cyfxslfifoasync.c ****     CyU3PMemSet ((uint8_t *)&uartConfig, 0, sizeof (uartConfig));
+ 250              		.loc 1 115 0
+ 251 004c 20304BE2 		sub	r3, fp, #32
+ 252 0050 0300A0E1 		mov	r0, r3
+ 253 0054 0010A0E3 		mov	r1, #0
+ 254 0058 1820A0E3 		mov	r2, #24
+ 255 005c FEFFFFEB 		bl	CyU3PMemSet
+ 116:../cyfxslfifoasync.c ****     uartConfig.baudRate = CY_U3P_UART_BAUDRATE_115200;
+ 256              		.loc 1 116 0
+ 257 0060 A4309FE5 		ldr	r3, .L8
+ 258 0064 10300BE5 		str	r3, [fp, #-16]
+ 117:../cyfxslfifoasync.c ****     uartConfig.stopBit = CY_U3P_UART_ONE_STOP_BIT;
+ 259              		.loc 1 117 0
+ 260 0068 0130A0E3 		mov	r3, #1
+ 261 006c 0C304BE5 		strb	r3, [fp, #-12]
+ 118:../cyfxslfifoasync.c ****     uartConfig.parity = CY_U3P_UART_NO_PARITY;
+ 262              		.loc 1 118 0
+ 263 0070 0030A0E3 		mov	r3, #0
+ 264 0074 0B304BE5 		strb	r3, [fp, #-11]
+ 119:../cyfxslfifoasync.c ****     uartConfig.txEnable = CyTrue;
+ 265              		.loc 1 119 0
+ 266 0078 0130A0E3 		mov	r3, #1
+ 267 007c 20300BE5 		str	r3, [fp, #-32]
+ 120:../cyfxslfifoasync.c ****     uartConfig.rxEnable = CyFalse;
+ 268              		.loc 1 120 0
+ 269 0080 0030A0E3 		mov	r3, #0
+ 270 0084 1C300BE5 		str	r3, [fp, #-28]
+ 121:../cyfxslfifoasync.c ****     uartConfig.flowCtrl = CyFalse;
+ 271              		.loc 1 121 0
+ 272 0088 0030A0E3 		mov	r3, #0
+ 273 008c 18300BE5 		str	r3, [fp, #-24]
+ 122:../cyfxslfifoasync.c ****     uartConfig.isDma = CyTrue;
+ 274              		.loc 1 122 0
+ 275 0090 0130A0E3 		mov	r3, #1
+ 276 0094 14300BE5 		str	r3, [fp, #-20]
+ 123:../cyfxslfifoasync.c **** 
+ 124:../cyfxslfifoasync.c ****     apiRetStatus = CyU3PUartSetConfig (&uartConfig, NULL);
+ 277              		.loc 1 124 0
+ 278 0098 20304BE2 		sub	r3, fp, #32
+ 279 009c 0300A0E1 		mov	r0, r3
+ 280 00a0 0010A0E3 		mov	r1, #0
+ 281 00a4 FEFFFFEB 		bl	CyU3PUartSetConfig
+ 282 00a8 08000BE5 		str	r0, [fp, #-8]
+ 125:../cyfxslfifoasync.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 283              		.loc 1 125 0
+ 284 00ac 08301BE5 		ldr	r3, [fp, #-8]
+ 285 00b0 000053E3 		cmp	r3, #0
+ 286 00b4 0100000A 		beq	.L5
+ 126:../cyfxslfifoasync.c ****     {
+ 127:../cyfxslfifoasync.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 287              		.loc 1 127 0
+ 288 00b8 08001BE5 		ldr	r0, [fp, #-8]
+ 289 00bc FEFFFFEB 		bl	CyFxAppErrorHandler
+ 290              	.L5:
+ 128:../cyfxslfifoasync.c ****     }
+ 129:../cyfxslfifoasync.c **** 
+ 130:../cyfxslfifoasync.c ****     /* Set the UART transfer to a really large value. */
+ 131:../cyfxslfifoasync.c ****     apiRetStatus = CyU3PUartTxSetBlockXfer (0xFFFFFFFF);
+ 291              		.loc 1 131 0
+ 292 00c0 0000E0E3 		mvn	r0, #0
+ 293 00c4 FEFFFFEB 		bl	CyU3PUartTxSetBlockXfer
+ 294 00c8 08000BE5 		str	r0, [fp, #-8]
+ 132:../cyfxslfifoasync.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 295              		.loc 1 132 0
+ 296 00cc 08301BE5 		ldr	r3, [fp, #-8]
+ 297 00d0 000053E3 		cmp	r3, #0
+ 298 00d4 0100000A 		beq	.L6
+ 133:../cyfxslfifoasync.c ****     {
+ 134:../cyfxslfifoasync.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 299              		.loc 1 134 0
+ 300 00d8 08001BE5 		ldr	r0, [fp, #-8]
+ 301 00dc FEFFFFEB 		bl	CyFxAppErrorHandler
+ 302              	.L6:
+ 135:../cyfxslfifoasync.c ****     }
+ 136:../cyfxslfifoasync.c **** 
+ 137:../cyfxslfifoasync.c ****     /* Initialize the debug module. */
+ 138:../cyfxslfifoasync.c ****     apiRetStatus = CyU3PDebugInit (CY_U3P_LPP_SOCKET_UART_CONS, 8);
+ 303              		.loc 1 138 0
+ 304 00e0 0300A0E3 		mov	r0, #3
+ 305 00e4 0810A0E3 		mov	r1, #8
+ 306 00e8 FEFFFFEB 		bl	CyU3PDebugInit
+ 307 00ec 08000BE5 		str	r0, [fp, #-8]
+ 139:../cyfxslfifoasync.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 308              		.loc 1 139 0
+ 309 00f0 08301BE5 		ldr	r3, [fp, #-8]
+ 310 00f4 000053E3 		cmp	r3, #0
+ 311 00f8 0100000A 		beq	.L3
+ 140:../cyfxslfifoasync.c ****     {
+ 141:../cyfxslfifoasync.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 312              		.loc 1 141 0
+ 313 00fc 08001BE5 		ldr	r0, [fp, #-8]
+ 314 0100 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 315              	.L3:
+ 142:../cyfxslfifoasync.c ****     }
+ 143:../cyfxslfifoasync.c **** }
+ 316              		.loc 1 143 0
+ 317 0104 04D04BE2 		sub	sp, fp, #4
+ 318 0108 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 319              	.L9:
+ 320              		.align	2
+ 321              	.L8:
+ 322 010c 00C20100 		.word	115200
+ 323              		.cfi_endproc
+ 324              	.LFE1:
+ 326              		.section	.rodata
+ 327              		.align	2
+ 328              	.LC0:
+ 329 001c 43795533 		.ascii	"CyU3PDmaChannelCommitBuffer failed, Error code = %d"
+ 329      50446D61 
+ 329      4368616E 
+ 329      6E656C43 
+ 329      6F6D6D69 
+ 330 004f 0A00     		.ascii	"\012\000"
+ 331              		.text
+ 332              		.align	2
+ 333              		.global	CyFxSlFifoUtoPDmaCallback
+ 335              	CyFxSlFifoUtoPDmaCallback:
+ 336              	.LFB2:
+ 144:../cyfxslfifoasync.c **** 
+ 145:../cyfxslfifoasync.c **** /* DMA callback function to handle the produce events for U to P transfers. */
+ 146:../cyfxslfifoasync.c **** void
+ 147:../cyfxslfifoasync.c **** CyFxSlFifoUtoPDmaCallback (
+ 148:../cyfxslfifoasync.c ****         CyU3PDmaChannel   *chHandle,
+ 149:../cyfxslfifoasync.c ****         CyU3PDmaCbType_t  type,
+ 150:../cyfxslfifoasync.c ****         CyU3PDmaCBInput_t *input
+ 151:../cyfxslfifoasync.c ****         )
+ 152:../cyfxslfifoasync.c **** {
+ 337              		.loc 1 152 0
+ 338              		.cfi_startproc
+ 339              		@ args = 0, pretend = 0, frame = 24
+ 340              		@ frame_needed = 1, uses_anonymous_args = 0
+ 341 0110 00482DE9 		stmfd	sp!, {fp, lr}
+ 342              	.LCFI4:
+ 343              		.cfi_def_cfa_offset 8
+ 344 0114 04B08DE2 		add	fp, sp, #4
+ 345              		.cfi_offset 14, -4
+ 346              		.cfi_offset 11, -8
+ 347              	.LCFI5:
+ 348              		.cfi_def_cfa 11, 4
+ 349 0118 18D04DE2 		sub	sp, sp, #24
+ 350 011c 10000BE5 		str	r0, [fp, #-16]
+ 351 0120 0130A0E1 		mov	r3, r1
+ 352 0124 18200BE5 		str	r2, [fp, #-24]
+ 353 0128 B2314BE1 		strh	r3, [fp, #-18]	@ movhi
+ 153:../cyfxslfifoasync.c ****     CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
+ 354              		.loc 1 153 0
+ 355 012c 0030A0E3 		mov	r3, #0
+ 356 0130 08300BE5 		str	r3, [fp, #-8]
+ 154:../cyfxslfifoasync.c **** 
+ 155:../cyfxslfifoasync.c ****     if (type == CY_U3P_DMA_CB_PROD_EVENT)
+ 357              		.loc 1 155 0
+ 358 0134 B2315BE1 		ldrh	r3, [fp, #-18]
+ 359 0138 080053E3 		cmp	r3, #8
+ 360 013c 1200001A 		bne	.L10
+ 156:../cyfxslfifoasync.c ****     {
+ 157:../cyfxslfifoasync.c ****         /* This is a produce event notification to the CPU. This notification is 
+ 158:../cyfxslfifoasync.c ****          * received upon reception of every buffer. The buffer will not be sent
+ 159:../cyfxslfifoasync.c ****          * out unless it is explicitly committed. The call shall fail if there
+ 160:../cyfxslfifoasync.c ****          * is a bus reset / usb disconnect or if there is any application error. */
+ 161:../cyfxslfifoasync.c ****         status = CyU3PDmaChannelCommitBuffer (chHandle, input->buffer_p.count, 0);
+ 361              		.loc 1 161 0
+ 362 0140 18301BE5 		ldr	r3, [fp, #-24]
+ 363 0144 B430D3E1 		ldrh	r3, [r3, #4]
+ 364 0148 10001BE5 		ldr	r0, [fp, #-16]
+ 365 014c 0310A0E1 		mov	r1, r3
+ 366 0150 0020A0E3 		mov	r2, #0
+ 367 0154 FEFFFFEB 		bl	CyU3PDmaChannelCommitBuffer
+ 368 0158 08000BE5 		str	r0, [fp, #-8]
+ 162:../cyfxslfifoasync.c ****         if (status != CY_U3P_SUCCESS)
+ 369              		.loc 1 162 0
+ 370 015c 08301BE5 		ldr	r3, [fp, #-8]
+ 371 0160 000053E3 		cmp	r3, #0
+ 372 0164 0300000A 		beq	.L12
+ 163:../cyfxslfifoasync.c ****         {
+ 164:../cyfxslfifoasync.c ****             CyU3PDebugPrint (4, "CyU3PDmaChannelCommitBuffer failed, Error code = %d\n", status);
+ 373              		.loc 1 164 0
+ 374 0168 0400A0E3 		mov	r0, #4
+ 375 016c 20109FE5 		ldr	r1, .L13
+ 376 0170 08201BE5 		ldr	r2, [fp, #-8]
+ 377 0174 FEFFFFEB 		bl	CyU3PDebugPrint
+ 378              	.L12:
+ 165:../cyfxslfifoasync.c ****         }
+ 166:../cyfxslfifoasync.c **** 
+ 167:../cyfxslfifoasync.c ****         /* Increment the counter. */
+ 168:../cyfxslfifoasync.c ****         glDMARxCount++;
+ 379              		.loc 1 168 0
+ 380 0178 18309FE5 		ldr	r3, .L13+4
+ 381 017c 003093E5 		ldr	r3, [r3, #0]
+ 382 0180 012083E2 		add	r2, r3, #1
+ 383 0184 0C309FE5 		ldr	r3, .L13+4
+ 384 0188 002083E5 		str	r2, [r3, #0]
+ 385              	.L10:
+ 169:../cyfxslfifoasync.c ****     }
+ 170:../cyfxslfifoasync.c **** }
+ 386              		.loc 1 170 0
+ 387 018c 04D04BE2 		sub	sp, fp, #4
+ 388 0190 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 389              	.L14:
+ 390              		.align	2
+ 391              	.L13:
+ 392 0194 1C000000 		.word	.LC0
+ 393 0198 00000000 		.word	glDMARxCount
+ 394              		.cfi_endproc
+ 395              	.LFE2:
+ 397              		.align	2
+ 398              		.global	CyFxSlFifoPtoUDmaCallback
+ 400              	CyFxSlFifoPtoUDmaCallback:
+ 401              	.LFB3:
+ 171:../cyfxslfifoasync.c **** 
+ 172:../cyfxslfifoasync.c **** /* DMA callback function to handle the produce events for P to U transfers. */
+ 173:../cyfxslfifoasync.c **** void
+ 174:../cyfxslfifoasync.c **** CyFxSlFifoPtoUDmaCallback (
+ 175:../cyfxslfifoasync.c ****         CyU3PDmaChannel   *chHandle,
+ 176:../cyfxslfifoasync.c ****         CyU3PDmaCbType_t  type,
+ 177:../cyfxslfifoasync.c ****         CyU3PDmaCBInput_t *input
+ 178:../cyfxslfifoasync.c ****         )
+ 179:../cyfxslfifoasync.c **** {
+ 402              		.loc 1 179 0
+ 403              		.cfi_startproc
+ 404              		@ args = 0, pretend = 0, frame = 24
+ 405              		@ frame_needed = 1, uses_anonymous_args = 0
+ 406 019c 00482DE9 		stmfd	sp!, {fp, lr}
+ 407              	.LCFI6:
+ 408              		.cfi_def_cfa_offset 8
+ 409 01a0 04B08DE2 		add	fp, sp, #4
+ 410              		.cfi_offset 14, -4
+ 411              		.cfi_offset 11, -8
+ 412              	.LCFI7:
+ 413              		.cfi_def_cfa 11, 4
+ 414 01a4 18D04DE2 		sub	sp, sp, #24
+ 415 01a8 10000BE5 		str	r0, [fp, #-16]
+ 416 01ac 0130A0E1 		mov	r3, r1
+ 417 01b0 18200BE5 		str	r2, [fp, #-24]
+ 418 01b4 B2314BE1 		strh	r3, [fp, #-18]	@ movhi
+ 180:../cyfxslfifoasync.c ****     CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
+ 419              		.loc 1 180 0
+ 420 01b8 0030A0E3 		mov	r3, #0
+ 421 01bc 08300BE5 		str	r3, [fp, #-8]
+ 181:../cyfxslfifoasync.c **** 
+ 182:../cyfxslfifoasync.c ****     if (type == CY_U3P_DMA_CB_PROD_EVENT)
+ 422              		.loc 1 182 0
+ 423 01c0 B2315BE1 		ldrh	r3, [fp, #-18]
+ 424 01c4 080053E3 		cmp	r3, #8
+ 425 01c8 1200001A 		bne	.L15
+ 183:../cyfxslfifoasync.c ****     {
+ 184:../cyfxslfifoasync.c ****         /* This is a produce event notification to the CPU. This notification is 
+ 185:../cyfxslfifoasync.c ****          * received upon reception of every buffer. The buffer will not be sent
+ 186:../cyfxslfifoasync.c ****          * out unless it is explicitly committed. The call shall fail if there
+ 187:../cyfxslfifoasync.c ****          * is a bus reset / usb disconnect or if there is any application error. */
+ 188:../cyfxslfifoasync.c ****         status = CyU3PDmaChannelCommitBuffer (chHandle, input->buffer_p.count, 0);
+ 426              		.loc 1 188 0
+ 427 01cc 18301BE5 		ldr	r3, [fp, #-24]
+ 428 01d0 B430D3E1 		ldrh	r3, [r3, #4]
+ 429 01d4 10001BE5 		ldr	r0, [fp, #-16]
+ 430 01d8 0310A0E1 		mov	r1, r3
+ 431 01dc 0020A0E3 		mov	r2, #0
+ 432 01e0 FEFFFFEB 		bl	CyU3PDmaChannelCommitBuffer
+ 433 01e4 08000BE5 		str	r0, [fp, #-8]
+ 189:../cyfxslfifoasync.c ****         if (status != CY_U3P_SUCCESS)
+ 434              		.loc 1 189 0
+ 435 01e8 08301BE5 		ldr	r3, [fp, #-8]
+ 436 01ec 000053E3 		cmp	r3, #0
+ 437 01f0 0300000A 		beq	.L17
+ 190:../cyfxslfifoasync.c ****         {
+ 191:../cyfxslfifoasync.c ****             CyU3PDebugPrint (4, "CyU3PDmaChannelCommitBuffer failed, Error code = %d\n", status);
+ 438              		.loc 1 191 0
+ 439 01f4 0400A0E3 		mov	r0, #4
+ 440 01f8 20109FE5 		ldr	r1, .L18
+ 441 01fc 08201BE5 		ldr	r2, [fp, #-8]
+ 442 0200 FEFFFFEB 		bl	CyU3PDebugPrint
+ 443              	.L17:
+ 192:../cyfxslfifoasync.c ****         }
+ 193:../cyfxslfifoasync.c **** 
+ 194:../cyfxslfifoasync.c ****         /* Increment the counter. */
+ 195:../cyfxslfifoasync.c ****         glDMATxCount++;
+ 444              		.loc 1 195 0
+ 445 0204 18309FE5 		ldr	r3, .L18+4
+ 446 0208 003093E5 		ldr	r3, [r3, #0]
+ 447 020c 012083E2 		add	r2, r3, #1
+ 448 0210 0C309FE5 		ldr	r3, .L18+4
+ 449 0214 002083E5 		str	r2, [r3, #0]
+ 450              	.L15:
+ 196:../cyfxslfifoasync.c ****     }
+ 197:../cyfxslfifoasync.c **** }
+ 451              		.loc 1 197 0
+ 452 0218 04D04BE2 		sub	sp, fp, #4
+ 453 021c 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 454              	.L19:
+ 455              		.align	2
+ 456              	.L18:
+ 457 0220 1C000000 		.word	.LC0
+ 458 0224 00000000 		.word	glDMATxCount
+ 459              		.cfi_endproc
+ 460              	.LFE3:
+ 462              		.section	.rodata
+ 463 0051 000000   		.align	2
+ 464              	.LC1:
+ 465 0054 4572726F 		.ascii	"Error! Invalid USB speed.\012\000"
+ 465      72212049 
+ 465      6E76616C 
+ 465      69642055 
+ 465      53422073 
+ 466 006f 00       		.align	2
+ 467              	.LC2:
+ 468 0070 43795533 		.ascii	"CyU3PSetEpConfig failed, Error code = %d\012\000"
+ 468      50536574 
+ 468      4570436F 
+ 468      6E666967 
+ 468      20666169 
+ 469 009a 0000     		.align	2
+ 470              	.LC3:
+ 471 009c 43795533 		.ascii	"CyU3PDmaChannelCreate failed, Error code = %d\012\000"
+ 471      50446D61 
+ 471      4368616E 
+ 471      6E656C43 
+ 471      72656174 
+ 472 00cb 00       		.align	2
+ 473              	.LC4:
+ 474 00cc 43795533 		.ascii	"CyU3PDmaChannelSetXfer Failed, Error code = %d\012\000"
+ 474      50446D61 
+ 474      4368616E 
+ 474      6E656C53 
+ 474      65745866 
+ 475              		.text
+ 476              		.align	2
+ 477              		.global	CyFxSlFifoApplnStart
+ 479              	CyFxSlFifoApplnStart:
+ 480              	.LFB4:
+ 198:../cyfxslfifoasync.c **** 
+ 199:../cyfxslfifoasync.c **** /* This function starts the slave FIFO loop application. This is called
+ 200:../cyfxslfifoasync.c ****  * when a SET_CONF event is received from the USB host. The endpoints
+ 201:../cyfxslfifoasync.c ****  * are configured and the DMA pipe is setup in this function. */
+ 202:../cyfxslfifoasync.c **** void
+ 203:../cyfxslfifoasync.c **** CyFxSlFifoApplnStart (
+ 204:../cyfxslfifoasync.c ****         void)
+ 205:../cyfxslfifoasync.c **** {
+ 481              		.loc 1 205 0
+ 482              		.cfi_startproc
+ 483              		@ args = 0, pretend = 0, frame = 56
+ 484              		@ frame_needed = 1, uses_anonymous_args = 0
+ 485 0228 00482DE9 		stmfd	sp!, {fp, lr}
+ 486              	.LCFI8:
+ 487              		.cfi_def_cfa_offset 8
+ 488 022c 04B08DE2 		add	fp, sp, #4
+ 489              		.cfi_offset 14, -4
+ 490              		.cfi_offset 11, -8
+ 491              	.LCFI9:
+ 492              		.cfi_def_cfa 11, 4
+ 493 0230 38D04DE2 		sub	sp, sp, #56
+ 206:../cyfxslfifoasync.c ****     uint16_t size = 0;
+ 494              		.loc 1 206 0
+ 495 0234 0030A0E3 		mov	r3, #0
+ 496 0238 B6304BE1 		strh	r3, [fp, #-6]	@ movhi
+ 207:../cyfxslfifoasync.c ****     CyU3PEpConfig_t epCfg;
+ 208:../cyfxslfifoasync.c ****     CyU3PDmaChannelConfig_t dmaCfg;
+ 209:../cyfxslfifoasync.c ****     CyU3PReturnStatus_t apiRetStatus = CY_U3P_SUCCESS;
+ 497              		.loc 1 209 0
+ 498 023c 0030A0E3 		mov	r3, #0
+ 499 0240 0C300BE5 		str	r3, [fp, #-12]
+ 210:../cyfxslfifoasync.c ****     CyU3PUSBSpeed_t usbSpeed = CyU3PUsbGetSpeed();
+ 500              		.loc 1 210 0
+ 501 0244 FEFFFFEB 		bl	CyU3PUsbGetSpeed
+ 502 0248 0030A0E1 		mov	r3, r0
+ 503 024c 0D304BE5 		strb	r3, [fp, #-13]
+ 211:../cyfxslfifoasync.c **** 
+ 212:../cyfxslfifoasync.c ****     /* First identify the usb speed. Once that is identified,
+ 213:../cyfxslfifoasync.c ****      * create a DMA channel and start the transfer on this. */
+ 214:../cyfxslfifoasync.c **** 
+ 215:../cyfxslfifoasync.c ****     /* Based on the Bus Speed configure the endpoint packet size */
+ 216:../cyfxslfifoasync.c ****     switch (usbSpeed)
+ 504              		.loc 1 216 0
+ 505 0250 0D305BE5 		ldrb	r3, [fp, #-13]	@ zero_extendqisi2
+ 506 0254 020053E3 		cmp	r3, #2
+ 507 0258 0600000A 		beq	.L23
+ 508 025c 030053E3 		cmp	r3, #3
+ 509 0260 0700000A 		beq	.L24
+ 510 0264 010053E3 		cmp	r3, #1
+ 511 0268 0800001A 		bne	.L32
+ 512              	.L22:
+ 217:../cyfxslfifoasync.c ****     {
+ 218:../cyfxslfifoasync.c ****         case CY_U3P_FULL_SPEED:
+ 219:../cyfxslfifoasync.c ****             size = 64;
+ 513              		.loc 1 219 0
+ 514 026c 4030A0E3 		mov	r3, #64
+ 515 0270 B6304BE1 		strh	r3, [fp, #-6]	@ movhi
+ 220:../cyfxslfifoasync.c ****             break;
+ 516              		.loc 1 220 0
+ 517 0274 0B0000EA 		b	.L25
+ 518              	.L23:
+ 221:../cyfxslfifoasync.c **** 
+ 222:../cyfxslfifoasync.c ****         case CY_U3P_HIGH_SPEED:
+ 223:../cyfxslfifoasync.c ****             size = 512;
+ 519              		.loc 1 223 0
+ 520 0278 023CA0E3 		mov	r3, #512
+ 521 027c B6304BE1 		strh	r3, [fp, #-6]	@ movhi
+ 224:../cyfxslfifoasync.c ****             break;
+ 522              		.loc 1 224 0
+ 523 0280 080000EA 		b	.L25
+ 524              	.L24:
+ 225:../cyfxslfifoasync.c **** 
+ 226:../cyfxslfifoasync.c ****         case  CY_U3P_SUPER_SPEED:
+ 227:../cyfxslfifoasync.c ****             size = 1024;
+ 525              		.loc 1 227 0
+ 526 0284 013BA0E3 		mov	r3, #1024
+ 527 0288 B6304BE1 		strh	r3, [fp, #-6]	@ movhi
+ 228:../cyfxslfifoasync.c ****             break;
+ 528              		.loc 1 228 0
+ 529 028c 050000EA 		b	.L25
+ 530              	.L32:
+ 229:../cyfxslfifoasync.c **** 
+ 230:../cyfxslfifoasync.c ****         default:
+ 231:../cyfxslfifoasync.c ****             CyU3PDebugPrint (4, "Error! Invalid USB speed.\n");
+ 531              		.loc 1 231 0
+ 532 0290 0400A0E3 		mov	r0, #4
+ 533 0294 2C129FE5 		ldr	r1, .L33
+ 534 0298 FEFFFFEB 		bl	CyU3PDebugPrint
+ 232:../cyfxslfifoasync.c ****             CyFxAppErrorHandler (CY_U3P_ERROR_FAILURE);
+ 535              		.loc 1 232 0
+ 536 029c 4A00A0E3 		mov	r0, #74
+ 537 02a0 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 233:../cyfxslfifoasync.c ****             break;
+ 538              		.loc 1 233 0
+ 539 02a4 0000A0E1 		mov	r0, r0	@ nop
+ 540              	.L25:
+ 234:../cyfxslfifoasync.c ****     }
+ 235:../cyfxslfifoasync.c **** 
+ 236:../cyfxslfifoasync.c ****     CyU3PMemSet ((uint8_t *)&epCfg, 0, sizeof (epCfg));
+ 541              		.loc 1 236 0
+ 542 02a8 1C304BE2 		sub	r3, fp, #28
+ 543 02ac 0300A0E1 		mov	r0, r3
+ 544 02b0 0010A0E3 		mov	r1, #0
+ 545 02b4 0C20A0E3 		mov	r2, #12
+ 546 02b8 FEFFFFEB 		bl	CyU3PMemSet
+ 237:../cyfxslfifoasync.c ****     epCfg.enable = CyTrue;
+ 547              		.loc 1 237 0
+ 548 02bc 0130A0E3 		mov	r3, #1
+ 549 02c0 1C300BE5 		str	r3, [fp, #-28]
+ 238:../cyfxslfifoasync.c ****     epCfg.epType = CY_U3P_USB_EP_BULK;
+ 550              		.loc 1 238 0
+ 551 02c4 0230A0E3 		mov	r3, #2
+ 552 02c8 18304BE5 		strb	r3, [fp, #-24]
+ 239:../cyfxslfifoasync.c ****     epCfg.burstLen = 1;
+ 553              		.loc 1 239 0
+ 554 02cc 0130A0E3 		mov	r3, #1
+ 555 02d0 12304BE5 		strb	r3, [fp, #-18]
+ 240:../cyfxslfifoasync.c ****     epCfg.streams = 0;
+ 556              		.loc 1 240 0
+ 557 02d4 0030A0E3 		mov	r3, #0
+ 558 02d8 B6314BE1 		strh	r3, [fp, #-22]	@ movhi
+ 241:../cyfxslfifoasync.c ****     epCfg.pcktSize = size;
+ 559              		.loc 1 241 0
+ 560 02dc B6305BE1 		ldrh	r3, [fp, #-6]	@ movhi
+ 561 02e0 B4314BE1 		strh	r3, [fp, #-20]	@ movhi
+ 242:../cyfxslfifoasync.c **** 
+ 243:../cyfxslfifoasync.c ****     /* Producer endpoint configuration */
+ 244:../cyfxslfifoasync.c ****     apiRetStatus = CyU3PSetEpConfig(CY_FX_EP_PRODUCER, &epCfg);
+ 562              		.loc 1 244 0
+ 563 02e4 1C304BE2 		sub	r3, fp, #28
+ 564 02e8 0100A0E3 		mov	r0, #1
+ 565 02ec 0310A0E1 		mov	r1, r3
+ 566 02f0 FEFFFFEB 		bl	CyU3PSetEpConfig
+ 567 02f4 0C000BE5 		str	r0, [fp, #-12]
+ 245:../cyfxslfifoasync.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 568              		.loc 1 245 0
+ 569 02f8 0C301BE5 		ldr	r3, [fp, #-12]
+ 570 02fc 000053E3 		cmp	r3, #0
+ 571 0300 0500000A 		beq	.L26
+ 246:../cyfxslfifoasync.c ****     {
+ 247:../cyfxslfifoasync.c ****         CyU3PDebugPrint (4, "CyU3PSetEpConfig failed, Error code = %d\n", apiRetStatus);
+ 572              		.loc 1 247 0
+ 573 0304 0400A0E3 		mov	r0, #4
+ 574 0308 BC119FE5 		ldr	r1, .L33+4
+ 575 030c 0C201BE5 		ldr	r2, [fp, #-12]
+ 576 0310 FEFFFFEB 		bl	CyU3PDebugPrint
+ 248:../cyfxslfifoasync.c ****         CyFxAppErrorHandler (apiRetStatus);
+ 577              		.loc 1 248 0
+ 578 0314 0C001BE5 		ldr	r0, [fp, #-12]
+ 579 0318 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 580              	.L26:
+ 249:../cyfxslfifoasync.c ****     }
+ 250:../cyfxslfifoasync.c **** 
+ 251:../cyfxslfifoasync.c ****     /* Consumer endpoint configuration */
+ 252:../cyfxslfifoasync.c ****     apiRetStatus = CyU3PSetEpConfig(CY_FX_EP_CONSUMER, &epCfg);
+ 581              		.loc 1 252 0
+ 582 031c 1C304BE2 		sub	r3, fp, #28
+ 583 0320 8100A0E3 		mov	r0, #129
+ 584 0324 0310A0E1 		mov	r1, r3
+ 585 0328 FEFFFFEB 		bl	CyU3PSetEpConfig
+ 586 032c 0C000BE5 		str	r0, [fp, #-12]
+ 253:../cyfxslfifoasync.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 587              		.loc 1 253 0
+ 588 0330 0C301BE5 		ldr	r3, [fp, #-12]
+ 589 0334 000053E3 		cmp	r3, #0
+ 590 0338 0500000A 		beq	.L27
+ 254:../cyfxslfifoasync.c ****     {
+ 255:../cyfxslfifoasync.c ****         CyU3PDebugPrint (4, "CyU3PSetEpConfig failed, Error code = %d\n", apiRetStatus);
+ 591              		.loc 1 255 0
+ 592 033c 0400A0E3 		mov	r0, #4
+ 593 0340 84119FE5 		ldr	r1, .L33+4
+ 594 0344 0C201BE5 		ldr	r2, [fp, #-12]
+ 595 0348 FEFFFFEB 		bl	CyU3PDebugPrint
+ 256:../cyfxslfifoasync.c ****         CyFxAppErrorHandler (apiRetStatus);
+ 596              		.loc 1 256 0
+ 597 034c 0C001BE5 		ldr	r0, [fp, #-12]
+ 598 0350 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 599              	.L27:
+ 257:../cyfxslfifoasync.c ****     }
+ 258:../cyfxslfifoasync.c **** 
+ 259:../cyfxslfifoasync.c ****     /* Create a DMA MANUAL channel for U2P transfer.
+ 260:../cyfxslfifoasync.c ****      * DMA size is set based on the USB speed. */
+ 261:../cyfxslfifoasync.c ****     dmaCfg.size  = size;
+ 600              		.loc 1 261 0
+ 601 0354 B6305BE1 		ldrh	r3, [fp, #-6]	@ movhi
+ 602 0358 B8334BE1 		strh	r3, [fp, #-56]	@ movhi
+ 262:../cyfxslfifoasync.c ****     dmaCfg.count = CY_FX_SLFIFO_DMA_BUF_COUNT;
+ 603              		.loc 1 262 0
+ 604 035c 0230A0E3 		mov	r3, #2
+ 605 0360 B6334BE1 		strh	r3, [fp, #-54]	@ movhi
+ 263:../cyfxslfifoasync.c ****     dmaCfg.prodSckId = CY_FX_PRODUCER_USB_SOCKET;
+ 606              		.loc 1 263 0
+ 607 0364 64319FE5 		ldr	r3, .L33+8
+ 608 0368 B4334BE1 		strh	r3, [fp, #-52]	@ movhi
+ 264:../cyfxslfifoasync.c ****     dmaCfg.consSckId = CY_FX_CONSUMER_PPORT_SOCKET;
+ 609              		.loc 1 264 0
+ 610 036c 60319FE5 		ldr	r3, .L33+12
+ 611 0370 B2334BE1 		strh	r3, [fp, #-50]	@ movhi
+ 265:../cyfxslfifoasync.c ****     dmaCfg.dmaMode = CY_U3P_DMA_MODE_BYTE;
+ 612              		.loc 1 265 0
+ 613 0374 0030A0E3 		mov	r3, #0
+ 614 0378 28304BE5 		strb	r3, [fp, #-40]
+ 266:../cyfxslfifoasync.c ****     /* Enabling the callback for produce event. */
+ 267:../cyfxslfifoasync.c ****     dmaCfg.notification = CY_U3P_DMA_CB_PROD_EVENT;
+ 615              		.loc 1 267 0
+ 616 037c 0830A0E3 		mov	r3, #8
+ 617 0380 24300BE5 		str	r3, [fp, #-36]
+ 268:../cyfxslfifoasync.c ****     dmaCfg.cb = CyFxSlFifoUtoPDmaCallback;
+ 618              		.loc 1 268 0
+ 619 0384 4C319FE5 		ldr	r3, .L33+16
+ 620 0388 20300BE5 		str	r3, [fp, #-32]
+ 269:../cyfxslfifoasync.c ****     dmaCfg.prodHeader = 0;
+ 621              		.loc 1 269 0
+ 622 038c 0030A0E3 		mov	r3, #0
+ 623 0390 BE324BE1 		strh	r3, [fp, #-46]	@ movhi
+ 270:../cyfxslfifoasync.c ****     dmaCfg.prodFooter = 0;
+ 624              		.loc 1 270 0
+ 625 0394 0030A0E3 		mov	r3, #0
+ 626 0398 BC324BE1 		strh	r3, [fp, #-44]	@ movhi
+ 271:../cyfxslfifoasync.c ****     dmaCfg.consHeader = 0;
+ 627              		.loc 1 271 0
+ 628 039c 0030A0E3 		mov	r3, #0
+ 629 03a0 BA324BE1 		strh	r3, [fp, #-42]	@ movhi
+ 272:../cyfxslfifoasync.c ****     dmaCfg.prodAvailCount = 0;
+ 630              		.loc 1 272 0
+ 631 03a4 0030A0E3 		mov	r3, #0
+ 632 03a8 B0334BE1 		strh	r3, [fp, #-48]	@ movhi
+ 273:../cyfxslfifoasync.c **** 
+ 274:../cyfxslfifoasync.c ****     apiRetStatus = CyU3PDmaChannelCreate (&glChHandleSlFifoUtoP,
+ 633              		.loc 1 274 0
+ 634 03ac 38304BE2 		sub	r3, fp, #56
+ 635 03b0 24019FE5 		ldr	r0, .L33+20
+ 636 03b4 0210A0E3 		mov	r1, #2
+ 637 03b8 0320A0E1 		mov	r2, r3
+ 638 03bc FEFFFFEB 		bl	CyU3PDmaChannelCreate
+ 639 03c0 0C000BE5 		str	r0, [fp, #-12]
+ 275:../cyfxslfifoasync.c ****             CY_U3P_DMA_TYPE_MANUAL, &dmaCfg);
+ 276:../cyfxslfifoasync.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 640              		.loc 1 276 0
+ 641 03c4 0C301BE5 		ldr	r3, [fp, #-12]
+ 642 03c8 000053E3 		cmp	r3, #0
+ 643 03cc 0500000A 		beq	.L28
+ 277:../cyfxslfifoasync.c ****     {
+ 278:../cyfxslfifoasync.c ****         CyU3PDebugPrint (4, "CyU3PDmaChannelCreate failed, Error code = %d\n", apiRetStatus);
+ 644              		.loc 1 278 0
+ 645 03d0 0400A0E3 		mov	r0, #4
+ 646 03d4 04119FE5 		ldr	r1, .L33+24
+ 647 03d8 0C201BE5 		ldr	r2, [fp, #-12]
+ 648 03dc FEFFFFEB 		bl	CyU3PDebugPrint
+ 279:../cyfxslfifoasync.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 649              		.loc 1 279 0
+ 650 03e0 0C001BE5 		ldr	r0, [fp, #-12]
+ 651 03e4 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 652              	.L28:
+ 280:../cyfxslfifoasync.c ****     }
+ 281:../cyfxslfifoasync.c **** 
+ 282:../cyfxslfifoasync.c ****     /* Create a DMA MANUAL channel for P2U transfer. */
+ 283:../cyfxslfifoasync.c ****     dmaCfg.prodSckId = CY_FX_PRODUCER_PPORT_SOCKET;
+ 653              		.loc 1 283 0
+ 654 03e8 013CA0E3 		mov	r3, #256
+ 655 03ec B4334BE1 		strh	r3, [fp, #-52]	@ movhi
+ 284:../cyfxslfifoasync.c ****     dmaCfg.consSckId = CY_FX_CONSUMER_USB_SOCKET;
+ 656              		.loc 1 284 0
+ 657 03f0 EC309FE5 		ldr	r3, .L33+28
+ 658 03f4 B2334BE1 		strh	r3, [fp, #-50]	@ movhi
+ 285:../cyfxslfifoasync.c ****     dmaCfg.cb = CyFxSlFifoPtoUDmaCallback;
+ 659              		.loc 1 285 0
+ 660 03f8 E8309FE5 		ldr	r3, .L33+32
+ 661 03fc 20300BE5 		str	r3, [fp, #-32]
+ 286:../cyfxslfifoasync.c ****     apiRetStatus = CyU3PDmaChannelCreate (&glChHandleSlFifoPtoU,
+ 662              		.loc 1 286 0
+ 663 0400 38304BE2 		sub	r3, fp, #56
+ 664 0404 E0009FE5 		ldr	r0, .L33+36
+ 665 0408 0210A0E3 		mov	r1, #2
+ 666 040c 0320A0E1 		mov	r2, r3
+ 667 0410 FEFFFFEB 		bl	CyU3PDmaChannelCreate
+ 668 0414 0C000BE5 		str	r0, [fp, #-12]
+ 287:../cyfxslfifoasync.c ****             CY_U3P_DMA_TYPE_MANUAL, &dmaCfg);
+ 288:../cyfxslfifoasync.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 669              		.loc 1 288 0
+ 670 0418 0C301BE5 		ldr	r3, [fp, #-12]
+ 671 041c 000053E3 		cmp	r3, #0
+ 672 0420 0500000A 		beq	.L29
+ 289:../cyfxslfifoasync.c ****     {
+ 290:../cyfxslfifoasync.c ****         CyU3PDebugPrint (4, "CyU3PDmaChannelCreate failed, Error code = %d\n", apiRetStatus);
+ 673              		.loc 1 290 0
+ 674 0424 0400A0E3 		mov	r0, #4
+ 675 0428 B0109FE5 		ldr	r1, .L33+24
+ 676 042c 0C201BE5 		ldr	r2, [fp, #-12]
+ 677 0430 FEFFFFEB 		bl	CyU3PDebugPrint
+ 291:../cyfxslfifoasync.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 678              		.loc 1 291 0
+ 679 0434 0C001BE5 		ldr	r0, [fp, #-12]
+ 680 0438 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 681              	.L29:
+ 292:../cyfxslfifoasync.c ****     }
+ 293:../cyfxslfifoasync.c **** 
+ 294:../cyfxslfifoasync.c ****     /* Flush the Endpoint memory */
+ 295:../cyfxslfifoasync.c ****     CyU3PUsbFlushEp(CY_FX_EP_PRODUCER);
+ 682              		.loc 1 295 0
+ 683 043c 0100A0E3 		mov	r0, #1
+ 684 0440 FEFFFFEB 		bl	CyU3PUsbFlushEp
+ 296:../cyfxslfifoasync.c ****     CyU3PUsbFlushEp(CY_FX_EP_CONSUMER);
+ 685              		.loc 1 296 0
+ 686 0444 8100A0E3 		mov	r0, #129
+ 687 0448 FEFFFFEB 		bl	CyU3PUsbFlushEp
+ 297:../cyfxslfifoasync.c **** 
+ 298:../cyfxslfifoasync.c ****     /* Set DMA channel transfer size. */
+ 299:../cyfxslfifoasync.c ****     apiRetStatus = CyU3PDmaChannelSetXfer (&glChHandleSlFifoUtoP, CY_FX_SLFIFO_DMA_TX_SIZE);
+ 688              		.loc 1 299 0
+ 689 044c 88009FE5 		ldr	r0, .L33+20
+ 690 0450 0010A0E3 		mov	r1, #0
+ 691 0454 FEFFFFEB 		bl	CyU3PDmaChannelSetXfer
+ 692 0458 0C000BE5 		str	r0, [fp, #-12]
+ 300:../cyfxslfifoasync.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 693              		.loc 1 300 0
+ 694 045c 0C301BE5 		ldr	r3, [fp, #-12]
+ 695 0460 000053E3 		cmp	r3, #0
+ 696 0464 0500000A 		beq	.L30
+ 301:../cyfxslfifoasync.c ****     {
+ 302:../cyfxslfifoasync.c ****         CyU3PDebugPrint (4, "CyU3PDmaChannelSetXfer Failed, Error code = %d\n", apiRetStatus);
+ 697              		.loc 1 302 0
+ 698 0468 0400A0E3 		mov	r0, #4
+ 699 046c 7C109FE5 		ldr	r1, .L33+40
+ 700 0470 0C201BE5 		ldr	r2, [fp, #-12]
+ 701 0474 FEFFFFEB 		bl	CyU3PDebugPrint
+ 303:../cyfxslfifoasync.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 702              		.loc 1 303 0
+ 703 0478 0C001BE5 		ldr	r0, [fp, #-12]
+ 704 047c FEFFFFEB 		bl	CyFxAppErrorHandler
+ 705              	.L30:
+ 304:../cyfxslfifoasync.c ****     }
+ 305:../cyfxslfifoasync.c ****     apiRetStatus = CyU3PDmaChannelSetXfer (&glChHandleSlFifoPtoU, CY_FX_SLFIFO_DMA_TX_SIZE);
+ 706              		.loc 1 305 0
+ 707 0480 64009FE5 		ldr	r0, .L33+36
+ 708 0484 0010A0E3 		mov	r1, #0
+ 709 0488 FEFFFFEB 		bl	CyU3PDmaChannelSetXfer
+ 710 048c 0C000BE5 		str	r0, [fp, #-12]
+ 306:../cyfxslfifoasync.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 711              		.loc 1 306 0
+ 712 0490 0C301BE5 		ldr	r3, [fp, #-12]
+ 713 0494 000053E3 		cmp	r3, #0
+ 714 0498 0500000A 		beq	.L31
+ 307:../cyfxslfifoasync.c ****     {
+ 308:../cyfxslfifoasync.c ****         CyU3PDebugPrint (4, "CyU3PDmaChannelSetXfer Failed, Error code = %d\n", apiRetStatus);
+ 715              		.loc 1 308 0
+ 716 049c 0400A0E3 		mov	r0, #4
+ 717 04a0 48109FE5 		ldr	r1, .L33+40
+ 718 04a4 0C201BE5 		ldr	r2, [fp, #-12]
+ 719 04a8 FEFFFFEB 		bl	CyU3PDebugPrint
+ 309:../cyfxslfifoasync.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 720              		.loc 1 309 0
+ 721 04ac 0C001BE5 		ldr	r0, [fp, #-12]
+ 722 04b0 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 723              	.L31:
+ 310:../cyfxslfifoasync.c ****     }
+ 311:../cyfxslfifoasync.c **** 
+ 312:../cyfxslfifoasync.c ****     /* Update the status flag. */
+ 313:../cyfxslfifoasync.c ****     glIsApplnActive = CyTrue;
+ 724              		.loc 1 313 0
+ 725 04b4 38309FE5 		ldr	r3, .L33+44
+ 726 04b8 0120A0E3 		mov	r2, #1
+ 727 04bc 002083E5 		str	r2, [r3, #0]
+ 314:../cyfxslfifoasync.c **** }
+ 728              		.loc 1 314 0
+ 729 04c0 04D04BE2 		sub	sp, fp, #4
+ 730 04c4 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 731              	.L34:
+ 732              		.align	2
+ 733              	.L33:
+ 734 04c8 54000000 		.word	.LC1
+ 735 04cc 70000000 		.word	.LC2
+ 736 04d0 01040000 		.word	1025
+ 737 04d4 03010000 		.word	259
+ 738 04d8 00000000 		.word	CyFxSlFifoUtoPDmaCallback
+ 739 04dc 00000000 		.word	glChHandleSlFifoUtoP
+ 740 04e0 9C000000 		.word	.LC3
+ 741 04e4 01030000 		.word	769
+ 742 04e8 00000000 		.word	CyFxSlFifoPtoUDmaCallback
+ 743 04ec 00000000 		.word	glChHandleSlFifoPtoU
+ 744 04f0 CC000000 		.word	.LC4
+ 745 04f4 00000000 		.word	glIsApplnActive
+ 746              		.cfi_endproc
+ 747              	.LFE4:
+ 749              		.align	2
+ 750              		.global	CyFxSlFifoApplnStop
+ 752              	CyFxSlFifoApplnStop:
+ 753              	.LFB5:
+ 315:../cyfxslfifoasync.c **** 
+ 316:../cyfxslfifoasync.c **** /* This function stops the slave FIFO loop application. This shall be called
+ 317:../cyfxslfifoasync.c ****  * whenever a RESET or DISCONNECT event is received from the USB host. The
+ 318:../cyfxslfifoasync.c ****  * endpoints are disabled and the DMA pipe is destroyed by this function. */
+ 319:../cyfxslfifoasync.c **** void
+ 320:../cyfxslfifoasync.c **** CyFxSlFifoApplnStop (
+ 321:../cyfxslfifoasync.c ****         void)
+ 322:../cyfxslfifoasync.c **** {
+ 754              		.loc 1 322 0
+ 755              		.cfi_startproc
+ 756              		@ args = 0, pretend = 0, frame = 16
+ 757              		@ frame_needed = 1, uses_anonymous_args = 0
+ 758 04f8 00482DE9 		stmfd	sp!, {fp, lr}
+ 759              	.LCFI10:
+ 760              		.cfi_def_cfa_offset 8
+ 761 04fc 04B08DE2 		add	fp, sp, #4
+ 762              		.cfi_offset 14, -4
+ 763              		.cfi_offset 11, -8
+ 764              	.LCFI11:
+ 765              		.cfi_def_cfa 11, 4
+ 766 0500 10D04DE2 		sub	sp, sp, #16
+ 323:../cyfxslfifoasync.c ****     CyU3PEpConfig_t epCfg;
+ 324:../cyfxslfifoasync.c ****     CyU3PReturnStatus_t apiRetStatus = CY_U3P_SUCCESS;
+ 767              		.loc 1 324 0
+ 768 0504 0030A0E3 		mov	r3, #0
+ 769 0508 08300BE5 		str	r3, [fp, #-8]
+ 325:../cyfxslfifoasync.c **** 
+ 326:../cyfxslfifoasync.c ****     /* Update the flag. */
+ 327:../cyfxslfifoasync.c ****     glIsApplnActive = CyFalse;
+ 770              		.loc 1 327 0
+ 771 050c B8309FE5 		ldr	r3, .L38
+ 772 0510 0020A0E3 		mov	r2, #0
+ 773 0514 002083E5 		str	r2, [r3, #0]
+ 328:../cyfxslfifoasync.c **** 
+ 329:../cyfxslfifoasync.c ****     /* Flush the endpoint memory */
+ 330:../cyfxslfifoasync.c ****     CyU3PUsbFlushEp(CY_FX_EP_PRODUCER);
+ 774              		.loc 1 330 0
+ 775 0518 0100A0E3 		mov	r0, #1
+ 776 051c FEFFFFEB 		bl	CyU3PUsbFlushEp
+ 331:../cyfxslfifoasync.c ****     CyU3PUsbFlushEp(CY_FX_EP_CONSUMER);
+ 777              		.loc 1 331 0
+ 778 0520 8100A0E3 		mov	r0, #129
+ 779 0524 FEFFFFEB 		bl	CyU3PUsbFlushEp
+ 332:../cyfxslfifoasync.c **** 
+ 333:../cyfxslfifoasync.c ****     /* Destroy the channel */
+ 334:../cyfxslfifoasync.c ****     CyU3PDmaChannelDestroy (&glChHandleSlFifoUtoP);
+ 780              		.loc 1 334 0
+ 781 0528 A0009FE5 		ldr	r0, .L38+4
+ 782 052c FEFFFFEB 		bl	CyU3PDmaChannelDestroy
+ 335:../cyfxslfifoasync.c ****     CyU3PDmaChannelDestroy (&glChHandleSlFifoPtoU);
+ 783              		.loc 1 335 0
+ 784 0530 9C009FE5 		ldr	r0, .L38+8
+ 785 0534 FEFFFFEB 		bl	CyU3PDmaChannelDestroy
+ 336:../cyfxslfifoasync.c **** 
+ 337:../cyfxslfifoasync.c ****     /* Disable endpoints. */
+ 338:../cyfxslfifoasync.c ****     CyU3PMemSet ((uint8_t *)&epCfg, 0, sizeof (epCfg));
+ 786              		.loc 1 338 0
+ 787 0538 14304BE2 		sub	r3, fp, #20
+ 788 053c 0300A0E1 		mov	r0, r3
+ 789 0540 0010A0E3 		mov	r1, #0
+ 790 0544 0C20A0E3 		mov	r2, #12
+ 791 0548 FEFFFFEB 		bl	CyU3PMemSet
+ 339:../cyfxslfifoasync.c ****     epCfg.enable = CyFalse;
+ 792              		.loc 1 339 0
+ 793 054c 0030A0E3 		mov	r3, #0
+ 794 0550 14300BE5 		str	r3, [fp, #-20]
+ 340:../cyfxslfifoasync.c **** 
+ 341:../cyfxslfifoasync.c ****     /* Producer endpoint configuration. */
+ 342:../cyfxslfifoasync.c ****     apiRetStatus = CyU3PSetEpConfig(CY_FX_EP_PRODUCER, &epCfg);
+ 795              		.loc 1 342 0
+ 796 0554 14304BE2 		sub	r3, fp, #20
+ 797 0558 0100A0E3 		mov	r0, #1
+ 798 055c 0310A0E1 		mov	r1, r3
+ 799 0560 FEFFFFEB 		bl	CyU3PSetEpConfig
+ 800 0564 08000BE5 		str	r0, [fp, #-8]
+ 343:../cyfxslfifoasync.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 801              		.loc 1 343 0
+ 802 0568 08301BE5 		ldr	r3, [fp, #-8]
+ 803 056c 000053E3 		cmp	r3, #0
+ 804 0570 0500000A 		beq	.L36
+ 344:../cyfxslfifoasync.c ****     {
+ 345:../cyfxslfifoasync.c ****         CyU3PDebugPrint (4, "CyU3PSetEpConfig failed, Error code = %d\n", apiRetStatus);
+ 805              		.loc 1 345 0
+ 806 0574 0400A0E3 		mov	r0, #4
+ 807 0578 58109FE5 		ldr	r1, .L38+12
+ 808 057c 08201BE5 		ldr	r2, [fp, #-8]
+ 809 0580 FEFFFFEB 		bl	CyU3PDebugPrint
+ 346:../cyfxslfifoasync.c ****         CyFxAppErrorHandler (apiRetStatus);
+ 810              		.loc 1 346 0
+ 811 0584 08001BE5 		ldr	r0, [fp, #-8]
+ 812 0588 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 813              	.L36:
+ 347:../cyfxslfifoasync.c ****     }
+ 348:../cyfxslfifoasync.c **** 
+ 349:../cyfxslfifoasync.c ****     /* Consumer endpoint configuration. */
+ 350:../cyfxslfifoasync.c ****     apiRetStatus = CyU3PSetEpConfig(CY_FX_EP_CONSUMER, &epCfg);
+ 814              		.loc 1 350 0
+ 815 058c 14304BE2 		sub	r3, fp, #20
+ 816 0590 8100A0E3 		mov	r0, #129
+ 817 0594 0310A0E1 		mov	r1, r3
+ 818 0598 FEFFFFEB 		bl	CyU3PSetEpConfig
+ 819 059c 08000BE5 		str	r0, [fp, #-8]
+ 351:../cyfxslfifoasync.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 820              		.loc 1 351 0
+ 821 05a0 08301BE5 		ldr	r3, [fp, #-8]
+ 822 05a4 000053E3 		cmp	r3, #0
+ 823 05a8 0500000A 		beq	.L35
+ 352:../cyfxslfifoasync.c ****     {
+ 353:../cyfxslfifoasync.c ****         CyU3PDebugPrint (4, "CyU3PSetEpConfig failed, Error code = %d\n", apiRetStatus);
+ 824              		.loc 1 353 0
+ 825 05ac 0400A0E3 		mov	r0, #4
+ 826 05b0 20109FE5 		ldr	r1, .L38+12
+ 827 05b4 08201BE5 		ldr	r2, [fp, #-8]
+ 828 05b8 FEFFFFEB 		bl	CyU3PDebugPrint
+ 354:../cyfxslfifoasync.c ****         CyFxAppErrorHandler (apiRetStatus);
+ 829              		.loc 1 354 0
+ 830 05bc 08001BE5 		ldr	r0, [fp, #-8]
+ 831 05c0 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 832              	.L35:
+ 355:../cyfxslfifoasync.c ****     }
+ 356:../cyfxslfifoasync.c **** }
+ 833              		.loc 1 356 0
+ 834 05c4 04D04BE2 		sub	sp, fp, #4
+ 835 05c8 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 836              	.L39:
+ 837              		.align	2
+ 838              	.L38:
+ 839 05cc 00000000 		.word	glIsApplnActive
+ 840 05d0 00000000 		.word	glChHandleSlFifoUtoP
+ 841 05d4 00000000 		.word	glChHandleSlFifoPtoU
+ 842 05d8 70000000 		.word	.LC2
+ 843              		.cfi_endproc
+ 844              	.LFE5:
+ 846              		.align	2
+ 847              		.global	CyFxSlFifoApplnUSBSetupCB
+ 849              	CyFxSlFifoApplnUSBSetupCB:
+ 850              	.LFB6:
+ 357:../cyfxslfifoasync.c **** 
+ 358:../cyfxslfifoasync.c **** /* Callback to handle the USB setup requests. */
+ 359:../cyfxslfifoasync.c **** CyBool_t
+ 360:../cyfxslfifoasync.c **** CyFxSlFifoApplnUSBSetupCB (
+ 361:../cyfxslfifoasync.c ****         uint32_t setupdat0,
+ 362:../cyfxslfifoasync.c ****         uint32_t setupdat1
+ 363:../cyfxslfifoasync.c ****     )
+ 364:../cyfxslfifoasync.c **** {
+ 851              		.loc 1 364 0
+ 852              		.cfi_startproc
+ 853              		@ args = 0, pretend = 0, frame = 8
+ 854              		@ frame_needed = 1, uses_anonymous_args = 0
+ 855              		@ link register save eliminated.
+ 856 05dc 04B02DE5 		str	fp, [sp, #-4]!
+ 857              	.LCFI12:
+ 858              		.cfi_def_cfa_offset 4
+ 859 05e0 00B08DE2 		add	fp, sp, #0
+ 860              		.cfi_offset 11, -4
+ 861              	.LCFI13:
+ 862              		.cfi_def_cfa_register 11
+ 863 05e4 0CD04DE2 		sub	sp, sp, #12
+ 864 05e8 08000BE5 		str	r0, [fp, #-8]
+ 865 05ec 0C100BE5 		str	r1, [fp, #-12]
+ 365:../cyfxslfifoasync.c ****     /* Fast enumeration is used. Only class, vendor and unknown requests
+ 366:../cyfxslfifoasync.c ****      * are received by this function. These are not handled in this
+ 367:../cyfxslfifoasync.c ****      * application. Hence return CyFalse. */
+ 368:../cyfxslfifoasync.c ****     return CyFalse;
+ 866              		.loc 1 368 0
+ 867 05f0 0030A0E3 		mov	r3, #0
+ 369:../cyfxslfifoasync.c **** }
+ 868              		.loc 1 369 0
+ 869 05f4 0300A0E1 		mov	r0, r3
+ 870 05f8 00D08BE2 		add	sp, fp, #0
+ 871 05fc 04B09DE4 		ldmfd	sp!, {fp}
+ 872 0600 1EFF2FE1 		bx	lr
+ 873              		.cfi_endproc
+ 874              	.LFE6:
+ 876              		.align	2
+ 877              		.global	CyFxSlFifoApplnUSBEventCB
+ 879              	CyFxSlFifoApplnUSBEventCB:
+ 880              	.LFB7:
+ 370:../cyfxslfifoasync.c **** 
+ 371:../cyfxslfifoasync.c **** /* This is the callback function to handle the USB events. */
+ 372:../cyfxslfifoasync.c **** void
+ 373:../cyfxslfifoasync.c **** CyFxSlFifoApplnUSBEventCB (
+ 374:../cyfxslfifoasync.c ****     CyU3PUsbEventType_t evtype,
+ 375:../cyfxslfifoasync.c ****     uint16_t            evdata
+ 376:../cyfxslfifoasync.c ****     )
+ 377:../cyfxslfifoasync.c **** {
+ 881              		.loc 1 377 0
+ 882              		.cfi_startproc
+ 883              		@ args = 0, pretend = 0, frame = 8
+ 884              		@ frame_needed = 1, uses_anonymous_args = 0
+ 885 0604 00482DE9 		stmfd	sp!, {fp, lr}
+ 886              	.LCFI14:
+ 887              		.cfi_def_cfa_offset 8
+ 888 0608 04B08DE2 		add	fp, sp, #4
+ 889              		.cfi_offset 14, -4
+ 890              		.cfi_offset 11, -8
+ 891              	.LCFI15:
+ 892              		.cfi_def_cfa 11, 4
+ 893 060c 08D04DE2 		sub	sp, sp, #8
+ 894 0610 0020A0E1 		mov	r2, r0
+ 895 0614 0130A0E1 		mov	r3, r1
+ 896 0618 05204BE5 		strb	r2, [fp, #-5]
+ 897 061c B8304BE1 		strh	r3, [fp, #-8]	@ movhi
+ 378:../cyfxslfifoasync.c ****     switch (evtype)
+ 898              		.loc 1 378 0
+ 899 0620 05305BE5 		ldrb	r3, [fp, #-5]	@ zero_extendqisi2
+ 900 0624 040053E3 		cmp	r3, #4
+ 901 0628 0A00000A 		beq	.L43
+ 902 062c 050053E3 		cmp	r3, #5
+ 903 0630 0200000A 		beq	.L44
+ 904 0634 010053E3 		cmp	r3, #1
+ 905 0638 0600000A 		beq	.L43
+ 379:../cyfxslfifoasync.c ****     {
+ 380:../cyfxslfifoasync.c ****         case CY_U3P_USB_EVENT_SETCONF:
+ 381:../cyfxslfifoasync.c ****             /* Stop the application before re-starting. */
+ 382:../cyfxslfifoasync.c ****             if (glIsApplnActive)
+ 383:../cyfxslfifoasync.c ****             {
+ 384:../cyfxslfifoasync.c ****                 CyFxSlFifoApplnStop ();
+ 385:../cyfxslfifoasync.c ****             }
+ 386:../cyfxslfifoasync.c ****             /* Start the loop back function. */
+ 387:../cyfxslfifoasync.c ****             //CyFxSlFifoApplnStart ();
+ 388:../cyfxslfifoasync.c ****             break;
+ 389:../cyfxslfifoasync.c **** 
+ 390:../cyfxslfifoasync.c ****         case CY_U3P_USB_EVENT_RESET:
+ 391:../cyfxslfifoasync.c ****         case CY_U3P_USB_EVENT_DISCONNECT:
+ 392:../cyfxslfifoasync.c ****             /* Stop the loop back function. */
+ 393:../cyfxslfifoasync.c ****             if (glIsApplnActive)
+ 394:../cyfxslfifoasync.c ****             {
+ 395:../cyfxslfifoasync.c ****                 CyFxSlFifoApplnStop ();
+ 396:../cyfxslfifoasync.c ****             }
+ 397:../cyfxslfifoasync.c ****             break;
+ 398:../cyfxslfifoasync.c **** 
+ 399:../cyfxslfifoasync.c ****         default:
+ 400:../cyfxslfifoasync.c ****             break;
+ 906              		.loc 1 400 0
+ 907 063c 0E0000EA 		b	.L41
+ 908              	.L44:
+ 382:../cyfxslfifoasync.c ****             if (glIsApplnActive)
+ 909              		.loc 1 382 0
+ 910 0640 3C309FE5 		ldr	r3, .L50
+ 911 0644 003093E5 		ldr	r3, [r3, #0]
+ 912 0648 000053E3 		cmp	r3, #0
+ 913 064c 0700000A 		beq	.L48
+ 384:../cyfxslfifoasync.c ****                 CyFxSlFifoApplnStop ();
+ 914              		.loc 1 384 0
+ 915 0650 FEFFFFEB 		bl	CyFxSlFifoApplnStop
+ 388:../cyfxslfifoasync.c ****             break;
+ 916              		.loc 1 388 0
+ 917 0654 080000EA 		b	.L41
+ 918              	.L43:
+ 393:../cyfxslfifoasync.c ****             if (glIsApplnActive)
+ 919              		.loc 1 393 0
+ 920 0658 24309FE5 		ldr	r3, .L50
+ 921 065c 003093E5 		ldr	r3, [r3, #0]
+ 922 0660 000053E3 		cmp	r3, #0
+ 923 0664 0300000A 		beq	.L49
+ 395:../cyfxslfifoasync.c ****                 CyFxSlFifoApplnStop ();
+ 924              		.loc 1 395 0
+ 925 0668 FEFFFFEB 		bl	CyFxSlFifoApplnStop
+ 397:../cyfxslfifoasync.c ****             break;
+ 926              		.loc 1 397 0
+ 927 066c 020000EA 		b	.L41
+ 928              	.L48:
+ 388:../cyfxslfifoasync.c ****             break;
+ 929              		.loc 1 388 0
+ 930 0670 0000A0E1 		mov	r0, r0	@ nop
+ 931 0674 000000EA 		b	.L41
+ 932              	.L49:
+ 397:../cyfxslfifoasync.c ****             break;
+ 933              		.loc 1 397 0
+ 934 0678 0000A0E1 		mov	r0, r0	@ nop
+ 935              	.L41:
+ 401:../cyfxslfifoasync.c ****     }
+ 402:../cyfxslfifoasync.c **** }
+ 936              		.loc 1 402 0
+ 937 067c 04D04BE2 		sub	sp, fp, #4
+ 938 0680 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 939              	.L51:
+ 940              		.align	2
+ 941              	.L50:
+ 942 0684 00000000 		.word	glIsApplnActive
+ 943              		.cfi_endproc
+ 944              	.LFE7:
+ 946              		.section	.rodata
+ 947              		.align	2
+ 948              	.LC5:
+ 949 00fc 502D706F 		.ascii	"P-port Initialization failed, Error Code = %d\012\000"
+ 949      72742049 
+ 949      6E697469 
+ 949      616C697A 
+ 949      6174696F 
+ 950 012b 00       		.align	2
+ 951              	.LC6:
+ 952 012c 43795533 		.ascii	"CyU3PGpifLoad failed, Error Code = %d\012\000"
+ 952      50477069 
+ 952      664C6F61 
+ 952      64206661 
+ 952      696C6564 
+ 953 0153 00       		.align	2
+ 954              	.LC7:
+ 955 0154 43795533 		.ascii	"CyU3PGpifSMStart failed, Error Code = %d\012\000"
+ 955      50477069 
+ 955      66534D53 
+ 955      74617274 
+ 955      20666169 
+ 956 017e 0000     		.align	2
+ 957              	.LC8:
+ 958 0180 43795533 		.ascii	"CyU3PUsbStart failed to Start, Error code = %d\012\000"
+ 958      50557362 
+ 958      53746172 
+ 958      74206661 
+ 958      696C6564 
+ 959              		.align	2
+ 960              	.LC9:
+ 961 01b0 55534220 		.ascii	"USB set device descriptor failed, Error code = %d\012"
+ 961      73657420 
+ 961      64657669 
+ 961      63652064 
+ 961      65736372 
+ 962 01e2 00       		.ascii	"\000"
+ 963 01e3 00       		.align	2
+ 964              	.LC10:
+ 965 01e4 55534220 		.ascii	"USB set configuration descriptor failed, Error code"
+ 965      73657420 
+ 965      636F6E66 
+ 965      69677572 
+ 965      6174696F 
+ 966 0217 203D2025 		.ascii	" = %d\012\000"
+ 966      640A00
+ 967 021e 0000     		.align	2
+ 968              	.LC11:
+ 969 0220 55534220 		.ascii	"USB set device qualifier descriptor failed, Error c"
+ 969      73657420 
+ 969      64657669 
+ 969      63652071 
+ 969      75616C69 
+ 970 0253 6F646520 		.ascii	"ode = %d\012\000"
+ 970      3D202564 
+ 970      0A00
+ 971 025d 000000   		.align	2
+ 972              	.LC12:
+ 973 0260 55534220 		.ascii	"USB Set Other Speed Descriptor failed, Error Code ="
+ 973      53657420 
+ 973      4F746865 
+ 973      72205370 
+ 973      65656420 
+ 974 0293 2025640A 		.ascii	" %d\012\000"
+ 974      00
+ 975              		.align	2
+ 976              	.LC13:
+ 977 0298 55534220 		.ascii	"USB Set Configuration Descriptor failed, Error Code"
+ 977      53657420 
+ 977      436F6E66 
+ 977      69677572 
+ 977      6174696F 
+ 978 02cb 203D2025 		.ascii	" = %d\012\000"
+ 978      640A00
+ 979 02d2 0000     		.align	2
+ 980              	.LC14:
+ 981 02d4 55534220 		.ascii	"USB set string descriptor failed, Error code = %d\012"
+ 981      73657420 
+ 981      73747269 
+ 981      6E672064 
+ 981      65736372 
+ 982 0306 00       		.ascii	"\000"
+ 983 0307 00       		.align	2
+ 984              	.LC15:
+ 985 0308 55534220 		.ascii	"USB Connect failed, Error code = %d\012\000"
+ 985      436F6E6E 
+ 985      65637420 
+ 985      6661696C 
+ 985      65642C20 
+ 986              		.text
+ 987              		.align	2
+ 988              		.global	CyFxSlFifoApplnInit
+ 990              	CyFxSlFifoApplnInit:
+ 991              	.LFB8:
+ 403:../cyfxslfifoasync.c **** 
+ 404:../cyfxslfifoasync.c **** /* This function initializes the GPIF interface and initializes
+ 405:../cyfxslfifoasync.c ****  * the USB interface. */
+ 406:../cyfxslfifoasync.c **** void
+ 407:../cyfxslfifoasync.c **** CyFxSlFifoApplnInit (void)
+ 408:../cyfxslfifoasync.c **** {
+ 992              		.loc 1 408 0
+ 993              		.cfi_startproc
+ 994              		@ args = 0, pretend = 0, frame = 24
+ 995              		@ frame_needed = 1, uses_anonymous_args = 0
+ 996 0688 00482DE9 		stmfd	sp!, {fp, lr}
+ 997              	.LCFI16:
+ 998              		.cfi_def_cfa_offset 8
+ 999 068c 04B08DE2 		add	fp, sp, #4
+ 1000              		.cfi_offset 14, -4
+ 1001              		.cfi_offset 11, -8
+ 1002              	.LCFI17:
+ 1003              		.cfi_def_cfa 11, 4
+ 1004 0690 18D04DE2 		sub	sp, sp, #24
+ 409:../cyfxslfifoasync.c ****     CyU3PPibClock_t pibClock;
+ 410:../cyfxslfifoasync.c ****     CyU3PReturnStatus_t apiRetStatus = CY_U3P_SUCCESS;
+ 1005              		.loc 1 410 0
+ 1006 0694 0030A0E3 		mov	r3, #0
+ 1007 0698 08300BE5 		str	r3, [fp, #-8]
+ 411:../cyfxslfifoasync.c **** 
+ 412:../cyfxslfifoasync.c ****     /* Initialize the p-port block. */
+ 413:../cyfxslfifoasync.c ****     pibClock.clkDiv = 2;
+ 1008              		.loc 1 413 0
+ 1009 069c 0230A0E3 		mov	r3, #2
+ 1010 06a0 B8314BE1 		strh	r3, [fp, #-24]	@ movhi
+ 414:../cyfxslfifoasync.c ****     pibClock.clkSrc = CY_U3P_SYS_CLK;
+ 1011              		.loc 1 414 0
+ 1012 06a4 0330A0E3 		mov	r3, #3
+ 1013 06a8 0C304BE5 		strb	r3, [fp, #-12]
+ 415:../cyfxslfifoasync.c ****     pibClock.isHalfDiv = CyFalse;
+ 1014              		.loc 1 415 0
+ 1015 06ac 0030A0E3 		mov	r3, #0
+ 1016 06b0 14300BE5 		str	r3, [fp, #-20]
+ 416:../cyfxslfifoasync.c ****     /* Enable DLL for async GPIF */
+ 417:../cyfxslfifoasync.c ****     pibClock.isDllEnable = CyTrue;
+ 1017              		.loc 1 417 0
+ 1018 06b4 0130A0E3 		mov	r3, #1
+ 1019 06b8 10300BE5 		str	r3, [fp, #-16]
+ 418:../cyfxslfifoasync.c ****     apiRetStatus = CyU3PPibInit(CyTrue, &pibClock);
+ 1020              		.loc 1 418 0
+ 1021 06bc 18304BE2 		sub	r3, fp, #24
+ 1022 06c0 0100A0E3 		mov	r0, #1
+ 1023 06c4 0310A0E1 		mov	r1, r3
+ 1024 06c8 FEFFFFEB 		bl	CyU3PPibInit
+ 1025 06cc 08000BE5 		str	r0, [fp, #-8]
+ 419:../cyfxslfifoasync.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 1026              		.loc 1 419 0
+ 1027 06d0 08301BE5 		ldr	r3, [fp, #-8]
+ 1028 06d4 000053E3 		cmp	r3, #0
+ 1029 06d8 0500000A 		beq	.L53
+ 420:../cyfxslfifoasync.c ****     {
+ 421:../cyfxslfifoasync.c ****         CyU3PDebugPrint (4, "P-port Initialization failed, Error Code = %d\n",apiRetStatus);
+ 1030              		.loc 1 421 0
+ 1031 06dc 0400A0E3 		mov	r0, #4
+ 1032 06e0 1C139FE5 		ldr	r1, .L68
+ 1033 06e4 08201BE5 		ldr	r2, [fp, #-8]
+ 1034 06e8 FEFFFFEB 		bl	CyU3PDebugPrint
+ 422:../cyfxslfifoasync.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 1035              		.loc 1 422 0
+ 1036 06ec 08001BE5 		ldr	r0, [fp, #-8]
+ 1037 06f0 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 1038              	.L53:
+ 423:../cyfxslfifoasync.c ****     }
+ 424:../cyfxslfifoasync.c **** 
+ 425:../cyfxslfifoasync.c ****     /* Load the GPIF configuration for Slave FIFO async mode. */
+ 426:../cyfxslfifoasync.c ****    // apiRetStatus = CyU3PGpifLoad (&Async_Slave_Fifo_2Bit_CyFxGpifConfig);
+ 427:../cyfxslfifoasync.c ****     apiRetStatus = CyU3PGpifLoad (&CyFxGpifConfig);
+ 1039              		.loc 1 427 0
+ 1040 06f4 0C039FE5 		ldr	r0, .L68+4
+ 1041 06f8 FEFFFFEB 		bl	CyU3PGpifLoad
+ 1042 06fc 08000BE5 		str	r0, [fp, #-8]
+ 428:../cyfxslfifoasync.c **** 
+ 429:../cyfxslfifoasync.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 1043              		.loc 1 429 0
+ 1044 0700 08301BE5 		ldr	r3, [fp, #-8]
+ 1045 0704 000053E3 		cmp	r3, #0
+ 1046 0708 0500000A 		beq	.L54
+ 430:../cyfxslfifoasync.c ****     {
+ 431:../cyfxslfifoasync.c ****         CyU3PDebugPrint (4, "CyU3PGpifLoad failed, Error Code = %d\n",apiRetStatus);
+ 1047              		.loc 1 431 0
+ 1048 070c 0400A0E3 		mov	r0, #4
+ 1049 0710 F4129FE5 		ldr	r1, .L68+8
+ 1050 0714 08201BE5 		ldr	r2, [fp, #-8]
+ 1051 0718 FEFFFFEB 		bl	CyU3PDebugPrint
+ 432:../cyfxslfifoasync.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 1052              		.loc 1 432 0
+ 1053 071c 08001BE5 		ldr	r0, [fp, #-8]
+ 1054 0720 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 1055              	.L54:
+ 433:../cyfxslfifoasync.c ****     }
+ 434:../cyfxslfifoasync.c **** 
+ 435:../cyfxslfifoasync.c ****     /* Start the state machine. */
+ 436:../cyfxslfifoasync.c ****     apiRetStatus = CyU3PGpifSMStart (0, 0);
+ 1056              		.loc 1 436 0
+ 1057 0724 0000A0E3 		mov	r0, #0
+ 1058 0728 0010A0E3 		mov	r1, #0
+ 1059 072c FEFFFFEB 		bl	CyU3PGpifSMStart
+ 1060 0730 08000BE5 		str	r0, [fp, #-8]
+ 437:../cyfxslfifoasync.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 1061              		.loc 1 437 0
+ 1062 0734 08301BE5 		ldr	r3, [fp, #-8]
+ 1063 0738 000053E3 		cmp	r3, #0
+ 1064 073c 0500000A 		beq	.L55
+ 438:../cyfxslfifoasync.c ****     {
+ 439:../cyfxslfifoasync.c ****         CyU3PDebugPrint (4, "CyU3PGpifSMStart failed, Error Code = %d\n",apiRetStatus);
+ 1065              		.loc 1 439 0
+ 1066 0740 0400A0E3 		mov	r0, #4
+ 1067 0744 C4129FE5 		ldr	r1, .L68+12
+ 1068 0748 08201BE5 		ldr	r2, [fp, #-8]
+ 1069 074c FEFFFFEB 		bl	CyU3PDebugPrint
+ 440:../cyfxslfifoasync.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 1070              		.loc 1 440 0
+ 1071 0750 08001BE5 		ldr	r0, [fp, #-8]
+ 1072 0754 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 1073              	.L55:
+ 441:../cyfxslfifoasync.c ****     }
+ 442:../cyfxslfifoasync.c **** #if 1
+ 443:../cyfxslfifoasync.c ****     /* Start the USB functionality. */
+ 444:../cyfxslfifoasync.c ****     apiRetStatus = CyU3PUsbStart();
+ 1074              		.loc 1 444 0
+ 1075 0758 FEFFFFEB 		bl	CyU3PUsbStart
+ 1076 075c 08000BE5 		str	r0, [fp, #-8]
+ 445:../cyfxslfifoasync.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 1077              		.loc 1 445 0
+ 1078 0760 08301BE5 		ldr	r3, [fp, #-8]
+ 1079 0764 000053E3 		cmp	r3, #0
+ 1080 0768 0500000A 		beq	.L56
+ 446:../cyfxslfifoasync.c ****     {
+ 447:../cyfxslfifoasync.c ****         CyU3PDebugPrint (4, "CyU3PUsbStart failed to Start, Error code = %d\n", apiRetStatus);
+ 1081              		.loc 1 447 0
+ 1082 076c 0400A0E3 		mov	r0, #4
+ 1083 0770 9C129FE5 		ldr	r1, .L68+16
+ 1084 0774 08201BE5 		ldr	r2, [fp, #-8]
+ 1085 0778 FEFFFFEB 		bl	CyU3PDebugPrint
+ 448:../cyfxslfifoasync.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 1086              		.loc 1 448 0
+ 1087 077c 08001BE5 		ldr	r0, [fp, #-8]
+ 1088 0780 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 1089              	.L56:
+ 449:../cyfxslfifoasync.c ****     }
+ 450:../cyfxslfifoasync.c **** 
+ 451:../cyfxslfifoasync.c ****     /* The fast enumeration is the easiest way to setup a USB connection,
+ 452:../cyfxslfifoasync.c ****      * where all enumeration phase is handled by the library. Only the
+ 453:../cyfxslfifoasync.c ****      * class / vendor requests need to be handled by the application. */
+ 454:../cyfxslfifoasync.c ****     CyU3PUsbRegisterSetupCallback(CyFxSlFifoApplnUSBSetupCB, CyTrue);
+ 1090              		.loc 1 454 0
+ 1091 0784 8C029FE5 		ldr	r0, .L68+20
+ 1092 0788 0110A0E3 		mov	r1, #1
+ 1093 078c FEFFFFEB 		bl	CyU3PUsbRegisterSetupCallback
+ 455:../cyfxslfifoasync.c **** 
+ 456:../cyfxslfifoasync.c ****     /* Setup the callback to handle the USB events. */
+ 457:../cyfxslfifoasync.c ****     CyU3PUsbRegisterEventCallback(CyFxSlFifoApplnUSBEventCB);
+ 1094              		.loc 1 457 0
+ 1095 0790 84029FE5 		ldr	r0, .L68+24
+ 1096 0794 FEFFFFEB 		bl	CyU3PUsbRegisterEventCallback
+ 458:../cyfxslfifoasync.c **** 
+ 459:../cyfxslfifoasync.c ****     /* Set the USB Enumeration descriptors */
+ 460:../cyfxslfifoasync.c **** 
+ 461:../cyfxslfifoasync.c ****     /* Super speed device descriptor. */
+ 462:../cyfxslfifoasync.c ****     apiRetStatus = CyU3PUsbSetDesc(CY_U3P_USB_SET_SS_DEVICE_DESCR, NULL, (uint8_t *)CyFxUSB30Device
+ 1097              		.loc 1 462 0
+ 1098 0798 0000A0E3 		mov	r0, #0
+ 1099 079c 0010A0E3 		mov	r1, #0
+ 1100 07a0 78229FE5 		ldr	r2, .L68+28
+ 1101 07a4 FEFFFFEB 		bl	CyU3PUsbSetDesc
+ 1102 07a8 08000BE5 		str	r0, [fp, #-8]
+ 463:../cyfxslfifoasync.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 1103              		.loc 1 463 0
+ 1104 07ac 08301BE5 		ldr	r3, [fp, #-8]
+ 1105 07b0 000053E3 		cmp	r3, #0
+ 1106 07b4 0500000A 		beq	.L57
+ 464:../cyfxslfifoasync.c ****     {
+ 465:../cyfxslfifoasync.c ****         CyU3PDebugPrint (4, "USB set device descriptor failed, Error code = %d\n", apiRetStatus);
+ 1107              		.loc 1 465 0
+ 1108 07b8 0400A0E3 		mov	r0, #4
+ 1109 07bc 60129FE5 		ldr	r1, .L68+32
+ 1110 07c0 08201BE5 		ldr	r2, [fp, #-8]
+ 1111 07c4 FEFFFFEB 		bl	CyU3PDebugPrint
+ 466:../cyfxslfifoasync.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 1112              		.loc 1 466 0
+ 1113 07c8 08001BE5 		ldr	r0, [fp, #-8]
+ 1114 07cc FEFFFFEB 		bl	CyFxAppErrorHandler
+ 1115              	.L57:
+ 467:../cyfxslfifoasync.c ****     }
+ 468:../cyfxslfifoasync.c **** 
+ 469:../cyfxslfifoasync.c ****     /* High speed device descriptor. */
+ 470:../cyfxslfifoasync.c ****     apiRetStatus = CyU3PUsbSetDesc(CY_U3P_USB_SET_HS_DEVICE_DESCR, NULL, (uint8_t *)CyFxUSB20Device
+ 1116              		.loc 1 470 0
+ 1117 07d0 0100A0E3 		mov	r0, #1
+ 1118 07d4 0010A0E3 		mov	r1, #0
+ 1119 07d8 48229FE5 		ldr	r2, .L68+36
+ 1120 07dc FEFFFFEB 		bl	CyU3PUsbSetDesc
+ 1121 07e0 08000BE5 		str	r0, [fp, #-8]
+ 471:../cyfxslfifoasync.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 1122              		.loc 1 471 0
+ 1123 07e4 08301BE5 		ldr	r3, [fp, #-8]
+ 1124 07e8 000053E3 		cmp	r3, #0
+ 1125 07ec 0500000A 		beq	.L58
+ 472:../cyfxslfifoasync.c ****     {
+ 473:../cyfxslfifoasync.c ****         CyU3PDebugPrint (4, "USB set device descriptor failed, Error code = %d\n", apiRetStatus);
+ 1126              		.loc 1 473 0
+ 1127 07f0 0400A0E3 		mov	r0, #4
+ 1128 07f4 28129FE5 		ldr	r1, .L68+32
+ 1129 07f8 08201BE5 		ldr	r2, [fp, #-8]
+ 1130 07fc FEFFFFEB 		bl	CyU3PDebugPrint
+ 474:../cyfxslfifoasync.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 1131              		.loc 1 474 0
+ 1132 0800 08001BE5 		ldr	r0, [fp, #-8]
+ 1133 0804 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 1134              	.L58:
+ 475:../cyfxslfifoasync.c ****     }
+ 476:../cyfxslfifoasync.c **** 
+ 477:../cyfxslfifoasync.c ****     /* BOS descriptor */
+ 478:../cyfxslfifoasync.c ****     apiRetStatus = CyU3PUsbSetDesc(CY_U3P_USB_SET_SS_BOS_DESCR, NULL, (uint8_t *)CyFxUSBBOSDscr);
+ 1135              		.loc 1 478 0
+ 1136 0808 0700A0E3 		mov	r0, #7
+ 1137 080c 0010A0E3 		mov	r1, #0
+ 1138 0810 14229FE5 		ldr	r2, .L68+40
+ 1139 0814 FEFFFFEB 		bl	CyU3PUsbSetDesc
+ 1140 0818 08000BE5 		str	r0, [fp, #-8]
+ 479:../cyfxslfifoasync.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 1141              		.loc 1 479 0
+ 1142 081c 08301BE5 		ldr	r3, [fp, #-8]
+ 1143 0820 000053E3 		cmp	r3, #0
+ 1144 0824 0500000A 		beq	.L59
+ 480:../cyfxslfifoasync.c ****     {
+ 481:../cyfxslfifoasync.c ****         CyU3PDebugPrint (4, "USB set configuration descriptor failed, Error code = %d\n", apiRetSta
+ 1145              		.loc 1 481 0
+ 1146 0828 0400A0E3 		mov	r0, #4
+ 1147 082c FC119FE5 		ldr	r1, .L68+44
+ 1148 0830 08201BE5 		ldr	r2, [fp, #-8]
+ 1149 0834 FEFFFFEB 		bl	CyU3PDebugPrint
+ 482:../cyfxslfifoasync.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 1150              		.loc 1 482 0
+ 1151 0838 08001BE5 		ldr	r0, [fp, #-8]
+ 1152 083c FEFFFFEB 		bl	CyFxAppErrorHandler
+ 1153              	.L59:
+ 483:../cyfxslfifoasync.c ****     }
+ 484:../cyfxslfifoasync.c **** 
+ 485:../cyfxslfifoasync.c ****     /* Device qualifier descriptor */
+ 486:../cyfxslfifoasync.c ****     apiRetStatus = CyU3PUsbSetDesc(CY_U3P_USB_SET_DEVQUAL_DESCR, NULL, (uint8_t *)CyFxUSBDeviceQual
+ 1154              		.loc 1 486 0
+ 1155 0840 0200A0E3 		mov	r0, #2
+ 1156 0844 0010A0E3 		mov	r1, #0
+ 1157 0848 E4219FE5 		ldr	r2, .L68+48
+ 1158 084c FEFFFFEB 		bl	CyU3PUsbSetDesc
+ 1159 0850 08000BE5 		str	r0, [fp, #-8]
+ 487:../cyfxslfifoasync.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 1160              		.loc 1 487 0
+ 1161 0854 08301BE5 		ldr	r3, [fp, #-8]
+ 1162 0858 000053E3 		cmp	r3, #0
+ 1163 085c 0500000A 		beq	.L60
+ 488:../cyfxslfifoasync.c ****     {
+ 489:../cyfxslfifoasync.c ****         CyU3PDebugPrint (4, "USB set device qualifier descriptor failed, Error code = %d\n", apiRet
+ 1164              		.loc 1 489 0
+ 1165 0860 0400A0E3 		mov	r0, #4
+ 1166 0864 CC119FE5 		ldr	r1, .L68+52
+ 1167 0868 08201BE5 		ldr	r2, [fp, #-8]
+ 1168 086c FEFFFFEB 		bl	CyU3PDebugPrint
+ 490:../cyfxslfifoasync.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 1169              		.loc 1 490 0
+ 1170 0870 08001BE5 		ldr	r0, [fp, #-8]
+ 1171 0874 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 1172              	.L60:
+ 491:../cyfxslfifoasync.c ****     }
+ 492:../cyfxslfifoasync.c **** 
+ 493:../cyfxslfifoasync.c ****     /* Super speed configuration descriptor */
+ 494:../cyfxslfifoasync.c ****     apiRetStatus = CyU3PUsbSetDesc(CY_U3P_USB_SET_SS_CONFIG_DESCR, NULL, (uint8_t *)CyFxUSBSSConfig
+ 1173              		.loc 1 494 0
+ 1174 0878 0600A0E3 		mov	r0, #6
+ 1175 087c 0010A0E3 		mov	r1, #0
+ 1176 0880 B4219FE5 		ldr	r2, .L68+56
+ 1177 0884 FEFFFFEB 		bl	CyU3PUsbSetDesc
+ 1178 0888 08000BE5 		str	r0, [fp, #-8]
+ 495:../cyfxslfifoasync.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 1179              		.loc 1 495 0
+ 1180 088c 08301BE5 		ldr	r3, [fp, #-8]
+ 1181 0890 000053E3 		cmp	r3, #0
+ 1182 0894 0500000A 		beq	.L61
+ 496:../cyfxslfifoasync.c ****     {
+ 497:../cyfxslfifoasync.c ****         CyU3PDebugPrint (4, "USB set configuration descriptor failed, Error code = %d\n", apiRetSta
+ 1183              		.loc 1 497 0
+ 1184 0898 0400A0E3 		mov	r0, #4
+ 1185 089c 8C119FE5 		ldr	r1, .L68+44
+ 1186 08a0 08201BE5 		ldr	r2, [fp, #-8]
+ 1187 08a4 FEFFFFEB 		bl	CyU3PDebugPrint
+ 498:../cyfxslfifoasync.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 1188              		.loc 1 498 0
+ 1189 08a8 08001BE5 		ldr	r0, [fp, #-8]
+ 1190 08ac FEFFFFEB 		bl	CyFxAppErrorHandler
+ 1191              	.L61:
+ 499:../cyfxslfifoasync.c ****     }
+ 500:../cyfxslfifoasync.c **** 
+ 501:../cyfxslfifoasync.c ****     /* High speed configuration descriptor */
+ 502:../cyfxslfifoasync.c ****     apiRetStatus = CyU3PUsbSetDesc(CY_U3P_USB_SET_HS_CONFIG_DESCR, NULL, (uint8_t *)CyFxUSBHSConfig
+ 1192              		.loc 1 502 0
+ 1193 08b0 0400A0E3 		mov	r0, #4
+ 1194 08b4 0010A0E3 		mov	r1, #0
+ 1195 08b8 80219FE5 		ldr	r2, .L68+60
+ 1196 08bc FEFFFFEB 		bl	CyU3PUsbSetDesc
+ 1197 08c0 08000BE5 		str	r0, [fp, #-8]
+ 503:../cyfxslfifoasync.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 1198              		.loc 1 503 0
+ 1199 08c4 08301BE5 		ldr	r3, [fp, #-8]
+ 1200 08c8 000053E3 		cmp	r3, #0
+ 1201 08cc 0500000A 		beq	.L62
+ 504:../cyfxslfifoasync.c ****     {
+ 505:../cyfxslfifoasync.c ****         CyU3PDebugPrint (4, "USB Set Other Speed Descriptor failed, Error Code = %d\n", apiRetStatu
+ 1202              		.loc 1 505 0
+ 1203 08d0 0400A0E3 		mov	r0, #4
+ 1204 08d4 68119FE5 		ldr	r1, .L68+64
+ 1205 08d8 08201BE5 		ldr	r2, [fp, #-8]
+ 1206 08dc FEFFFFEB 		bl	CyU3PDebugPrint
+ 506:../cyfxslfifoasync.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 1207              		.loc 1 506 0
+ 1208 08e0 08001BE5 		ldr	r0, [fp, #-8]
+ 1209 08e4 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 1210              	.L62:
+ 507:../cyfxslfifoasync.c ****     }
+ 508:../cyfxslfifoasync.c **** 
+ 509:../cyfxslfifoasync.c ****     /* Full speed configuration descriptor */
+ 510:../cyfxslfifoasync.c ****     apiRetStatus = CyU3PUsbSetDesc(CY_U3P_USB_SET_FS_CONFIG_DESCR, NULL, (uint8_t *)CyFxUSBFSConfig
+ 1211              		.loc 1 510 0
+ 1212 08e8 0300A0E3 		mov	r0, #3
+ 1213 08ec 0010A0E3 		mov	r1, #0
+ 1214 08f0 50219FE5 		ldr	r2, .L68+68
+ 1215 08f4 FEFFFFEB 		bl	CyU3PUsbSetDesc
+ 1216 08f8 08000BE5 		str	r0, [fp, #-8]
+ 511:../cyfxslfifoasync.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 1217              		.loc 1 511 0
+ 1218 08fc 08301BE5 		ldr	r3, [fp, #-8]
+ 1219 0900 000053E3 		cmp	r3, #0
+ 1220 0904 0500000A 		beq	.L63
+ 512:../cyfxslfifoasync.c ****     {
+ 513:../cyfxslfifoasync.c ****         CyU3PDebugPrint (4, "USB Set Configuration Descriptor failed, Error Code = %d\n", apiRetSta
+ 1221              		.loc 1 513 0
+ 1222 0908 0400A0E3 		mov	r0, #4
+ 1223 090c 38119FE5 		ldr	r1, .L68+72
+ 1224 0910 08201BE5 		ldr	r2, [fp, #-8]
+ 1225 0914 FEFFFFEB 		bl	CyU3PDebugPrint
+ 514:../cyfxslfifoasync.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 1226              		.loc 1 514 0
+ 1227 0918 08001BE5 		ldr	r0, [fp, #-8]
+ 1228 091c FEFFFFEB 		bl	CyFxAppErrorHandler
+ 1229              	.L63:
+ 515:../cyfxslfifoasync.c ****     }
+ 516:../cyfxslfifoasync.c **** 
+ 517:../cyfxslfifoasync.c ****     /* String descriptor 0 */
+ 518:../cyfxslfifoasync.c ****     apiRetStatus = CyU3PUsbSetDesc(CY_U3P_USB_SET_STRING_DESCR, 0, (uint8_t *)CyFxUSBStringLangIDDs
+ 1230              		.loc 1 518 0
+ 1231 0920 0500A0E3 		mov	r0, #5
+ 1232 0924 0010A0E3 		mov	r1, #0
+ 1233 0928 20219FE5 		ldr	r2, .L68+76
+ 1234 092c FEFFFFEB 		bl	CyU3PUsbSetDesc
+ 1235 0930 08000BE5 		str	r0, [fp, #-8]
+ 519:../cyfxslfifoasync.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 1236              		.loc 1 519 0
+ 1237 0934 08301BE5 		ldr	r3, [fp, #-8]
+ 1238 0938 000053E3 		cmp	r3, #0
+ 1239 093c 0500000A 		beq	.L64
+ 520:../cyfxslfifoasync.c ****     {
+ 521:../cyfxslfifoasync.c ****         CyU3PDebugPrint (4, "USB set string descriptor failed, Error code = %d\n", apiRetStatus);
+ 1240              		.loc 1 521 0
+ 1241 0940 0400A0E3 		mov	r0, #4
+ 1242 0944 08119FE5 		ldr	r1, .L68+80
+ 1243 0948 08201BE5 		ldr	r2, [fp, #-8]
+ 1244 094c FEFFFFEB 		bl	CyU3PDebugPrint
+ 522:../cyfxslfifoasync.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 1245              		.loc 1 522 0
+ 1246 0950 08001BE5 		ldr	r0, [fp, #-8]
+ 1247 0954 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 1248              	.L64:
+ 523:../cyfxslfifoasync.c ****     }
+ 524:../cyfxslfifoasync.c **** 
+ 525:../cyfxslfifoasync.c ****     /* String descriptor 1 */
+ 526:../cyfxslfifoasync.c ****     apiRetStatus = CyU3PUsbSetDesc(CY_U3P_USB_SET_STRING_DESCR, 1, (uint8_t *)CyFxUSBManufactureDsc
+ 1249              		.loc 1 526 0
+ 1250 0958 0500A0E3 		mov	r0, #5
+ 1251 095c 0110A0E3 		mov	r1, #1
+ 1252 0960 F0209FE5 		ldr	r2, .L68+84
+ 1253 0964 FEFFFFEB 		bl	CyU3PUsbSetDesc
+ 1254 0968 08000BE5 		str	r0, [fp, #-8]
+ 527:../cyfxslfifoasync.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 1255              		.loc 1 527 0
+ 1256 096c 08301BE5 		ldr	r3, [fp, #-8]
+ 1257 0970 000053E3 		cmp	r3, #0
+ 1258 0974 0500000A 		beq	.L65
+ 528:../cyfxslfifoasync.c ****     {
+ 529:../cyfxslfifoasync.c ****         CyU3PDebugPrint (4, "USB set string descriptor failed, Error code = %d\n", apiRetStatus);
+ 1259              		.loc 1 529 0
+ 1260 0978 0400A0E3 		mov	r0, #4
+ 1261 097c D0109FE5 		ldr	r1, .L68+80
+ 1262 0980 08201BE5 		ldr	r2, [fp, #-8]
+ 1263 0984 FEFFFFEB 		bl	CyU3PDebugPrint
+ 530:../cyfxslfifoasync.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 1264              		.loc 1 530 0
+ 1265 0988 08001BE5 		ldr	r0, [fp, #-8]
+ 1266 098c FEFFFFEB 		bl	CyFxAppErrorHandler
+ 1267              	.L65:
+ 531:../cyfxslfifoasync.c ****     }
+ 532:../cyfxslfifoasync.c **** 
+ 533:../cyfxslfifoasync.c ****     /* String descriptor 2 */
+ 534:../cyfxslfifoasync.c ****     apiRetStatus = CyU3PUsbSetDesc(CY_U3P_USB_SET_STRING_DESCR, 2, (uint8_t *)CyFxUSBProductDscr);
+ 1268              		.loc 1 534 0
+ 1269 0990 0500A0E3 		mov	r0, #5
+ 1270 0994 0210A0E3 		mov	r1, #2
+ 1271 0998 BC209FE5 		ldr	r2, .L68+88
+ 1272 099c FEFFFFEB 		bl	CyU3PUsbSetDesc
+ 1273 09a0 08000BE5 		str	r0, [fp, #-8]
+ 535:../cyfxslfifoasync.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 1274              		.loc 1 535 0
+ 1275 09a4 08301BE5 		ldr	r3, [fp, #-8]
+ 1276 09a8 000053E3 		cmp	r3, #0
+ 1277 09ac 0500000A 		beq	.L66
+ 536:../cyfxslfifoasync.c ****     {
+ 537:../cyfxslfifoasync.c ****         CyU3PDebugPrint (4, "USB set string descriptor failed, Error code = %d\n", apiRetStatus);
+ 1278              		.loc 1 537 0
+ 1279 09b0 0400A0E3 		mov	r0, #4
+ 1280 09b4 98109FE5 		ldr	r1, .L68+80
+ 1281 09b8 08201BE5 		ldr	r2, [fp, #-8]
+ 1282 09bc FEFFFFEB 		bl	CyU3PDebugPrint
+ 538:../cyfxslfifoasync.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 1283              		.loc 1 538 0
+ 1284 09c0 08001BE5 		ldr	r0, [fp, #-8]
+ 1285 09c4 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 1286              	.L66:
+ 539:../cyfxslfifoasync.c ****     }
+ 540:../cyfxslfifoasync.c **** 
+ 541:../cyfxslfifoasync.c ****     /* Connect the USB Pins with super speed operation enabled. */
+ 542:../cyfxslfifoasync.c ****     apiRetStatus = CyU3PConnectState(CyTrue, CyTrue);
+ 1287              		.loc 1 542 0
+ 1288 09c8 0100A0E3 		mov	r0, #1
+ 1289 09cc 0110A0E3 		mov	r1, #1
+ 1290 09d0 FEFFFFEB 		bl	CyU3PConnectState
+ 1291 09d4 08000BE5 		str	r0, [fp, #-8]
+ 543:../cyfxslfifoasync.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 1292              		.loc 1 543 0
+ 1293 09d8 08301BE5 		ldr	r3, [fp, #-8]
+ 1294 09dc 000053E3 		cmp	r3, #0
+ 1295 09e0 0500000A 		beq	.L52
+ 544:../cyfxslfifoasync.c ****     {
+ 545:../cyfxslfifoasync.c ****         CyU3PDebugPrint (4, "USB Connect failed, Error code = %d\n", apiRetStatus);
+ 1296              		.loc 1 545 0
+ 1297 09e4 0400A0E3 		mov	r0, #4
+ 1298 09e8 70109FE5 		ldr	r1, .L68+92
+ 1299 09ec 08201BE5 		ldr	r2, [fp, #-8]
+ 1300 09f0 FEFFFFEB 		bl	CyU3PDebugPrint
+ 546:../cyfxslfifoasync.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 1301              		.loc 1 546 0
+ 1302 09f4 08001BE5 		ldr	r0, [fp, #-8]
+ 1303 09f8 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 1304              	.L52:
+ 547:../cyfxslfifoasync.c ****     }
+ 548:../cyfxslfifoasync.c **** #endif
+ 549:../cyfxslfifoasync.c **** }
+ 1305              		.loc 1 549 0
+ 1306 09fc 04D04BE2 		sub	sp, fp, #4
+ 1307 0a00 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 1308              	.L69:
+ 1309              		.align	2
+ 1310              	.L68:
+ 1311 0a04 FC000000 		.word	.LC5
+ 1312 0a08 00000000 		.word	CyFxGpifConfig
+ 1313 0a0c 2C010000 		.word	.LC6
+ 1314 0a10 54010000 		.word	.LC7
+ 1315 0a14 80010000 		.word	.LC8
+ 1316 0a18 00000000 		.word	CyFxSlFifoApplnUSBSetupCB
+ 1317 0a1c 00000000 		.word	CyFxSlFifoApplnUSBEventCB
+ 1318 0a20 00000000 		.word	CyFxUSB30DeviceDscr
+ 1319 0a24 B0010000 		.word	.LC9
+ 1320 0a28 00000000 		.word	CyFxUSB20DeviceDscr
+ 1321 0a2c 00000000 		.word	CyFxUSBBOSDscr
+ 1322 0a30 E4010000 		.word	.LC10
+ 1323 0a34 00000000 		.word	CyFxUSBDeviceQualDscr
+ 1324 0a38 20020000 		.word	.LC11
+ 1325 0a3c 00000000 		.word	CyFxUSBSSConfigDscr
+ 1326 0a40 00000000 		.word	CyFxUSBHSConfigDscr
+ 1327 0a44 60020000 		.word	.LC12
+ 1328 0a48 00000000 		.word	CyFxUSBFSConfigDscr
+ 1329 0a4c 98020000 		.word	.LC13
+ 1330 0a50 00000000 		.word	CyFxUSBStringLangIDDscr
+ 1331 0a54 D4020000 		.word	.LC14
+ 1332 0a58 00000000 		.word	CyFxUSBManufactureDscr
+ 1333 0a5c 00000000 		.word	CyFxUSBProductDscr
+ 1334 0a60 08030000 		.word	.LC15
+ 1335              		.cfi_endproc
+ 1336              	.LFE8:
+ 1338              		.section	.rodata
+ 1339 032d 000000   		.align	2
+ 1340              	.LC16:
+ 1341 0330 57726974 		.ascii	"Write Data = 0x%x\012\015\000"
+ 1341      65204461 
+ 1341      7461203D 
+ 1341      20307825 
+ 1341      780A0D00 
+ 1342              		.align	2
+ 1343              	.LC17:
+ 1344 0344 57726974 		.ascii	"Write failed with error code %d\012\015\000"
+ 1344      65206661 
+ 1344      696C6564 
+ 1344      20776974 
+ 1344      68206572 
+ 1345 0366 0000     		.align	2
+ 1346              	.LC18:
+ 1347 0368 43757272 		.ascii	"Current state %d and err = %d\012\015\000"
+ 1347      656E7420 
+ 1347      73746174 
+ 1347      65202564 
+ 1347      20616E64 
+ 1348              		.text
+ 1349              		.align	2
+ 1350              		.global	SlFifoAppThread_Entry
+ 1352              	SlFifoAppThread_Entry:
+ 1353              	.LFB9:
+ 550:../cyfxslfifoasync.c **** 
+ 551:../cyfxslfifoasync.c **** /* Entry function for the slFifoAppThread. */
+ 552:../cyfxslfifoasync.c **** void
+ 553:../cyfxslfifoasync.c **** SlFifoAppThread_Entry (
+ 554:../cyfxslfifoasync.c ****         uint32_t input)
+ 555:../cyfxslfifoasync.c **** {
+ 1354              		.loc 1 555 0
+ 1355              		.cfi_startproc
+ 1356              		@ args = 0, pretend = 0, frame = 40
+ 1357              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1358 0a64 00482DE9 		stmfd	sp!, {fp, lr}
+ 1359              	.LCFI18:
+ 1360              		.cfi_def_cfa_offset 8
+ 1361 0a68 04B08DE2 		add	fp, sp, #4
+ 1362              		.cfi_offset 14, -4
+ 1363              		.cfi_offset 11, -8
+ 1364              	.LCFI19:
+ 1365              		.cfi_def_cfa 11, 4
+ 1366 0a6c 30D04DE2 		sub	sp, sp, #48
+ 1367 0a70 28000BE5 		str	r0, [fp, #-40]
+ 556:../cyfxslfifoasync.c **** 	uint32_t tmp_data[4] ={0x55, 0x22, 0x11, 0x44};
+ 1368              		.loc 1 556 0
+ 1369 0a74 FC309FE5 		ldr	r3, .L76
+ 1370 0a78 1CC04BE2 		sub	ip, fp, #28
+ 1371 0a7c 0F0093E8 		ldmia	r3, {r0, r1, r2, r3}
+ 1372 0a80 0F008CE8 		stmia	ip, {r0, r1, r2, r3}
+ 557:../cyfxslfifoasync.c **** 	uint32_t tmp_cnt=0;
+ 1373              		.loc 1 557 0
+ 1374 0a84 0030A0E3 		mov	r3, #0
+ 1375 0a88 08300BE5 		str	r3, [fp, #-8]
+ 558:../cyfxslfifoasync.c **** 	uint8_t current_state = 0;
+ 1376              		.loc 1 558 0
+ 1377 0a8c 0030A0E3 		mov	r3, #0
+ 1378 0a90 1D304BE5 		strb	r3, [fp, #-29]
+ 559:../cyfxslfifoasync.c **** 	CyU3PReturnStatus_t apiRetStatus = CY_U3P_SUCCESS;
+ 1379              		.loc 1 559 0
+ 1380 0a94 0030A0E3 		mov	r3, #0
+ 1381 0a98 0C300BE5 		str	r3, [fp, #-12]
+ 560:../cyfxslfifoasync.c **** 
+ 561:../cyfxslfifoasync.c ****     /* Initialize the debug module */
+ 562:../cyfxslfifoasync.c ****     CyFxSlFifoApplnDebugInit();
+ 1382              		.loc 1 562 0
+ 1383 0a9c FEFFFFEB 		bl	CyFxSlFifoApplnDebugInit
+ 563:../cyfxslfifoasync.c **** 
+ 564:../cyfxslfifoasync.c ****     /* Initialize the slave FIFO application */
+ 565:../cyfxslfifoasync.c ****     CyFxSlFifoApplnInit();
+ 1384              		.loc 1 565 0
+ 1385 0aa0 FEFFFFEB 		bl	CyFxSlFifoApplnInit
+ 1386 0aa4 000000EA 		b	.L74
+ 1387              	.L75:
+ 566:../cyfxslfifoasync.c **** 
+ 567:../cyfxslfifoasync.c ****     for (;;)
+ 568:../cyfxslfifoasync.c ****     {
+ 569:../cyfxslfifoasync.c **** 
+ 570:../cyfxslfifoasync.c ****         CyU3PThreadSleep (1000);
+ 571:../cyfxslfifoasync.c ****       //  if (glIsApplnActive)
+ 572:../cyfxslfifoasync.c ****         {
+ 573:../cyfxslfifoasync.c **** 
+ 574:../cyfxslfifoasync.c ****             apiRetStatus = CyU3PGpifWriteDataWords (0, CyFalse, 1, &(tmp_data[tmp_cnt]), 0xFF);
+ 575:../cyfxslfifoasync.c ****             if (apiRetStatus == CY_U3P_SUCCESS)
+ 576:../cyfxslfifoasync.c ****             {
+ 577:../cyfxslfifoasync.c **** 
+ 578:../cyfxslfifoasync.c ****             	 CyU3PDebugPrint (4, "Write Data = 0x%x\n\r", tmp_data[tmp_cnt]);
+ 579:../cyfxslfifoasync.c **** 
+ 580:../cyfxslfifoasync.c ****             }
+ 581:../cyfxslfifoasync.c ****             else
+ 582:../cyfxslfifoasync.c ****             {
+ 583:../cyfxslfifoasync.c ****             	 CyU3PDebugPrint (4, "Write failed with error code %d\n\r", apiRetStatus );
+ 584:../cyfxslfifoasync.c ****             	 apiRetStatus = CyU3PGpifGetSMState(&current_state);
+ 585:../cyfxslfifoasync.c ****             	 CyU3PDebugPrint (4, "Current state %d and err = %d\n\r", current_state, apiRetStatus 
+ 586:../cyfxslfifoasync.c **** 
+ 587:../cyfxslfifoasync.c **** 
+ 588:../cyfxslfifoasync.c ****             }
+ 589:../cyfxslfifoasync.c **** 
+ 590:../cyfxslfifoasync.c ****             /* Make sure we roll back to start of data*/
+ 591:../cyfxslfifoasync.c ****             tmp_cnt++;
+ 592:../cyfxslfifoasync.c **** 
+ 593:../cyfxslfifoasync.c ****             if(tmp_cnt==4)
+ 594:../cyfxslfifoasync.c ****             	tmp_cnt=0;
+ 595:../cyfxslfifoasync.c **** 
+ 596:../cyfxslfifoasync.c **** 
+ 597:../cyfxslfifoasync.c **** 
+ 598:../cyfxslfifoasync.c ****         }
+ 599:../cyfxslfifoasync.c ****     }
+ 1388              		.loc 1 599 0
+ 1389 0aa8 0000A0E1 		mov	r0, r0	@ nop
+ 1390              	.L74:
+ 570:../cyfxslfifoasync.c ****         CyU3PThreadSleep (1000);
+ 1391              		.loc 1 570 0
+ 1392 0aac FA0FA0E3 		mov	r0, #1000
+ 1393 0ab0 FEFFFFEB 		bl	_tx_thread_sleep
+ 574:../cyfxslfifoasync.c ****             apiRetStatus = CyU3PGpifWriteDataWords (0, CyFalse, 1, &(tmp_data[tmp_cnt]), 0xFF);
+ 1394              		.loc 1 574 0
+ 1395 0ab4 08301BE5 		ldr	r3, [fp, #-8]
+ 1396 0ab8 0331A0E1 		mov	r3, r3, asl #2
+ 1397 0abc 1C204BE2 		sub	r2, fp, #28
+ 1398 0ac0 033082E0 		add	r3, r2, r3
+ 1399 0ac4 FF20A0E3 		mov	r2, #255
+ 1400 0ac8 00208DE5 		str	r2, [sp, #0]
+ 1401 0acc 0000A0E3 		mov	r0, #0
+ 1402 0ad0 0010A0E3 		mov	r1, #0
+ 1403 0ad4 0120A0E3 		mov	r2, #1
+ 1404 0ad8 FEFFFFEB 		bl	CyU3PGpifWriteDataWords
+ 1405 0adc 0C000BE5 		str	r0, [fp, #-12]
+ 575:../cyfxslfifoasync.c ****             if (apiRetStatus == CY_U3P_SUCCESS)
+ 1406              		.loc 1 575 0
+ 1407 0ae0 0C301BE5 		ldr	r3, [fp, #-12]
+ 1408 0ae4 000053E3 		cmp	r3, #0
+ 1409 0ae8 0B00001A 		bne	.L71
+ 578:../cyfxslfifoasync.c ****             	 CyU3PDebugPrint (4, "Write Data = 0x%x\n\r", tmp_data[tmp_cnt]);
+ 1410              		.loc 1 578 0
+ 1411 0aec 08201BE5 		ldr	r2, [fp, #-8]
+ 1412 0af0 1730E0E3 		mvn	r3, #23
+ 1413 0af4 0221A0E1 		mov	r2, r2, asl #2
+ 1414 0af8 04104BE2 		sub	r1, fp, #4
+ 1415 0afc 022081E0 		add	r2, r1, r2
+ 1416 0b00 033082E0 		add	r3, r2, r3
+ 1417 0b04 003093E5 		ldr	r3, [r3, #0]
+ 1418 0b08 0400A0E3 		mov	r0, #4
+ 1419 0b0c 68109FE5 		ldr	r1, .L76+4
+ 1420 0b10 0320A0E1 		mov	r2, r3
+ 1421 0b14 FEFFFFEB 		bl	CyU3PDebugPrint
+ 1422 0b18 0D0000EA 		b	.L72
+ 1423              	.L71:
+ 583:../cyfxslfifoasync.c ****             	 CyU3PDebugPrint (4, "Write failed with error code %d\n\r", apiRetStatus );
+ 1424              		.loc 1 583 0
+ 1425 0b1c 0400A0E3 		mov	r0, #4
+ 1426 0b20 58109FE5 		ldr	r1, .L76+8
+ 1427 0b24 0C201BE5 		ldr	r2, [fp, #-12]
+ 1428 0b28 FEFFFFEB 		bl	CyU3PDebugPrint
+ 584:../cyfxslfifoasync.c ****             	 apiRetStatus = CyU3PGpifGetSMState(&current_state);
+ 1429              		.loc 1 584 0
+ 1430 0b2c 1D304BE2 		sub	r3, fp, #29
+ 1431 0b30 0300A0E1 		mov	r0, r3
+ 1432 0b34 FEFFFFEB 		bl	CyU3PGpifGetSMState
+ 1433 0b38 0C000BE5 		str	r0, [fp, #-12]
+ 585:../cyfxslfifoasync.c ****             	 CyU3PDebugPrint (4, "Current state %d and err = %d\n\r", current_state, apiRetStatus 
+ 1434              		.loc 1 585 0
+ 1435 0b3c 1D305BE5 		ldrb	r3, [fp, #-29]	@ zero_extendqisi2
+ 1436 0b40 0400A0E3 		mov	r0, #4
+ 1437 0b44 38109FE5 		ldr	r1, .L76+12
+ 1438 0b48 0320A0E1 		mov	r2, r3
+ 1439 0b4c 0C301BE5 		ldr	r3, [fp, #-12]
+ 1440 0b50 FEFFFFEB 		bl	CyU3PDebugPrint
+ 1441              	.L72:
+ 591:../cyfxslfifoasync.c ****             tmp_cnt++;
+ 1442              		.loc 1 591 0
+ 1443 0b54 08301BE5 		ldr	r3, [fp, #-8]
+ 1444 0b58 013083E2 		add	r3, r3, #1
+ 1445 0b5c 08300BE5 		str	r3, [fp, #-8]
+ 593:../cyfxslfifoasync.c ****             if(tmp_cnt==4)
+ 1446              		.loc 1 593 0
+ 1447 0b60 08301BE5 		ldr	r3, [fp, #-8]
+ 1448 0b64 040053E3 		cmp	r3, #4
+ 1449 0b68 CEFFFF1A 		bne	.L75
+ 594:../cyfxslfifoasync.c ****             	tmp_cnt=0;
+ 1450              		.loc 1 594 0
+ 1451 0b6c 0030A0E3 		mov	r3, #0
+ 1452 0b70 08300BE5 		str	r3, [fp, #-8]
+ 1453              		.loc 1 599 0
+ 1454 0b74 CCFFFFEA 		b	.L74
+ 1455              	.L77:
+ 1456              		.align	2
+ 1457              	.L76:
+ 1458 0b78 9C030000 		.word	C.0.8360
+ 1459 0b7c 30030000 		.word	.LC16
+ 1460 0b80 44030000 		.word	.LC17
+ 1461 0b84 68030000 		.word	.LC18
+ 1462              		.cfi_endproc
+ 1463              	.LFE9:
+ 1465              		.section	.rodata
+ 1466              		.align	2
+ 1467              	.LC19:
+ 1468 0388 32313A53 		.ascii	"21:Slave_FIFO_async\000"
+ 1468      6C617665 
+ 1468      5F464946 
+ 1468      4F5F6173 
+ 1468      796E6300 
+ 1469              		.text
+ 1470              		.align	2
+ 1471              		.global	CyFxApplicationDefine
+ 1473              	CyFxApplicationDefine:
+ 1474              	.LFB10:
+ 600:../cyfxslfifoasync.c **** }
+ 601:../cyfxslfifoasync.c **** 
+ 602:../cyfxslfifoasync.c **** /* Application define function which creates the threads. */
+ 603:../cyfxslfifoasync.c **** void
+ 604:../cyfxslfifoasync.c **** CyFxApplicationDefine (
+ 605:../cyfxslfifoasync.c ****         void)
+ 606:../cyfxslfifoasync.c **** {
+ 1475              		.loc 1 606 0
+ 1476              		.cfi_startproc
+ 1477              		@ args = 0, pretend = 0, frame = 8
+ 1478              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1479 0b88 00482DE9 		stmfd	sp!, {fp, lr}
+ 1480              	.LCFI20:
+ 1481              		.cfi_def_cfa_offset 8
+ 1482 0b8c 04B08DE2 		add	fp, sp, #4
+ 1483              		.cfi_offset 14, -4
+ 1484              		.cfi_offset 11, -8
+ 1485              	.LCFI21:
+ 1486              		.cfi_def_cfa 11, 4
+ 1487 0b90 28D04DE2 		sub	sp, sp, #40
+ 607:../cyfxslfifoasync.c ****     void *ptr = NULL;
+ 1488              		.loc 1 607 0
+ 1489 0b94 0030A0E3 		mov	r3, #0
+ 1490 0b98 08300BE5 		str	r3, [fp, #-8]
+ 608:../cyfxslfifoasync.c ****     uint32_t retThrdCreate = CY_U3P_SUCCESS;
+ 1491              		.loc 1 608 0
+ 1492 0b9c 0030A0E3 		mov	r3, #0
+ 1493 0ba0 0C300BE5 		str	r3, [fp, #-12]
+ 609:../cyfxslfifoasync.c **** 
+ 610:../cyfxslfifoasync.c ****     /* Allocate the memory for the threads */
+ 611:../cyfxslfifoasync.c ****     ptr = CyU3PMemAlloc (CY_FX_SLFIFO_THREAD_STACK);
+ 1494              		.loc 1 611 0
+ 1495 0ba4 010BA0E3 		mov	r0, #1024
+ 1496 0ba8 FEFFFFEB 		bl	CyU3PMemAlloc
+ 1497 0bac 08000BE5 		str	r0, [fp, #-8]
+ 612:../cyfxslfifoasync.c **** 
+ 613:../cyfxslfifoasync.c ****     /* Create the thread for the application */
+ 614:../cyfxslfifoasync.c ****     retThrdCreate = CyU3PThreadCreate (&slFifoAppThread,           /* Slave FIFO app thread structu
+ 1498              		.loc 1 614 0
+ 1499 0bb0 08301BE5 		ldr	r3, [fp, #-8]
+ 1500 0bb4 00308DE5 		str	r3, [sp, #0]
+ 1501 0bb8 013BA0E3 		mov	r3, #1024
+ 1502 0bbc 04308DE5 		str	r3, [sp, #4]
+ 1503 0bc0 0830A0E3 		mov	r3, #8
+ 1504 0bc4 08308DE5 		str	r3, [sp, #8]
+ 1505 0bc8 0830A0E3 		mov	r3, #8
+ 1506 0bcc 0C308DE5 		str	r3, [sp, #12]
+ 1507 0bd0 0030A0E3 		mov	r3, #0
+ 1508 0bd4 10308DE5 		str	r3, [sp, #16]
+ 1509 0bd8 0130A0E3 		mov	r3, #1
+ 1510 0bdc 14308DE5 		str	r3, [sp, #20]
+ 1511 0be0 A830A0E3 		mov	r3, #168
+ 1512 0be4 18308DE5 		str	r3, [sp, #24]
+ 1513 0be8 28009FE5 		ldr	r0, .L81
+ 1514 0bec 28109FE5 		ldr	r1, .L81+4
+ 1515 0bf0 28209FE5 		ldr	r2, .L81+8
+ 1516 0bf4 0030A0E3 		mov	r3, #0
+ 1517 0bf8 FEFFFFEB 		bl	_txe_thread_create
+ 1518 0bfc 0C000BE5 		str	r0, [fp, #-12]
+ 615:../cyfxslfifoasync.c ****                           "21:Slave_FIFO_async",                   /* Thread ID and thread name */
+ 616:../cyfxslfifoasync.c ****                           SlFifoAppThread_Entry,                   /* Slave FIFO app thread entry f
+ 617:../cyfxslfifoasync.c ****                           0,                                       /* No input parameter to thread 
+ 618:../cyfxslfifoasync.c ****                           ptr,                                     /* Pointer to the allocated thre
+ 619:../cyfxslfifoasync.c ****                           CY_FX_SLFIFO_THREAD_STACK,               /* App Thread stack size */
+ 620:../cyfxslfifoasync.c ****                           CY_FX_SLFIFO_THREAD_PRIORITY,            /* App Thread priority */
+ 621:../cyfxslfifoasync.c ****                           CY_FX_SLFIFO_THREAD_PRIORITY,            /* App Thread pre-emption thresh
+ 622:../cyfxslfifoasync.c ****                           CYU3P_NO_TIME_SLICE,                     /* No time slice for the applica
+ 623:../cyfxslfifoasync.c ****                           CYU3P_AUTO_START                         /* Start the thread immediately 
+ 624:../cyfxslfifoasync.c ****                           );
+ 625:../cyfxslfifoasync.c **** 
+ 626:../cyfxslfifoasync.c ****     /* Check the return code */
+ 627:../cyfxslfifoasync.c ****     if (retThrdCreate != 0)
+ 1519              		.loc 1 627 0
+ 1520 0c00 0C301BE5 		ldr	r3, [fp, #-12]
+ 1521 0c04 000053E3 		cmp	r3, #0
+ 1522 0c08 0000000A 		beq	.L78
+ 1523              	.L80:
+ 628:../cyfxslfifoasync.c ****     {
+ 629:../cyfxslfifoasync.c ****         /* Thread Creation failed with the error code retThrdCreate */
+ 630:../cyfxslfifoasync.c **** 
+ 631:../cyfxslfifoasync.c ****         /* Add custom recovery or debug actions here */
+ 632:../cyfxslfifoasync.c **** 
+ 633:../cyfxslfifoasync.c ****         /* Application cannot continue */
+ 634:../cyfxslfifoasync.c ****         /* Loop indefinitely */
+ 635:../cyfxslfifoasync.c ****         while(1);
+ 1524              		.loc 1 635 0 discriminator 1
+ 1525 0c0c FEFFFFEA 		b	.L80
+ 1526              	.L78:
+ 636:../cyfxslfifoasync.c ****     }
+ 637:../cyfxslfifoasync.c **** }
+ 1527              		.loc 1 637 0
+ 1528 0c10 04D04BE2 		sub	sp, fp, #4
+ 1529 0c14 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 1530              	.L82:
+ 1531              		.align	2
+ 1532              	.L81:
+ 1533 0c18 00000000 		.word	slFifoAppThread
+ 1534 0c1c 88030000 		.word	.LC19
+ 1535 0c20 00000000 		.word	SlFifoAppThread_Entry
+ 1536              		.cfi_endproc
+ 1537              	.LFE10:
+ 1539              		.align	2
+ 1540              		.global	main
+ 1542              	main:
+ 1543              	.LFB11:
+ 638:../cyfxslfifoasync.c **** 
+ 639:../cyfxslfifoasync.c **** /*
+ 640:../cyfxslfifoasync.c ****  * Main function
+ 641:../cyfxslfifoasync.c ****  */
+ 642:../cyfxslfifoasync.c **** int
+ 643:../cyfxslfifoasync.c **** main (void)
+ 644:../cyfxslfifoasync.c **** {
+ 1544              		.loc 1 644 0
+ 1545              		.cfi_startproc
+ 1546              		@ args = 0, pretend = 0, frame = 48
+ 1547              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1548 0c24 00482DE9 		stmfd	sp!, {fp, lr}
+ 1549              	.LCFI22:
+ 1550              		.cfi_def_cfa_offset 8
+ 1551 0c28 04B08DE2 		add	fp, sp, #4
+ 1552              		.cfi_offset 14, -4
+ 1553              		.cfi_offset 11, -8
+ 1554              	.LCFI23:
+ 1555              		.cfi_def_cfa 11, 4
+ 1556 0c2c 30D04DE2 		sub	sp, sp, #48
+ 645:../cyfxslfifoasync.c ****     CyU3PIoMatrixConfig_t io_cfg;
+ 646:../cyfxslfifoasync.c ****     CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
+ 1557              		.loc 1 646 0
+ 1558 0c30 0030A0E3 		mov	r3, #0
+ 1559 0c34 08300BE5 		str	r3, [fp, #-8]
+ 647:../cyfxslfifoasync.c **** 
+ 648:../cyfxslfifoasync.c ****     /* Initialize the device */
+ 649:../cyfxslfifoasync.c ****     status = CyU3PDeviceInit (NULL);
+ 1560              		.loc 1 649 0
+ 1561 0c38 0000A0E3 		mov	r0, #0
+ 1562 0c3c FEFFFFEB 		bl	CyU3PDeviceInit
+ 1563 0c40 08000BE5 		str	r0, [fp, #-8]
+ 650:../cyfxslfifoasync.c ****     if (status != CY_U3P_SUCCESS)
+ 1564              		.loc 1 650 0
+ 1565 0c44 08301BE5 		ldr	r3, [fp, #-8]
+ 1566 0c48 000053E3 		cmp	r3, #0
+ 1567 0c4c 0000000A 		beq	.L84
+ 651:../cyfxslfifoasync.c ****     {
+ 652:../cyfxslfifoasync.c ****         goto handle_fatal_error;
+ 1568              		.loc 1 652 0
+ 1569 0c50 290000EA 		b	.L85
+ 1570              	.L84:
+ 653:../cyfxslfifoasync.c ****     }
+ 654:../cyfxslfifoasync.c **** 
+ 655:../cyfxslfifoasync.c ****     /* Initialize the caches. Enable instruction cache and keep data cache disabled.
+ 656:../cyfxslfifoasync.c ****      * The data cache is useful only when there is a large amount of CPU based memory
+ 657:../cyfxslfifoasync.c ****      * accesses. When used in simple cases, it can decrease performance due to large 
+ 658:../cyfxslfifoasync.c ****      * number of cache flushes and cleans and also it adds to the complexity of the
+ 659:../cyfxslfifoasync.c ****      * code. */
+ 660:../cyfxslfifoasync.c ****     status = CyU3PDeviceCacheControl (CyTrue, CyFalse, CyFalse);
+ 1571              		.loc 1 660 0
+ 1572 0c54 0100A0E3 		mov	r0, #1
+ 1573 0c58 0010A0E3 		mov	r1, #0
+ 1574 0c5c 0020A0E3 		mov	r2, #0
+ 1575 0c60 FEFFFFEB 		bl	CyU3PDeviceCacheControl
+ 1576 0c64 08000BE5 		str	r0, [fp, #-8]
+ 661:../cyfxslfifoasync.c ****     if (status != CY_U3P_SUCCESS)
+ 1577              		.loc 1 661 0
+ 1578 0c68 08301BE5 		ldr	r3, [fp, #-8]
+ 1579 0c6c 000053E3 		cmp	r3, #0
+ 1580 0c70 0000000A 		beq	.L86
+ 662:../cyfxslfifoasync.c ****     {
+ 663:../cyfxslfifoasync.c ****         goto handle_fatal_error;
+ 1581              		.loc 1 663 0
+ 1582 0c74 200000EA 		b	.L85
+ 1583              	.L86:
+ 664:../cyfxslfifoasync.c ****     }
+ 665:../cyfxslfifoasync.c **** 
+ 666:../cyfxslfifoasync.c ****     /* Configure the IO matrix for the device. On the FX3 DVK board, the COM port 
+ 667:../cyfxslfifoasync.c ****      * is connected to the IO(53:56). This means that either DQ32 mode should be
+ 668:../cyfxslfifoasync.c ****      * selected or lppMode should be set to UART_ONLY. Here we are choosing
+ 669:../cyfxslfifoasync.c ****      * UART_ONLY configuration for 16 bit slave FIFO configuration and setting
+ 670:../cyfxslfifoasync.c ****      * isDQ32Bit for 32-bit slave FIFO configuration. */
+ 671:../cyfxslfifoasync.c ****     io_cfg.useUart   = CyTrue;
+ 1584              		.loc 1 671 0
+ 1585 0c78 0130A0E3 		mov	r3, #1
+ 1586 0c7c 2C300BE5 		str	r3, [fp, #-44]
+ 672:../cyfxslfifoasync.c ****     io_cfg.useI2C    = CyFalse;
+ 1587              		.loc 1 672 0
+ 1588 0c80 0030A0E3 		mov	r3, #0
+ 1589 0c84 28300BE5 		str	r3, [fp, #-40]
+ 673:../cyfxslfifoasync.c ****     io_cfg.useI2S    = CyFalse;
+ 1590              		.loc 1 673 0
+ 1591 0c88 0030A0E3 		mov	r3, #0
+ 1592 0c8c 24300BE5 		str	r3, [fp, #-36]
+ 674:../cyfxslfifoasync.c ****     io_cfg.useSpi    = CyFalse;
+ 1593              		.loc 1 674 0
+ 1594 0c90 0030A0E3 		mov	r3, #0
+ 1595 0c94 20300BE5 		str	r3, [fp, #-32]
+ 675:../cyfxslfifoasync.c **** #if (CY_FX_SLFIFO_GPIF_16_32BIT_CONF_SELECT == 0)
+ 676:../cyfxslfifoasync.c ****     io_cfg.isDQ32Bit = CyFalse;
+ 1596              		.loc 1 676 0
+ 1597 0c98 0030A0E3 		mov	r3, #0
+ 1598 0c9c 30300BE5 		str	r3, [fp, #-48]
+ 677:../cyfxslfifoasync.c ****     io_cfg.lppMode   = CY_U3P_IO_MATRIX_LPP_UART_ONLY;
+ 1599              		.loc 1 677 0
+ 1600 0ca0 0130A0E3 		mov	r3, #1
+ 1601 0ca4 1C304BE5 		strb	r3, [fp, #-28]
+ 678:../cyfxslfifoasync.c **** #else
+ 679:../cyfxslfifoasync.c ****     io_cfg.isDQ32Bit = CyTrue;
+ 680:../cyfxslfifoasync.c ****     io_cfg.lppMode   = CY_U3P_IO_MATRIX_LPP_DEFAULT;
+ 681:../cyfxslfifoasync.c **** #endif
+ 682:../cyfxslfifoasync.c ****     /* No GPIOs are enabled. */
+ 683:../cyfxslfifoasync.c ****     io_cfg.gpioSimpleEn[0]  = 0;
+ 1602              		.loc 1 683 0
+ 1603 0ca8 0030A0E3 		mov	r3, #0
+ 1604 0cac 18300BE5 		str	r3, [fp, #-24]
+ 684:../cyfxslfifoasync.c ****     io_cfg.gpioSimpleEn[1]  = 0;
+ 1605              		.loc 1 684 0
+ 1606 0cb0 0030A0E3 		mov	r3, #0
+ 1607 0cb4 14300BE5 		str	r3, [fp, #-20]
+ 685:../cyfxslfifoasync.c ****     io_cfg.gpioComplexEn[0] = 0;
+ 1608              		.loc 1 685 0
+ 1609 0cb8 0030A0E3 		mov	r3, #0
+ 1610 0cbc 10300BE5 		str	r3, [fp, #-16]
+ 686:../cyfxslfifoasync.c ****     io_cfg.gpioComplexEn[1] = 0;
+ 1611              		.loc 1 686 0
+ 1612 0cc0 0030A0E3 		mov	r3, #0
+ 1613 0cc4 0C300BE5 		str	r3, [fp, #-12]
+ 687:../cyfxslfifoasync.c ****     status = CyU3PDeviceConfigureIOMatrix (&io_cfg);
+ 1614              		.loc 1 687 0
+ 1615 0cc8 30304BE2 		sub	r3, fp, #48
+ 1616 0ccc 0300A0E1 		mov	r0, r3
+ 1617 0cd0 FEFFFFEB 		bl	CyU3PDeviceConfigureIOMatrix
+ 1618 0cd4 08000BE5 		str	r0, [fp, #-8]
+ 688:../cyfxslfifoasync.c ****     if (status != CY_U3P_SUCCESS)
+ 1619              		.loc 1 688 0
+ 1620 0cd8 08301BE5 		ldr	r3, [fp, #-8]
+ 1621 0cdc 000053E3 		cmp	r3, #0
+ 1622 0ce0 0000000A 		beq	.L87
+ 689:../cyfxslfifoasync.c ****     {
+ 690:../cyfxslfifoasync.c ****         goto handle_fatal_error;
+ 1623              		.loc 1 690 0
+ 1624 0ce4 040000EA 		b	.L85
+ 1625              	.L87:
+ 691:../cyfxslfifoasync.c ****     }
+ 692:../cyfxslfifoasync.c **** 
+ 693:../cyfxslfifoasync.c ****     /* This is a non returnable call for initializing the RTOS kernel */
+ 694:../cyfxslfifoasync.c ****     CyU3PKernelEntry ();
+ 1626              		.loc 1 694 0
+ 1627 0ce8 FEFFFFEB 		bl	_tx_initialize_kernel_enter
+ 695:../cyfxslfifoasync.c **** 
+ 696:../cyfxslfifoasync.c ****     /* Dummy return to make the compiler happy */
+ 697:../cyfxslfifoasync.c ****     return 0;
+ 1628              		.loc 1 697 0
+ 1629 0cec 0030A0E3 		mov	r3, #0
+ 698:../cyfxslfifoasync.c **** 
+ 699:../cyfxslfifoasync.c **** handle_fatal_error:
+ 700:../cyfxslfifoasync.c **** 
+ 701:../cyfxslfifoasync.c ****     /* Cannot recover from this error. */
+ 702:../cyfxslfifoasync.c ****     while (1);
+ 703:../cyfxslfifoasync.c **** }
+ 1630              		.loc 1 703 0
+ 1631 0cf0 0300A0E1 		mov	r0, r3
+ 1632 0cf4 04D04BE2 		sub	sp, fp, #4
+ 1633 0cf8 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 1634              	.L85:
+ 702:../cyfxslfifoasync.c ****     while (1);
+ 1635              		.loc 1 702 0 discriminator 1
+ 1636 0cfc FEFFFFEA 		b	.L85
+ 1637              		.cfi_endproc
+ 1638              	.LFE11:
+ 1640              		.section	.rodata
+ 1641              		.align	2
+ 1644              	C.0.8360:
+ 1645 039c 55000000 		.word	85
+ 1646 03a0 22000000 		.word	34
+ 1647 03a4 11000000 		.word	17
+ 1648 03a8 44000000 		.word	68
+ 1649              		.text
+ 1650              	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 cyfxslfifoasync.c
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:26     .data:00000000 CyFxGpifTransition
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:23     .data:00000000 $d
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:34     .data:00000008 CyFxGpifWavedata
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:63     .data:00000068 CyFxGpifWavedataPosition
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:73     .data:00000070 CyFxGpifRegValue
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:155    .rodata:00000000 CyFxGpifConfig
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:152    .rodata:00000000 $d
+                            *COM*:000000a8 slFifoAppThread
+                            *COM*:000000a0 glChHandleSlFifoUtoP
+                            *COM*:000000a0 glChHandleSlFifoPtoU
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:174    .bss:00000000 glDMARxCount
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:171    .bss:00000000 $d
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:180    .bss:00000004 glDMATxCount
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:186    .bss:00000008 glIsApplnActive
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:189    .text:00000000 $a
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:192    .text:00000000 CyFxAppErrorHandler
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:221    .text:0000001c CyFxSlFifoApplnDebugInit
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:322    .text:0000010c $d
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:332    .text:00000110 $a
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:335    .text:00000110 CyFxSlFifoUtoPDmaCallback
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:392    .text:00000194 $d
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:397    .text:0000019c $a
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:400    .text:0000019c CyFxSlFifoPtoUDmaCallback
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:457    .text:00000220 $d
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:476    .text:00000228 $a
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:479    .text:00000228 CyFxSlFifoApplnStart
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:734    .text:000004c8 $d
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:749    .text:000004f8 $a
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:752    .text:000004f8 CyFxSlFifoApplnStop
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:839    .text:000005cc $d
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:846    .text:000005dc $a
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:849    .text:000005dc CyFxSlFifoApplnUSBSetupCB
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:879    .text:00000604 CyFxSlFifoApplnUSBEventCB
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:942    .text:00000684 $d
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:987    .text:00000688 $a
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:990    .text:00000688 CyFxSlFifoApplnInit
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:1311   .text:00000a04 $d
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:1349   .text:00000a64 $a
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:1352   .text:00000a64 SlFifoAppThread_Entry
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:1458   .text:00000b78 $d
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:1644   .rodata:0000039c C.0.8360
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:1470   .text:00000b88 $a
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:1473   .text:00000b88 CyFxApplicationDefine
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:1533   .text:00000c18 $d
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:1539   .text:00000c24 $a
+C:\Users\Admin\AppData\Local\Temp\ccR8z9mi.s:1542   .text:00000c24 main
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+_tx_thread_sleep
+CyU3PUartInit
+CyU3PMemSet
+CyU3PUartSetConfig
+CyU3PUartTxSetBlockXfer
+CyU3PDebugInit
+CyU3PDmaChannelCommitBuffer
+CyU3PDebugPrint
+CyU3PUsbGetSpeed
+CyU3PSetEpConfig
+CyU3PDmaChannelCreate
+CyU3PUsbFlushEp
+CyU3PDmaChannelSetXfer
+CyU3PDmaChannelDestroy
+CyU3PPibInit
+CyU3PGpifLoad
+CyU3PGpifSMStart
+CyU3PUsbStart
+CyU3PUsbRegisterSetupCallback
+CyU3PUsbRegisterEventCallback
+CyU3PUsbSetDesc
+CyU3PConnectState
+CyFxUSB30DeviceDscr
+CyFxUSB20DeviceDscr
+CyFxUSBBOSDscr
+CyFxUSBDeviceQualDscr
+CyFxUSBSSConfigDscr
+CyFxUSBHSConfigDscr
+CyFxUSBFSConfigDscr
+CyFxUSBStringLangIDDscr
+CyFxUSBManufactureDscr
+CyFxUSBProductDscr
+CyU3PGpifWriteDataWords
+CyU3PGpifGetSMState
+CyU3PMemAlloc
+_txe_thread_create
+CyU3PDeviceInit
+CyU3PDeviceCacheControl
+CyU3PDeviceConfigureIOMatrix
+_tx_initialize_kernel_enter

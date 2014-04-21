@@ -1,0 +1,87 @@
+Circuit: * C:\Users\x\tesis\Placa adquisidora\Simulaciones\Filtro AntiAliasing\filtro ruido o5.asc
+
+C11: both pins shorted together -- ignoring.
+V5: Missing value, assumed 0V @ DC
+Early termination of direct N-R iteration.
+Direct Newton iteration failed to find .op point.  (Use ".option noopiter" to skip.)
+Starting Gmin stepping
+Gmin = 10
+vernier = 0.5
+vernier = 0.25
+vernier = 0.125
+Gmin = 5.5165
+vernier = 0.0625
+vernier = 0.03125
+vernier = 0.015625
+vernier = 0.0078125
+Gmin = 5.49501
+vernier = 0.00390625
+vernier = 0.00195313
+vernier = 0.000976563
+vernier = 0.000488281
+Gmin = 5.50104
+Gmin = 0
+Gmin stepping failed
+
+Starting source stepping with srcstepmethod=0
+Source Step = 3.0303%
+Source Step = 33.3333%
+Source Step = 63.6364%
+Source Step = 81.8182%
+Source Step = 89.3939%
+Source Step = 91.0985%
+Source Step = 92.9924%
+Source Step = 94.8864%
+Source Step = 95.3125%
+Source Step = 95.786%
+Source Step = 96.2595%
+Source Step = 96.733%
+Source Step = 97.2064%
+vernier = 0.0234375
+Source Step = 97.4254%
+Source Step = 97.603%
+Source Step = 97.7805%
+Source Step = 97.9581%
+Source Step = 98.1357%
+vernier = 0.00878906
+Source Step = 98.24%
+Source Step = 98.3066%
+Source Step = 98.3731%
+Source Step = 98.4397%
+Source Step = 98.5063%
+vernier = 0.0032959
+Source Step = 98.5862%
+Source Step = 98.6861%
+Source Step = 98.786%
+Source Step = 98.8858%
+Source Step = 98.9857%
+Source Step = 99.0856%
+Source Step = 99.1855%
+Source Step = 99.2853%
+Source Step = 99.3852%
+vernier = 0.00494385
+Source Step = 99.5001%
+Source Step = 99.6499%
+Source Step = 99.7997%
+Source Step = 99.9495%
+Source stepping succeeded in finding the operating point.
+
+
+Date: Wed Apr 09 00:32:55 2014
+Total elapsed time: 0.670 seconds.
+
+tnom = 27
+temp = 27
+method = trap
+totiter = 27555
+traniter = 0
+tranpoints = 0
+accept = 0
+rejected = 0
+matrix size = 27
+fillins = 92
+solver = Normal
+Matrix Compiler1:     409 opcodes
+Matrix Compiler2:     270 opcodes  0.8/[0.7]/1.7
+
+

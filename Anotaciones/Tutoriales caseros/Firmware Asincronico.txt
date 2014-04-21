@@ -1,0 +1,13 @@
+Prontuario (precedentes): 
+
+Tengo el streamer casero mandando pulsitos cada 20us. Esta ocupando el firmware "Automaster", un canal DMA sincronico entre los endpoints y el GPIF II. Tengo, para colmo, que el driver (presuntamente) manda dos paquetes por cada uno que yo mando. Esos dos paquetes se ven perfectamente a la salida, separados por una distancia de 1 o 2 microsegundos.
+
+
+
+Plan de curro (trabajo): 
+
+Primero, hay que agilizar todo hasta el límite. El sincronico sera bonito pero seguramente el asincronico es mas rapido. Hay que hacer lo mismo pero asincronico, y si o si cambiar la maquina de estados. Cada estado debe mantenerse hasta que llegue el proximo. Se podra? Segundo, como hacemos leña del arbol caído, ya sabemos que ese driver infernal puede mandar tan rapido como con un periodo de 1us o 2us, aunque sean cosas que no queramos. Hay que toquetear el driver y agilizar los tramites ahi adentro, dejar de hacer que mande el doble de lo que se le pide y que mande lo que deba cada 1us o 2us y con eso, gol de media cancha.
+
+Vitacora de viajes (La odisea):
+
+Dia I: Martes 3/12/2013 - 18:29: En 15 minutos me voy e.e

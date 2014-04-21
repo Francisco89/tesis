@@ -1,0 +1,12 @@
+Recalcular el filtro con una fs = 250kHz y fc = 50kHz. v
+
+Hacer la medición del ruido incorporado por el filtro y ver que no sea superior a la amplitud del LSB. En caso de serlo, modificar el filtro, en particular los Op Amps. v
+
+Entrar a la pagina de texas, aplicaciones, motores AC y fijarse como hacen el "interfaceado" para conectar encoders y todo lo que tengo que manejar. v
+
+Rediseñar el circuito y agregar dos caminos para la señal, uno que pase por el filtro y otro que lo bypassee, puediéndolos elegir con un jumper. v
+
+Venir a ver las formas de onda con Yaki y las dudas sobre las conecciones de los DB25 (que es cada pin).
+
+Preguntar como encarar las fuentes flotantes.
+

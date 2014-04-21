@@ -1,0 +1,550 @@
+   1              		.cpu arm926ej-s
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 18, 4
+  11              		.file	"cyfxgpioapp.c"
+  12              		.text
+  13              		.align	2
+  14              		.global	GpioInputThread_Entry
+  16              	GpioInputThread_Entry:
+  17              		@ args = 0, pretend = 0, frame = 8
+  18              		@ frame_needed = 0, uses_anonymous_args = 0
+  19 0000 1F402DE9 		stmfd	sp!, {r0, r1, r2, r3, r4, lr}
+  20              	.L7:
+  21 0004 0030E0E3 		mvn	r3, #0
+  22 0008 00308DE5 		str	r3, [sp, #0]
+  23 000c 34009FE5 		ldr	r0, .L9
+  24 0010 0310A0E3 		mov	r1, #3
+  25 0014 0120A0E3 		mov	r2, #1
+  26 0018 0C308DE2 		add	r3, sp, #12
+  27 001c FEFFFFEB 		bl	_txe_event_flags_get
+  28 0020 000050E3 		cmp	r0, #0
+  29 0024 F6FFFF1A 		bne	.L7
+  30 0028 0C309DE5 		ldr	r3, [sp, #12]
+  31 002c 010013E3 		tst	r3, #1
+  32 0030 04008012 		addne	r0, r0, #4
+  33 0034 10109F15 		ldrne	r1, .L9+4
+  34 0038 0400A003 		moveq	r0, #4
+  35 003c 0C109F05 		ldreq	r1, .L9+8
+  36 0040 FEFFFFEB 		bl	CyU3PDebugPrint
+  37 0044 EEFFFFEA 		b	.L7
+  38              	.L10:
+  39              		.align	2
+  40              	.L9:
+  41 0048 00000000 		.word	glFxGpioAppEvent
+  42 004c 00000000 		.word	.LC0
+  43 0050 18000000 		.word	.LC1
+  45              		.align	2
+  46              		.global	CyFxGpioIntrCb
+  48              	CyFxGpioIntrCb:
+  49              		@ args = 0, pretend = 0, frame = 8
+  50              		@ frame_needed = 0, uses_anonymous_args = 0
+  51 0054 13402DE9 		stmfd	sp!, {r0, r1, r4, lr}
+  52 0058 0030A0E3 		mov	r3, #0
+  53 005c 08108DE2 		add	r1, sp, #8
+  54 0060 043021E5 		str	r3, [r1, #-4]!
+  55 0064 FEFFFFEB 		bl	CyU3PGpioSimpleGetValue
+  56 0068 04109DE5 		ldr	r1, [sp, #4]
+  57 006c 0040A0E1 		mov	r4, r0
+  58 0070 1300A0E3 		mov	r0, #19
+  59 0074 FEFFFFEB 		bl	CyU3PGpioSimpleSetValue
+  60 0078 000054E3 		cmp	r4, #0
+  61 007c 0500001A 		bne	.L11
+  62 0080 04109DE5 		ldr	r1, [sp, #4]
+  63 0084 10009FE5 		ldr	r0, .L15
+  64 0088 010051E3 		cmp	r1, #1
+  65 008c 0210A013 		movne	r1, #2
+  66 0090 0420A0E1 		mov	r2, r4
+  67 0094 FEFFFFEB 		bl	_txe_event_flags_set
+  68              	.L11:
+  69 0098 1C80BDE8 		ldmfd	sp!, {r2, r3, r4, pc}
+  70              	.L16:
+  71              		.align	2
+  72              	.L15:
+  73 009c 00000000 		.word	glFxGpioAppEvent
+  75              		.align	2
+  76              		.global	CyFxAppErrorHandler
+  78              	CyFxAppErrorHandler:
+  79              		@ args = 0, pretend = 0, frame = 0
+  80              		@ frame_needed = 0, uses_anonymous_args = 0
+  81 00a0 08402DE9 		stmfd	sp!, {r3, lr}
+  82              	.L18:
+  83 00a4 6400A0E3 		mov	r0, #100
+  84 00a8 FEFFFFEB 		bl	_tx_thread_sleep
+  85 00ac FCFFFFEA 		b	.L18
+  87              		.align	2
+  88              		.global	CyFxDebugInit
+  90              	CyFxDebugInit:
+  91              		@ args = 0, pretend = 0, frame = 32
+  92              		@ frame_needed = 0, uses_anonymous_args = 0
+  93 00b0 10402DE9 		stmfd	sp!, {r4, lr}
+  94 00b4 28D04DE2 		sub	sp, sp, #40
+  95 00b8 FEFFFFEB 		bl	CyU3PUartInit
+  96 00bc 004050E2 		subs	r4, r0, #0
+  97 00c0 2900001A 		bne	.L20
+  98 00c4 0410A0E1 		mov	r1, r4
+  99 00c8 08008DE2 		add	r0, sp, #8
+ 100 00cc 1820A0E3 		mov	r2, #24
+ 101 00d0 FEFFFFEB 		bl	CyU3PMemSet
+ 102 00d4 9C309FE5 		ldr	r3, .L21
+ 103 00d8 0410A0E1 		mov	r1, r4
+ 104 00dc 18308DE5 		str	r3, [sp, #24]
+ 105 00e0 08008DE2 		add	r0, sp, #8
+ 106 00e4 0130A0E3 		mov	r3, #1
+ 107 00e8 1D40CDE5 		strb	r4, [sp, #29]
+ 108 00ec 0C408DE5 		str	r4, [sp, #12]
+ 109 00f0 10408DE5 		str	r4, [sp, #16]
+ 110 00f4 1C30CDE5 		strb	r3, [sp, #28]
+ 111 00f8 08308DE5 		str	r3, [sp, #8]
+ 112 00fc 14308DE5 		str	r3, [sp, #20]
+ 113 0100 FEFFFFEB 		bl	CyU3PUartSetConfig
+ 114 0104 004050E2 		subs	r4, r0, #0
+ 115 0108 1700001A 		bne	.L20
+ 116 010c 0000E0E3 		mvn	r0, #0
+ 117 0110 FEFFFFEB 		bl	CyU3PUartTxSetBlockXfer
+ 118 0114 004050E2 		subs	r4, r0, #0
+ 119 0118 1300001A 		bne	.L20
+ 120 011c 0810A0E3 		mov	r1, #8
+ 121 0120 030080E2 		add	r0, r0, #3
+ 122 0124 FEFFFFEB 		bl	CyU3PDebugInit
+ 123 0128 26008DE2 		add	r0, sp, #38
+ 124 012c 24108DE2 		add	r1, sp, #36
+ 125 0130 22208DE2 		add	r2, sp, #34
+ 126 0134 20308DE2 		add	r3, sp, #32
+ 127 0138 FEFFFFEB 		bl	CyU3PSysGetApiVersion
+ 128 013c 004050E2 		subs	r4, r0, #0
+ 129 0140 0900001A 		bne	.L20
+ 130 0144 B212DDE1 		ldrh	r1, [sp, #34]
+ 131 0148 B622DDE1 		ldrh	r2, [sp, #38]
+ 132 014c 00108DE5 		str	r1, [sp, #0]
+ 133 0150 B012DDE1 		ldrh	r1, [sp, #32]
+ 134 0154 B432DDE1 		ldrh	r3, [sp, #36]
+ 135 0158 04108DE5 		str	r1, [sp, #4]
+ 136 015c 040080E2 		add	r0, r0, #4
+ 137 0160 14109FE5 		ldr	r1, .L21+4
+ 138 0164 FEFFFFEB 		bl	CyU3PDebugPrint
+ 139 0168 0040A0E1 		mov	r4, r0
+ 140              	.L20:
+ 141 016c 0400A0E1 		mov	r0, r4
+ 142 0170 28D08DE2 		add	sp, sp, #40
+ 143 0174 1080BDE8 		ldmfd	sp!, {r4, pc}
+ 144              	.L22:
+ 145              		.align	2
+ 146              	.L21:
+ 147 0178 00C20100 		.word	115200
+ 148 017c 2F000000 		.word	.LC2
+ 150              		.align	2
+ 151              		.global	CyFxGpioInit
+ 153              	CyFxGpioInit:
+ 154              		@ args = 0, pretend = 0, frame = 32
+ 155              		@ frame_needed = 0, uses_anonymous_args = 0
+ 156 0180 10402DE9 		stmfd	sp!, {r4, lr}
+ 157 0184 84119FE5 		ldr	r1, .L30
+ 158 0188 20D04DE2 		sub	sp, sp, #32
+ 159 018c 0230A0E3 		mov	r3, #2
+ 160 0190 1430CDE5 		strb	r3, [sp, #20]
+ 161 0194 0320A0E3 		mov	r2, #3
+ 162 0198 0030A0E3 		mov	r3, #0
+ 163 019c 14008DE2 		add	r0, sp, #20
+ 164 01a0 1530CDE5 		strb	r3, [sp, #21]
+ 165 01a4 1C30CDE5 		strb	r3, [sp, #28]
+ 166 01a8 1D20CDE5 		strb	r2, [sp, #29]
+ 167 01ac 18308DE5 		str	r3, [sp, #24]
+ 168 01b0 FEFFFFEB 		bl	CyU3PGpioInit
+ 169 01b4 004050E2 		subs	r4, r0, #0
+ 170 01b8 0500000A 		beq	.L24
+ 171 01bc 0400A0E3 		mov	r0, #4
+ 172 01c0 4C119FE5 		ldr	r1, .L30+4
+ 173 01c4 0420A0E1 		mov	r2, r4
+ 174 01c8 FEFFFFEB 		bl	CyU3PDebugPrint
+ 175 01cc 0400A0E1 		mov	r0, r4
+ 176 01d0 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 177              	.L24:
+ 178 01d4 0130A0E3 		mov	r3, #1
+ 179 01d8 00308DE5 		str	r3, [sp, #0]
+ 180 01dc 0C308DE5 		str	r3, [sp, #12]
+ 181 01e0 0030A0E3 		mov	r3, #0
+ 182 01e4 04308DE5 		str	r3, [sp, #4]
+ 183 01e8 08308DE5 		str	r3, [sp, #8]
+ 184 01ec 2D00A0E3 		mov	r0, #45
+ 185 01f0 033083E2 		add	r3, r3, #3
+ 186 01f4 0D10A0E1 		mov	r1, sp
+ 187 01f8 1030CDE5 		strb	r3, [sp, #16]
+ 188 01fc FEFFFFEB 		bl	CyU3PGpioSetSimpleConfig
+ 189 0200 004050E2 		subs	r4, r0, #0
+ 190 0204 0500000A 		beq	.L25
+ 191 0208 0400A0E3 		mov	r0, #4
+ 192 020c 04119FE5 		ldr	r1, .L30+8
+ 193 0210 0420A0E1 		mov	r2, r4
+ 194 0214 FEFFFFEB 		bl	CyU3PDebugPrint
+ 195 0218 0400A0E1 		mov	r0, r4
+ 196 021c FEFFFFEB 		bl	CyFxAppErrorHandler
+ 197              	.L25:
+ 198 0220 1500A0E3 		mov	r0, #21
+ 199 0224 0110A0E3 		mov	r1, #1
+ 200 0228 FEFFFFEB 		bl	CyU3PDeviceGpioOverride
+ 201 022c 004050E2 		subs	r4, r0, #0
+ 202 0230 0500000A 		beq	.L26
+ 203 0234 0400A0E3 		mov	r0, #4
+ 204 0238 DC109FE5 		ldr	r1, .L30+12
+ 205 023c 0420A0E1 		mov	r2, r4
+ 206 0240 FEFFFFEB 		bl	CyU3PDebugPrint
+ 207 0244 0400A0E1 		mov	r0, r4
+ 208 0248 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 209              	.L26:
+ 210 024c 0030A0E3 		mov	r3, #0
+ 211 0250 0120A0E3 		mov	r2, #1
+ 212 0254 1500A0E3 		mov	r0, #21
+ 213 0258 0D10A0E1 		mov	r1, sp
+ 214 025c 00308DE5 		str	r3, [sp, #0]
+ 215 0260 04208DE5 		str	r2, [sp, #4]
+ 216 0264 08208DE5 		str	r2, [sp, #8]
+ 217 0268 0C308DE5 		str	r3, [sp, #12]
+ 218 026c 1030CDE5 		strb	r3, [sp, #16]
+ 219 0270 FEFFFFEB 		bl	CyU3PGpioSetSimpleConfig
+ 220 0274 004050E2 		subs	r4, r0, #0
+ 221 0278 0500000A 		beq	.L27
+ 222 027c 0400A0E3 		mov	r0, #4
+ 223 0280 90109FE5 		ldr	r1, .L30+8
+ 224 0284 0420A0E1 		mov	r2, r4
+ 225 0288 FEFFFFEB 		bl	CyU3PDebugPrint
+ 226 028c 0400A0E1 		mov	r0, r4
+ 227 0290 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 228              	.L27:
+ 229 0294 1300A0E3 		mov	r0, #19
+ 230 0298 0110A0E3 		mov	r1, #1
+ 231 029c FEFFFFEB 		bl	CyU3PDeviceGpioOverride
+ 232 02a0 004050E2 		subs	r4, r0, #0
+ 233 02a4 0500000A 		beq	.L28
+ 234 02a8 0400A0E3 		mov	r0, #4
+ 235 02ac 68109FE5 		ldr	r1, .L30+12
+ 236 02b0 0420A0E1 		mov	r2, r4
+ 237 02b4 FEFFFFEB 		bl	CyU3PDebugPrint
+ 238 02b8 0400A0E1 		mov	r0, r4
+ 239 02bc FEFFFFEB 		bl	CyFxAppErrorHandler
+ 240              	.L28:
+ 241 02c0 0130A0E3 		mov	r3, #1
+ 242 02c4 00308DE5 		str	r3, [sp, #0]
+ 243 02c8 04308DE5 		str	r3, [sp, #4]
+ 244 02cc 08308DE5 		str	r3, [sp, #8]
+ 245 02d0 1300A0E3 		mov	r0, #19
+ 246 02d4 0030A0E3 		mov	r3, #0
+ 247 02d8 0D10A0E1 		mov	r1, sp
+ 248 02dc 0C308DE5 		str	r3, [sp, #12]
+ 249 02e0 1030CDE5 		strb	r3, [sp, #16]
+ 250 02e4 FEFFFFEB 		bl	CyU3PGpioSetSimpleConfig
+ 251 02e8 004050E2 		subs	r4, r0, #0
+ 252 02ec 0500000A 		beq	.L23
+ 253 02f0 0400A0E3 		mov	r0, #4
+ 254 02f4 1C109FE5 		ldr	r1, .L30+8
+ 255 02f8 0420A0E1 		mov	r2, r4
+ 256 02fc FEFFFFEB 		bl	CyU3PDebugPrint
+ 257 0300 0400A0E1 		mov	r0, r4
+ 258 0304 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 259              	.L23:
+ 260 0308 20D08DE2 		add	sp, sp, #32
+ 261 030c 1080BDE8 		ldmfd	sp!, {r4, pc}
+ 262              	.L31:
+ 263              		.align	2
+ 264              	.L30:
+ 265 0310 00000000 		.word	CyFxGpioIntrCb
+ 266 0314 58000000 		.word	.LC3
+ 267 0318 7F000000 		.word	.LC4
+ 268 031c B1000000 		.word	.LC5
+ 270              		.align	2
+ 271              		.global	GpioOutputThread_Entry
+ 273              	GpioOutputThread_Entry:
+ 274              		@ args = 0, pretend = 0, frame = 0
+ 275              		@ frame_needed = 0, uses_anonymous_args = 0
+ 276 0320 10402DE9 		stmfd	sp!, {r4, lr}
+ 277 0324 FEFFFFEB 		bl	CyFxDebugInit
+ 278 0328 004050E2 		subs	r4, r0, #0
+ 279 032c 0500000A 		beq	.L33
+ 280 0330 0400A0E3 		mov	r0, #4
+ 281 0334 7C109FE5 		ldr	r1, .L37
+ 282 0338 0420A0E1 		mov	r2, r4
+ 283 033c FEFFFFEB 		bl	CyU3PDebugPrint
+ 284 0340 0400A0E1 		mov	r0, r4
+ 285 0344 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 286              	.L33:
+ 287 0348 FEFFFFEB 		bl	CyFxGpioInit
+ 288              	.L36:
+ 289 034c 1500A0E3 		mov	r0, #21
+ 290 0350 0110A0E3 		mov	r1, #1
+ 291 0354 FEFFFFEB 		bl	CyU3PGpioSetValue
+ 292 0358 004050E2 		subs	r4, r0, #0
+ 293 035c 0500000A 		beq	.L34
+ 294 0360 0400A0E3 		mov	r0, #4
+ 295 0364 50109FE5 		ldr	r1, .L37+4
+ 296 0368 0420A0E1 		mov	r2, r4
+ 297 036c FEFFFFEB 		bl	CyU3PDebugPrint
+ 298 0370 0400A0E1 		mov	r0, r4
+ 299 0374 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 300              	.L34:
+ 301 0378 FA0FA0E3 		mov	r0, #1000
+ 302 037c FEFFFFEB 		bl	_tx_thread_sleep
+ 303 0380 1500A0E3 		mov	r0, #21
+ 304 0384 0010A0E3 		mov	r1, #0
+ 305 0388 FEFFFFEB 		bl	CyU3PGpioSetValue
+ 306 038c 004050E2 		subs	r4, r0, #0
+ 307 0390 0500000A 		beq	.L35
+ 308 0394 0400A0E3 		mov	r0, #4
+ 309 0398 1C109FE5 		ldr	r1, .L37+4
+ 310 039c 0420A0E1 		mov	r2, r4
+ 311 03a0 FEFFFFEB 		bl	CyU3PDebugPrint
+ 312 03a4 0400A0E1 		mov	r0, r4
+ 313 03a8 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 314              	.L35:
+ 315 03ac FA0FA0E3 		mov	r0, #1000
+ 316 03b0 FEFFFFEB 		bl	_tx_thread_sleep
+ 317 03b4 E4FFFFEA 		b	.L36
+ 318              	.L38:
+ 319              		.align	2
+ 320              	.L37:
+ 321 03b8 E2000000 		.word	.LC6
+ 322 03bc 17010000 		.word	.LC7
+ 324              		.align	2
+ 325              		.global	CyFxApplicationDefine
+ 327              	CyFxApplicationDefine:
+ 328              		@ args = 0, pretend = 0, frame = 0
+ 329              		@ frame_needed = 0, uses_anonymous_args = 0
+ 330 03c0 F0412DE9 		stmfd	sp!, {r4, r5, r6, r7, r8, lr}
+ 331 03c4 010BA0E3 		mov	r0, #1024
+ 332 03c8 20D04DE2 		sub	sp, sp, #32
+ 333 03cc FEFFFFEB 		bl	CyU3PMemAlloc
+ 334 03d0 0840A0E3 		mov	r4, #8
+ 335 03d4 0030A0E3 		mov	r3, #0
+ 336 03d8 015BA0E3 		mov	r5, #1024
+ 337 03dc 0170A0E3 		mov	r7, #1
+ 338 03e0 A860A0E3 		mov	r6, #168
+ 339 03e4 94109FE5 		ldr	r1, .L46
+ 340 03e8 94209FE5 		ldr	r2, .L46+4
+ 341 03ec 04508DE5 		str	r5, [sp, #4]
+ 342 03f0 08408DE5 		str	r4, [sp, #8]
+ 343 03f4 0C408DE5 		str	r4, [sp, #12]
+ 344 03f8 10308DE5 		str	r3, [sp, #16]
+ 345 03fc 14708DE5 		str	r7, [sp, #20]
+ 346 0400 18608DE5 		str	r6, [sp, #24]
+ 347 0404 00008DE5 		str	r0, [sp, #0]
+ 348 0408 78009FE5 		ldr	r0, .L46+8
+ 349 040c FEFFFFEB 		bl	_txe_thread_create
+ 350 0410 008050E2 		subs	r8, r0, #0
+ 351 0414 0000000A 		beq	.L40
+ 352              	.L41:
+ 353 0418 FEFFFFEA 		b	.L41
+ 354              	.L40:
+ 355 041c 0500A0E1 		mov	r0, r5
+ 356 0420 FEFFFFEB 		bl	CyU3PMemAlloc
+ 357 0424 60109FE5 		ldr	r1, .L46+12
+ 358 0428 60209FE5 		ldr	r2, .L46+16
+ 359 042c 0830A0E1 		mov	r3, r8
+ 360 0430 04508DE5 		str	r5, [sp, #4]
+ 361 0434 08408DE5 		str	r4, [sp, #8]
+ 362 0438 0C408DE5 		str	r4, [sp, #12]
+ 363 043c 10808DE5 		str	r8, [sp, #16]
+ 364 0440 14708DE5 		str	r7, [sp, #20]
+ 365 0444 18608DE5 		str	r6, [sp, #24]
+ 366 0448 00008DE5 		str	r0, [sp, #0]
+ 367 044c 40009FE5 		ldr	r0, .L46+20
+ 368 0450 FEFFFFEB 		bl	_txe_thread_create
+ 369 0454 001050E2 		subs	r1, r0, #0
+ 370 0458 0000000A 		beq	.L42
+ 371              	.L43:
+ 372 045c FEFFFFEA 		b	.L43
+ 373              	.L42:
+ 374 0460 30009FE5 		ldr	r0, .L46+24
+ 375 0464 2820A0E3 		mov	r2, #40
+ 376 0468 FEFFFFEB 		bl	_txe_event_flags_create
+ 377 046c 000050E3 		cmp	r0, #0
+ 378 0470 0000000A 		beq	.L39
+ 379              	.L45:
+ 380 0474 FEFFFFEA 		b	.L45
+ 381              	.L39:
+ 382 0478 20D08DE2 		add	sp, sp, #32
+ 383 047c F081BDE8 		ldmfd	sp!, {r4, r5, r6, r7, r8, pc}
+ 384              	.L47:
+ 385              		.align	2
+ 386              	.L46:
+ 387 0480 42010000 		.word	.LC8
+ 388 0484 00000000 		.word	GpioOutputThread_Entry
+ 389 0488 00000000 		.word	gpioOutputThread
+ 390 048c 58010000 		.word	.LC9
+ 391 0490 00000000 		.word	GpioInputThread_Entry
+ 392 0494 00000000 		.word	gpioInputThread
+ 393 0498 00000000 		.word	glFxGpioAppEvent
+ 395              		.align	2
+ 396              		.global	main
+ 398              	main:
+ 399              		@ args = 0, pretend = 0, frame = 56
+ 400              		@ frame_needed = 0, uses_anonymous_args = 0
+ 401 049c 30402DE9 		stmfd	sp!, {r4, r5, lr}
+ 402 04a0 0230A0E3 		mov	r3, #2
+ 403 04a4 3CD04DE2 		sub	sp, sp, #60
+ 404 04a8 0150A0E3 		mov	r5, #1
+ 405 04ac 2C30CDE5 		strb	r3, [sp, #44]
+ 406 04b0 2D30CDE5 		strb	r3, [sp, #45]
+ 407 04b4 2E30CDE5 		strb	r3, [sp, #46]
+ 408 04b8 28008DE2 		add	r0, sp, #40
+ 409 04bc 053083E0 		add	r3, r3, r5
+ 410 04c0 28508DE5 		str	r5, [sp, #40]
+ 411 04c4 30508DE5 		str	r5, [sp, #48]
+ 412 04c8 3430CDE5 		strb	r3, [sp, #52]
+ 413 04cc FEFFFFEB 		bl	CyU3PDeviceInit
+ 414 04d0 000050E3 		cmp	r0, #0
+ 415 04d4 1C00001A 		bne	.L49
+ 416 04d8 0500A0E1 		mov	r0, r5
+ 417 04dc 0510A0E1 		mov	r1, r5
+ 418 04e0 0520A0E1 		mov	r2, r5
+ 419 04e4 FEFFFFEB 		bl	CyU3PDeviceCacheControl
+ 420 04e8 004050E2 		subs	r4, r0, #0
+ 421 04ec 1600001A 		bne	.L49
+ 422 04f0 0410A0E1 		mov	r1, r4
+ 423 04f4 0D00A0E1 		mov	r0, sp
+ 424 04f8 2820A0E3 		mov	r2, #40
+ 425 04fc FEFFFFEB 		bl	CyU3PMemSet
+ 426 0500 023AA0E3 		mov	r3, #8192
+ 427 0504 0D00A0E1 		mov	r0, sp
+ 428 0508 00408DE5 		str	r4, [sp, #0]
+ 429 050c 08408DE5 		str	r4, [sp, #8]
+ 430 0510 0C408DE5 		str	r4, [sp, #12]
+ 431 0514 10408DE5 		str	r4, [sp, #16]
+ 432 0518 18408DE5 		str	r4, [sp, #24]
+ 433 051c 20408DE5 		str	r4, [sp, #32]
+ 434 0520 24408DE5 		str	r4, [sp, #36]
+ 435 0524 04508DE5 		str	r5, [sp, #4]
+ 436 0528 1650CDE5 		strb	r5, [sp, #22]
+ 437 052c 1C308DE5 		str	r3, [sp, #28]
+ 438 0530 FEFFFFEB 		bl	CyU3PDeviceConfigureIOMatrix
+ 439 0534 004050E2 		subs	r4, r0, #0
+ 440 0538 0300001A 		bne	.L49
+ 441 053c FEFFFFEB 		bl	_tx_initialize_kernel_enter
+ 442 0540 0400A0E1 		mov	r0, r4
+ 443 0544 3CD08DE2 		add	sp, sp, #60
+ 444 0548 3080BDE8 		ldmfd	sp!, {r4, r5, pc}
+ 445              	.L49:
+ 446 054c FEFFFFEA 		b	.L49
+ 448              		.comm	gpioOutputThread,168,4
+ 449              		.comm	gpioInputThread,168,4
+ 450              		.comm	glFxGpioAppEvent,40,4
+ 451              		.section	.rodata.str1.1,"aMS",%progbits,1
+ 452              	.LC0:
+ 453 0000 4750494F 		.ascii	"GPIO 45 is set to high\012\000"
+ 453      20343520 
+ 453      69732073 
+ 453      65742074 
+ 453      6F206869 
+ 454              	.LC1:
+ 455 0018 4750494F 		.ascii	"GPIO 45 is set to low\012\000"
+ 455      20343520 
+ 455      69732073 
+ 455      65742074 
+ 455      6F206C6F 
+ 456              	.LC2:
+ 457 002f 46583320 		.ascii	"FX3 API version %d.%d patch=%d build=%d\012\000"
+ 457      41504920 
+ 457      76657273 
+ 457      696F6E20 
+ 457      25642E25 
+ 458              	.LC3:
+ 459 0058 43795533 		.ascii	"CyU3PGpioInit failed, error code = %d\012\000"
+ 459      50477069 
+ 459      6F496E69 
+ 459      74206661 
+ 459      696C6564 
+ 460              	.LC4:
+ 461 007f 43795533 		.ascii	"CyU3PGpioSetSimpleConfig failed, error code = %d\012"
+ 461      50477069 
+ 461      6F536574 
+ 461      53696D70 
+ 461      6C65436F 
+ 462 00b0 00       		.ascii	"\000"
+ 463              	.LC5:
+ 464 00b1 43795533 		.ascii	"CyU3PDeviceGpioOverride failed, error code = %d\012"
+ 464      50446576 
+ 464      69636547 
+ 464      70696F4F 
+ 464      76657272 
+ 465 00e1 00       		.ascii	"\000"
+ 466              	.LC6:
+ 467 00e2 44656275 		.ascii	"Debug module initialization failed, error code = %d"
+ 467      67206D6F 
+ 467      64756C65 
+ 467      20696E69 
+ 467      7469616C 
+ 468 0115 0A00     		.ascii	"\012\000"
+ 469              	.LC7:
+ 470 0117 43795533 		.ascii	"CyU3PGpioSetValue failed, error code = %d\012\000"
+ 470      50477069 
+ 470      6F536574 
+ 470      56616C75 
+ 470      65206661 
+ 471              	.LC8:
+ 472 0142 32313A47 		.ascii	"21:GPIO_simple_output\000"
+ 472      50494F5F 
+ 472      73696D70 
+ 472      6C655F6F 
+ 472      75747075 
+ 473              	.LC9:
+ 474 0158 32323A47 		.ascii	"22:GPIO_simple_input\000"
+ 474      50494F5F 
+ 474      73696D70 
+ 474      6C655F69 
+ 474      6E707574 
+ 475              		.ident	"GCC: (Sourcery G++ Lite 2011.03-42) 4.5.2"
+DEFINED SYMBOLS
+                            *ABS*:00000000 cyfxgpioapp.c
+C:\Users\ric\AppData\Local\Temp\ccgmEr6g.s:13     .text:00000000 $a
+C:\Users\ric\AppData\Local\Temp\ccgmEr6g.s:16     .text:00000000 GpioInputThread_Entry
+C:\Users\ric\AppData\Local\Temp\ccgmEr6g.s:41     .text:00000048 $d
+                            *COM*:00000028 glFxGpioAppEvent
+C:\Users\ric\AppData\Local\Temp\ccgmEr6g.s:45     .text:00000054 $a
+C:\Users\ric\AppData\Local\Temp\ccgmEr6g.s:48     .text:00000054 CyFxGpioIntrCb
+C:\Users\ric\AppData\Local\Temp\ccgmEr6g.s:73     .text:0000009c $d
+C:\Users\ric\AppData\Local\Temp\ccgmEr6g.s:75     .text:000000a0 $a
+C:\Users\ric\AppData\Local\Temp\ccgmEr6g.s:78     .text:000000a0 CyFxAppErrorHandler
+C:\Users\ric\AppData\Local\Temp\ccgmEr6g.s:90     .text:000000b0 CyFxDebugInit
+C:\Users\ric\AppData\Local\Temp\ccgmEr6g.s:147    .text:00000178 $d
+C:\Users\ric\AppData\Local\Temp\ccgmEr6g.s:150    .text:00000180 $a
+C:\Users\ric\AppData\Local\Temp\ccgmEr6g.s:153    .text:00000180 CyFxGpioInit
+C:\Users\ric\AppData\Local\Temp\ccgmEr6g.s:265    .text:00000310 $d
+C:\Users\ric\AppData\Local\Temp\ccgmEr6g.s:270    .text:00000320 $a
+C:\Users\ric\AppData\Local\Temp\ccgmEr6g.s:273    .text:00000320 GpioOutputThread_Entry
+C:\Users\ric\AppData\Local\Temp\ccgmEr6g.s:321    .text:000003b8 $d
+C:\Users\ric\AppData\Local\Temp\ccgmEr6g.s:324    .text:000003c0 $a
+C:\Users\ric\AppData\Local\Temp\ccgmEr6g.s:327    .text:000003c0 CyFxApplicationDefine
+C:\Users\ric\AppData\Local\Temp\ccgmEr6g.s:387    .text:00000480 $d
+                            *COM*:000000a8 gpioOutputThread
+                            *COM*:000000a8 gpioInputThread
+C:\Users\ric\AppData\Local\Temp\ccgmEr6g.s:395    .text:0000049c $a
+C:\Users\ric\AppData\Local\Temp\ccgmEr6g.s:398    .text:0000049c main
+
+UNDEFINED SYMBOLS
+_txe_event_flags_get
+CyU3PDebugPrint
+CyU3PGpioSimpleGetValue
+CyU3PGpioSimpleSetValue
+_txe_event_flags_set
+_tx_thread_sleep
+CyU3PUartInit
+CyU3PMemSet
+CyU3PUartSetConfig
+CyU3PUartTxSetBlockXfer
+CyU3PDebugInit
+CyU3PSysGetApiVersion
+CyU3PGpioInit
+CyU3PGpioSetSimpleConfig
+CyU3PDeviceGpioOverride
+CyU3PGpioSetValue
+CyU3PMemAlloc
+_txe_thread_create
+_txe_event_flags_create
+CyU3PDeviceInit
+CyU3PDeviceCacheControl
+CyU3PDeviceConfigureIOMatrix
+_tx_initialize_kernel_enter
